@@ -2,7 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Snake/SnakeEnemy.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Snake/SnakeEnemy.controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0000.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0000.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0001.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0001.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0002.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0002.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0003.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0003.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0004.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0004.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0005.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0005.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0006.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0006.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0007.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0007.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0008.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0008.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0009.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/snake/attack/snake_attack_0009.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +26,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/SnakeAnimationBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" />
+      <option value="$PROJECT_DIR$/Assets/SnakeAnimationBehaviour.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -37,9 +55,20 @@
       <option name="presentableId" value="Default" />
       <updated>1617896020189</updated>
       <workItem from="1617896064197" duration="1185000" />
-      <workItem from="1617897291861" duration="373000" />
+      <workItem from="1617897291861" duration="6966000" />
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
