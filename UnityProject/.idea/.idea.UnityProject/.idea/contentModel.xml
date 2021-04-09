@@ -23,6 +23,7 @@
           <e p="TongueScript.cs" t="Include" />
         </e>
         <e p="SnakeAnimationBehaviour.cs" t="Include" />
+        <e p="Weapon.cs" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />

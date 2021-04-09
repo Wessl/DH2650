@@ -258,6 +258,13 @@ public class PlayerMovement : MonoBehaviour
         isFacingRight = -isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
+    
+    // Use this property to get the current orientation (facing right or left) of the frog.
+    public int Orientation
+    {
+        get => isFacingRight;
+        set => isFacingRight = value;
+    }
 
     // What that mouth do?? It shoots a tongue
     public Vector2 getMouthPos()
