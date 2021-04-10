@@ -18,8 +18,13 @@ public class SnakeController : MonoBehaviour
     private Rigidbody2D rb;
     public float moveSpeed;
     public ParticleSystem bloodSplat;
+    public ParticleSystem boneSplat;
+    public Transform deathPSInstancePoint;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
-    public float slowDownTime;      
+    public float slowDownTime;  
+    
+    [Range(1,1000)]
+    public float health;
 
     void Start()
     {
@@ -71,12 +76,27 @@ public class SnakeController : MonoBehaviour
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            // If any of those things are a weapon, initialize particle system
+            // If any of those things are a weapon, enemy has been hit. 
             if (contact.collider.CompareTag("Weapon"))          
             {
                 var ps = Instantiate(bloodSplat, contact.point, Quaternion.identity);
+                TakeDamage(contact.collider.gameObject);
                 break;
             }
+        }
+    }
+
+    void TakeDamage(GameObject weaponObject)
+    {
+        health -= weaponObject.GetComponent<Weapon>().Damage;
+        if (health <= 0)
+        {
+            // Enemy has died. 
+            // Initialize death particle system(s)
+            Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
+            Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);
+            // Remove enemy gameObject from scene. 
+            Destroy(gameObject);
         }
     }
 }

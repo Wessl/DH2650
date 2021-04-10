@@ -11,9 +11,9 @@ public class Weapon : MonoBehaviour
     private PlayerMovement pm;
     private PolygonCollider2D col;
     private SpriteRenderer weaponSprite;
-    public bool hasHitEnemy;
-    
-    
+    private bool hasHitEnemy;
+    [Range(1,100)]
+    public float damageAmount;
     
 
     void Start()
@@ -51,12 +51,10 @@ public class Weapon : MonoBehaviour
         // Right click to attack
         if (Input.GetMouseButtonDown(1) && !hasHitEnemy)
         {
-            // Remove from holster (animation)
             // Activate weapon collider - 
             col.enabled = true;
             // Play animation
             anim.SetTrigger("attack");
-            // Put back into holster (animation)
         }
     }
 
@@ -76,5 +74,10 @@ public class Weapon : MonoBehaviour
     {
         col.enabled = false;
         hasHitEnemy = false;
+    }
+    public float Damage
+    {
+        get => damageAmount;
+        set => damageAmount = value;
     }
 }
