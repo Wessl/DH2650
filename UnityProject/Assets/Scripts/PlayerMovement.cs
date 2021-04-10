@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 20f;
     public Transform groundCheck, wallCheck, ceilingCheck, tonguePoint;
     public float speed, groundCheckRadius, wallCheckRadius, ceilingCheckRadius, wallSlideSpeed;
+    public Animator animator;
    
     public LayerMask groundLayers;
     public float tongueSpeed = 50;
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckInput();
         FixDirection();
+        animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
+        animator.SetBool("grounded", IsGrounded());
     }
 
     void CheckInput()
@@ -117,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
         targetPos = target.transform.position;
         float dist = Vector2.Distance(getMouthPos(), targetPos + tongueRelPos);
         Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
-        if (dist < 1)   // the tongue has almost returned back to the mouth
+        if (dist < 2.5)   // the tongue has almost returned back to the mouth
         {
             gettingPulled = false;
             pulling = false;
