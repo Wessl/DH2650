@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/sword_attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/sword_attack.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/SnakeAnimationBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/SnakeAnimationBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/WeaponBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/WeaponBehavior.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,16 +21,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Weapon.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/SnakeAnimationBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
-  </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" />
       <option value="$PROJECT_DIR$/Assets/SnakeAnimationBehaviour.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" />
       <option value="$PROJECT_DIR$/Assets/Weapon.cs" />
+      <option value="$PROJECT_DIR$/Assets/WeaponBehavior.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/SnakeAnimationBehaviour.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/WeaponBehavior.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -46,7 +54,7 @@
       <updated>1617896020189</updated>
       <workItem from="1617896064197" duration="1185000" />
       <workItem from="1617897291861" duration="7778000" />
-      <workItem from="1617973555346" duration="1762000" />
+      <workItem from="1617973555346" duration="10494000" />
     </task>
     <servers />
   </component>

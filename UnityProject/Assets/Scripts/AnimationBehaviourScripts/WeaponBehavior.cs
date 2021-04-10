@@ -22,6 +22,7 @@ public class WeaponBehavior : StateMachineBehaviour
         // If you don't reset the trigger On Exit, you can activate another sword swing while it's already swinging, 
         // causing another swing after the animation finishes without the player clicking then. 
         animator.ResetTrigger("attack");
+        GameObject.FindWithTag("Weapon").GetComponent<Weapon>().DisableCollision();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

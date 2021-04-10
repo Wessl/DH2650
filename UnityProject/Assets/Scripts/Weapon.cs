@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -10,6 +11,9 @@ public class Weapon : MonoBehaviour
     private PlayerMovement pm;
     private PolygonCollider2D col;
     private SpriteRenderer weaponSprite;
+    public bool hasHitEnemy;
+    
+    
     
 
     void Start()
@@ -20,6 +24,7 @@ public class Weapon : MonoBehaviour
         weaponSprite = GetComponent<SpriteRenderer>();
 
         col.enabled = false;    // Weapon collider should be disabled while holstered
+        hasHitEnemy = false;
     }
     
     void Update()
@@ -44,14 +49,32 @@ public class Weapon : MonoBehaviour
     void Attack()
     {
         // Right click to attack
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !hasHitEnemy)
         {
-            // Remove from holster
-            // Activate weapon collider
+            // Remove from holster (animation)
+            // Activate weapon collider - 
             col.enabled = true;
             // Play animation
             anim.SetTrigger("attack");
-            // Put back into holster
+            // Put back into holster (animation)
         }
+    }
+
+    // Turn off collision just after hitting something - otherwise sword bugs out when hitting something, also too many particles are spawned
+    // Long term bad implication? Only allows hitting on enemy per strike of the sword?
+    void OnCollisionEnter2D(Collision2D col2d)
+    {
+        Debug.Log(col2d.collider.tag);
+        if (col2d.collider.CompareTag("Enemy"))
+        {
+            col.enabled = false;
+            hasHitEnemy = true;
+        }
+    }
+
+    public void DisableCollision()
+    {
+        col.enabled = false;
+        hasHitEnemy = false;
     }
 }

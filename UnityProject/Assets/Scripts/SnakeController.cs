@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 
 /* TODO for snake:
@@ -16,6 +17,7 @@ public class SnakeController : MonoBehaviour
     private Animator snakeAnimator;
     private Rigidbody2D rb;
     public float moveSpeed;
+    public ParticleSystem bloodSplat;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;      
 
@@ -25,7 +27,7 @@ public class SnakeController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
     
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
@@ -36,7 +38,6 @@ public class SnakeController : MonoBehaviour
         {
             // If snake is not currently stuck in "attack" animation,
             rb.velocity = new Vector2(transform.right.x * moveSpeed * Time.deltaTime, rb.velocity.y);
-            Debug.Log(transform.right);
             if (rb.velocity.magnitude > 0)
             {
                 snakeAnimator.SetBool("isMoving", true);
@@ -62,6 +63,20 @@ public class SnakeController : MonoBehaviour
         else if (col.CompareTag("Player"))
         {
             snakeAnimator.SetTrigger("attack");
+        }
+    }
+
+    // Snake collides with something
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            // If any of those things are a weapon, initialize particle system
+            if (contact.collider.CompareTag("Weapon"))          
+            {
+                var ps = Instantiate(bloodSplat, contact.point, Quaternion.identity);
+                break;
+            }
         }
     }
 }
