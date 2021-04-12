@@ -97,7 +97,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1
+  m_Mass: 0.03141593
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -136,3 +136,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLength: 20
   minLength: 1.15
+  tongueCenterInit: {fileID: 7954122553408480637, guid: 7cdc8320255021f479af192e778bc3a7, type: 3}

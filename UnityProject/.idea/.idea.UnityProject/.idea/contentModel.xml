@@ -19,14 +19,22 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="AnimationBehaviourScripts" t="Include">
+            <e p="AttackOneBehaviour.cs" t="Include" />
+            <e p="AttackThreeBehaviour.cs" t="Include" />
+            <e p="AttackTwoBehaviour.cs" t="Include" />
+            <e p="HoldOneBehaviour.cs" t="Include" />
+            <e p="HoldTwoBehaviour.cs" t="Include" />
+            <e p="IdleBehaviour.cs" t="Include" />
             <e p="SnakeAnimationBehaviour.cs" t="Include" />
             <e p="WeaponBehavior.cs" t="Include" />
           </e>
+          <e p="Combat.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="SnakeController.cs" t="Include" />
           <e p="TongueScript.cs" t="Include" />
           <e p="Weapon.cs" t="Include" />
         </e>
+        <e p="TransitionBehaviour.cs" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />

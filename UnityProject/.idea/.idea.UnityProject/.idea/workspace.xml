@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BloodStrikePS.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BloodStrikePS.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/BloodSplat.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/BloodSplat.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TongueScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TongueScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Tongue.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Tongue.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +26,7 @@
       <option value="$PROJECT_DIR$/Assets/EnemyProperties.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Weapon.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SnakeController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/TongueScript.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -53,6 +51,7 @@
       <workItem from="1617896064197" duration="1185000" />
       <workItem from="1617897291861" duration="7778000" />
       <workItem from="1617973555346" duration="12234000" />
+      <workItem from="1618254440625" duration="3217000" />
     </task>
     <servers />
   </component>
