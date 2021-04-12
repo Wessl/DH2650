@@ -21,15 +21,18 @@ public class SnakeController : MonoBehaviour
     public ParticleSystem boneSplat;
     public Transform deathPSInstancePoint;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
-    public float slowDownTime;  
-    
-    [Range(1,1000)]
-    public float health;
+    public float slowDownTime;
+
+    [Range(1, 1000)]
+    public float maxHealth;
+    [SerializeField]
+    float health;
 
     void Start()
     {
         snakeAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        health = maxHealth;
     }
     
     void FixedUpdate()
@@ -71,32 +74,22 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-    // Snake collides with something
-    void OnCollisionEnter2D(Collision2D collision)
+    public void TakeDamage(float damage)
     {
-        foreach (ContactPoint2D contact in collision.contacts)
+        var ps = Instantiate(bloodSplat, transform.position, Quaternion.identity);
+        health -= damage;
+        if (health <= 0)
         {
-            // If any of those things are a weapon, enemy has been hit. 
-            if (contact.collider.CompareTag("Weapon"))          
-            {
-                var ps = Instantiate(bloodSplat, contact.point, Quaternion.identity);
-                TakeDamage(contact.collider.gameObject);
-                break;
-            }
+            Die();
         }
     }
 
-    void TakeDamage(GameObject weaponObject)
+    void Die()
     {
-        health -= weaponObject.GetComponent<Weapon>().Damage;
-        if (health <= 0)
-        {
-            // Enemy has died. 
-            // Initialize death particle system(s)
-            Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
-            Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);
-            // Remove enemy gameObject from scene. 
-            Destroy(gameObject);
-        }
+        // Initialize death particle system(s)
+        Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
+        Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);
+        // Remove enemy gameObject from scene. 
+        Destroy(gameObject);
     }
 }

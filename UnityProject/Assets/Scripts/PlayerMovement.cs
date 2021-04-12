@@ -17,12 +17,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject tongueInit;
     GameObject tongue, target;
     public LineRenderer line;
+    Combat combatScript;
 
     int isFacingRight = 1;
     float mx, my, stickTimer;
-    Vector2 startPos, worldPos, grappleDirection;
-    bool shooting, gettingPulled, pulling;
-    float pullCharge = 0;
+    Vector2 worldPos, grappleDirection;
+    bool shooting, gettingPulled, pulling, lockedMovement, lockedDirection;
     CircleCollider2D tongueCollider;
     Vector2 tonguePos, targetPos, tongueRelPos;
     float stickiness = 1;
@@ -35,13 +35,15 @@ public class PlayerMovement : MonoBehaviour
         shooting = false;
         stickTimer = stickiness;
         Physics2D.IgnoreLayerCollision(9, 10);
+        combatScript = GetComponent<Combat>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckInput();
-        FixDirection();
+        if(!animator.GetBool("LockDirection"))
+            FixDirection();
         animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         animator.SetBool("grounded", IsGrounded());
     }
@@ -70,27 +72,28 @@ public class PlayerMovement : MonoBehaviour
                 ShootTongue();  // shoot that thang
             }
         }
-        else if (!Input.GetMouseButton(0) && !shooting && (gettingPulled || pulling))
+        else if (!Input.GetMouseButton(0) && (shooting ||gettingPulled || pulling))
         {
-            pullCharge = -1;
+            pulling = false;
+            gettingPulled = false;
+            RetractTongue();
         }
     }
 
     void FixedUpdate()
     {
-        if (pullCharge > 0)         // keep on pulling
+        if (animator.GetBool("LockMovement"))
         {
-            Pull();
-        } else if (pullCharge < 0)  // one last pull
-        {
-            Pull();
-            gettingPulled = false;
-            pulling = false;
-            RetractTongue();
-            pullCharge = 0;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-        else if (IsGrounded())  // snappy movement if player is grounded
+        else if (pulling || gettingPulled)         // keep on pulling
+        {
+            Pull();
+        }
+        else if (IsGrounded())  // snappy movement if player is grounded 
+        {
             rb.velocity = new Vector2(mx * speed, rb.velocity.y);
+        }
         else if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(rb.velocity.x + mx) || Mathf.Abs(rb.velocity.x) < speed / 1.1)    // more limited control while in the air
             rb.velocity = new Vector2(rb.velocity.x + mx / 2, rb.velocity.y);
 
@@ -120,12 +123,11 @@ public class PlayerMovement : MonoBehaviour
         targetPos = target.transform.position;
         float dist = Vector2.Distance(getMouthPos(), targetPos + tongueRelPos);
         Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
-        if (dist < 2.5)   // the tongue has almost returned back to the mouth
+        if (dist < 1.6)   // the tongue has almost returned back to the mouth
         {
             gettingPulled = false;
             pulling = false;
             RetractTongue();
-            pullCharge = 0;
         }
         else if (gettingPulled)
         {
@@ -163,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
         else if (tag.Equals("Ground"))
             gettingPulled = true;
         shooting = false;
-        pullCharge = 1;
     }
 
     void ShootTongue()
