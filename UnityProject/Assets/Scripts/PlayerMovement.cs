@@ -46,13 +46,22 @@ public class PlayerMovement : MonoBehaviour
             FixDirection();
         animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
         animator.SetBool("grounded", IsGrounded());
+        if (mx * isFacingRight == 1)
+            animator.SetBool("Forward", true);
+        else if (mx * isFacingRight == -1)
+            animator.SetBool("Forward", false);
     }
+
 
     void CheckInput()
     {
         worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mx = Input.GetAxisRaw("Horizontal");
+
+        if (!(Input.GetKey("left") && Input.GetKey("right")) && !(Input.GetKey("a") && Input.GetKey("d")))
+            mx = Input.GetAxisRaw("Horizontal");
         my = Input.GetAxisRaw("Vertical");
+
+        print(mx);
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {

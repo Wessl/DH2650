@@ -100,7 +100,7 @@ public class Combat : MonoBehaviour
 
     public void Transition()
     {
-        rb.position += new Vector2(0.0025f*playerMovement.Orientation, 0);
+        //rb.position += new Vector2(0.0025f*playerMovement.Orientation, 0);
     }
 
     private void OnDrawGizmos()
