@@ -83,7 +83,7 @@ public class Combat : MonoBehaviour
             RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(new Vector3(0.1f, -0.35f, 0) + attackPoint.position, slash1height,new Vector2(direction, 0), moveAmount, enemyLayer);
             foreach (RaycastHit2D enemy in hitCollider)
             {
-                enemy.collider.GetComponent<SnakeController>().TakeDamage(attackDamage);
+                enemy.collider.GetComponent<Enemy>().TakeDamage(attackDamage);
                 print("enemy hit");
             }
         }
@@ -92,7 +92,7 @@ public class Combat : MonoBehaviour
             Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, slash2range, enemyLayer);
             foreach (Collider2D enemy in hitCollider)
             {
-                enemy.GetComponent<SnakeController>().TakeDamage(attackDamage*1.5f);
+                enemy.GetComponent<Enemy>().TakeDamage(attackDamage*1.5f);
             }
         }
         rb.position += new Vector2(movement,0);
