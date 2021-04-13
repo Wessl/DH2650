@@ -93,9 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1117844061703636960}
   - component: {fileID: 1117844061703636963}
-  - component: {fileID: 1117844061703636961}
   - component: {fileID: 1117844061703636967}
   - component: {fileID: 1117844061703636966}
+  - component: {fileID: 368726897}
   m_Layer: 9
   m_Name: SnakeEnemy
   m_TagString: Enemy
@@ -139,25 +139,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1117844061703636961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117844061703636962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a88f86c7dc0edcf4b90829eecafecf6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 200
-  bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
-  boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
-  deathPSInstancePoint: {fileID: 8504759094864020410}
-  slowDownTime: 2
-  maxHealth: 0
-  health: 50
 --- !u!50 &1117844061703636967
 Rigidbody2D:
   serializedVersion: 4
@@ -213,6 +194,25 @@ PolygonCollider2D:
       - {x: -4.4817843, y: -3.1342258}
       - {x: 4.5157433, y: -3.2499616}
       - {x: 4.4862185, y: -1.514677}
+--- !u!114 &368726897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117844061703636962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 200
+  bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
+  boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
+  deathPSInstancePoint: {fileID: 8504759094864020410}
+  slowDownTime: 2
+  maxHealth: 150
+  health: 50
 --- !u!1 &1117844061798255449
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1117844061798255454}
   - component: {fileID: 1117844061798255455}
-  - component: {fileID: 988216775}
+  - component: {fileID: 2687392719794427652}
   m_Layer: 0
   m_Name: WallAndEnemyCheck
   m_TagString: Untagged
@@ -271,7 +271,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2053485, y: 2.9229622}
   m_EdgeRadius: 0
---- !u!114 &988216775
+--- !u!114 &2687392719794427652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,10 +280,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1117844061798255449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6516054c724fe4a469fd4a4defa9052b, type: 3}
+  m_Script: {fileID: 11500000, guid: 42d6cd320d42eb04ba51bfdde2fc9491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeParent: {fileID: 1117844061703636961}
+  enemyParent: {fileID: 368726897}
 --- !u!1 &4163748598610099926
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4093574395604201765}
   - component: {fileID: 1323431667}
-  - component: {fileID: 1323431668}
+  - component: {fileID: 3629078218135759611}
   m_Layer: 9
   m_Name: EdgeCheck
   m_TagString: Untagged
@@ -372,7 +372,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1323431668
+--- !u!114 &3629078218135759611
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6351374836843811964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31308d4add215da43b6541cf7f677575, type: 3}
+  m_Script: {fileID: 11500000, guid: d4a0ae9a75bdb014ba99f57de48337f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeParent: {fileID: 1117844061703636961}
+  enemyParent: {fileID: 368726897}
