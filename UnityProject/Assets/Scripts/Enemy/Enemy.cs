@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     public Transform deathPSInstancePoint;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
-
     [Range(1, 1000)]
     public float maxHealth;
     [SerializeField]
@@ -38,7 +37,8 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
+        if(moveSpeed>0 && !animator.GetBool("PulledEffect"))
+            Move();
     }
 
     void Move()

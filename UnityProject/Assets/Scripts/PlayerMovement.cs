@@ -83,8 +83,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!Input.GetMouseButton(0) && (shooting ||gettingPulled || pulling))
         {
-            pulling = false;
-            gettingPulled = false;
             RetractTongue();
         }
     }
@@ -134,8 +132,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
         if (dist < 1.6)   // the tongue has almost returned back to the mouth
         {
-            gettingPulled = false;
-            pulling = false;
             RetractTongue();
         }
         else if (gettingPulled)
@@ -149,7 +145,11 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RetractTongue()
     {
+        if (pulling)
+            target.GetComponent<Animator>().SetBool("Pulled", false);
         Destroy(tongue);
+        gettingPulled = false;
+        pulling = false;
         shooting = false;
     }
 
@@ -169,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
         {
             print("yes");
             targetRB = target.GetComponent<Rigidbody2D>();
+            target.GetComponent<Animator>().SetBool("Pulled", true);
             pulling = true;
         }
         else if (tag.Equals("Ground"))
