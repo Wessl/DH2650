@@ -30,10 +30,14 @@
           </e>
           <e p="Combat.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
-          <e p="SnakeController.cs" t="Include" />
+          <e p="Snake" t="Include">
+            <e p="SnakeController.cs" t="Include" />
+            <e p="SnakeEdgeCheck.cs" t="Include" />
+          </e>
           <e p="TongueScript.cs" t="Include" />
           <e p="Weapon.cs" t="Include" />
         </e>
+        <e p="SnakeWallCheck.cs" t="Include" />
         <e p="TransitionBehaviour.cs" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />

@@ -28,9 +28,8 @@ public class TongueScript : MonoBehaviour
     void Update()
     {
         dist = Vector2.Distance(playerMV.getMouthPos(), rb.position);
+        
         // Draw line between tongue endpoint and player - maybe dumb?
-        Debug.Log("startpoint: " + playerMV.getMouthPos());
-        Debug.Log("endpoint " + rb.position);
         Stretch(tongueCenter, playerMV.getMouthPos(), rb.position);
         
         if (dist > maxLength)   // the tongue isn't that long, time to pull back

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -57,18 +58,11 @@ public class SnakeController : MonoBehaviour
             rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, slowDownTime * Time.deltaTime);
         }
     }
-    
-    void OnTriggerStay2D(Collider2D col)
-    {
-        // Temporary solution? Future: Make unique tag for walls? Or other solution... 
-        if (col.CompareTag("Ground"))
-        {
-            // Rotate instantly:
-            transform.Rotate(0, 180f, 0);
 
-        }
+    private void OnTriggerStay2D(Collider2D other)
+    {
         // If this detects a player, it will trigger an Attack animation. (No damage at the moment)
-        else if (col.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             snakeAnimator.SetTrigger("attack");
         }
@@ -82,6 +76,12 @@ public class SnakeController : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void FlipRotation()
+    {
+        // Rotate instantly:
+        transform.Rotate(0, 180f, 0);
     }
 
     void Die()
