@@ -9,6 +9,7 @@
       <e p="Assets" t="Include">
         <e p="ButtonActionable.cs" t="Include" />
         <e p="enemyIdleBehaviour.cs" t="Include" />
+        <e p="FlyEnemyMovement.cs" t="Include" />
         <e p="InteractableGameButton.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">
