@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Tongue.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Tongue.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +15,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/FlyEnemyMovement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Snake/SnakeEdgeCheck.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/InteractableGameButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/ButtonActionable.cs" root0="FORCE_HIGHLIGHTING" />
@@ -41,6 +40,8 @@
       <option value="$PROJECT_DIR$/Assets/ClickableGameButton.cs" />
       <option value="$PROJECT_DIR$/Assets/InteractableGameButton.cs" />
       <option value="$PROJECT_DIR$/Assets/ButtonActionable.cs" />
+      <option value="$PROJECT_DIR$/Assets/FlyEnemy.cs" />
+      <option value="$PROJECT_DIR$/Assets/FlyEnemyMovement.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -91,6 +92,8 @@
       <workItem from="1618297477585" duration="1018000" />
       <workItem from="1618298908351" duration="2722000" />
       <workItem from="1618317330642" duration="4240000" />
+      <workItem from="1618346229562" duration="115000" />
+      <workItem from="1618386543375" duration="8746000" />
     </task>
     <servers />
   </component>
