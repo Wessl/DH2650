@@ -7,8 +7,8 @@ public class AttackThreeBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("LockDirection", true);
-        Combat.instance.Attack("slash2", 1);
+        animator.SetBool("LockedDirection", true);
+        Combat.instance.Attack("slash2", 50);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

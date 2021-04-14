@@ -19,10 +19,11 @@ public class PlayerMovement : MonoBehaviour
     public LineRenderer line;
     Combat combatScript;
 
-    int isFacingRight = 1;
+    public float weight;
+    public int isFacingRight = 1;
     float mx, my, stickTimer;
     Vector2 worldPos, grappleDirection;
-    bool shooting, gettingPulled, pulling, lockedMovement, lockedDirection;
+    bool gettingPulled, pulling;
     CircleCollider2D tongueCollider;
     Vector2 tonguePos, targetPos, tongueRelPos;
     float stickiness = 1;
@@ -32,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
-        shooting = false;
         stickTimer = stickiness;
         Physics2D.IgnoreLayerCollision(9, 10);
         combatScript = GetComponent<Combat>();
@@ -42,10 +42,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         CheckInput();
-        if(!animator.GetBool("LockDirection"))
+        if(!animator.GetBool("LockedDirection"))
             FixDirection();
-        animator.SetFloat("speed", Mathf.Abs(rb.velocity.x));
-        animator.SetBool("grounded", IsGrounded());
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("VerticalSpeed", rb.velocity.y);
+        animator.SetBool("Grounded", IsGrounded());
         if (mx * isFacingRight == 1)
             animator.SetBool("Forward", true);
         else if (mx * isFacingRight == -1)
@@ -61,8 +62,6 @@ public class PlayerMovement : MonoBehaviour
             mx = Input.GetAxisRaw("Horizontal");
         my = Input.GetAxisRaw("Vertical");
 
-        //print(mx);
-
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Jump();
@@ -72,37 +71,46 @@ public class PlayerMovement : MonoBehaviour
             WallJump();
         }
 
-        if (Input.GetMouseButtonDown(0) && !shooting)   // can only shoot if not already shooting
+        if (Input.GetMouseButtonDown(0) && tongue == null)   // can only shoot if not already shooting
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if ((grappleDirection.x > 0 && isFacingRight > 0) || (grappleDirection.x < 0 && isFacingRight < 0))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
             {
-                shooting = true;    
+                print("hello");
                 ShootTongue();  // shoot that thang
             }
         }
-        else if (!Input.GetMouseButton(0) && (shooting ||gettingPulled || pulling))
+        else if (tongue != null && (!Input.GetMouseButton(0) || animator.GetBool("LockedMovement"))) // retract tongue if not holding button
         {
             RetractTongue();
+        }
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            Vector3 diff = worldPos - new Vector2(transform.position.x, transform.position.y-1);
+            diff.Normalize();
+            float rot = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+            animator.transform.localRotation = Quaternion.Euler(0, 0, rot);
         }
     }
 
     void FixedUpdate()
     {
-        if (animator.GetBool("LockMovement"))
+        if (!animator.GetBool("LockedMovement"))
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
-        else if (pulling || gettingPulled)         // keep on pulling
-        {
-            Pull();
-        }
-        else if (IsGrounded())  // snappy movement if player is grounded 
-        {
-            rb.velocity = new Vector2(mx * speed, rb.velocity.y);
-        }
-        else if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(rb.velocity.x + mx) || Mathf.Abs(rb.velocity.x) < speed / 1.1)    // more limited control while in the air
-            rb.velocity = new Vector2(rb.velocity.x + mx / 2, rb.velocity.y);
+            if (pulling || gettingPulled)         // keep on pulling
+            {
+                Pull();
+            }
+            else if (IsGrounded())  // snappy movement if player is grounded 
+            {
+                rb.velocity = new Vector2(mx * speed, rb.velocity.y);
+            }
+            else if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(rb.velocity.x + mx) || Mathf.Abs(rb.velocity.x) < speed / 1.1)    // more limited control while in the air
+                rb.velocity = new Vector2(rb.velocity.x + mx / 2, rb.velocity.y);
+        } 
+        else
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/2);
 
         if (IsWallSliding())
         {   // frog can wall run for a short time with enough momentum, otherwise he slides down wall
@@ -127,15 +135,27 @@ public class PlayerMovement : MonoBehaviour
     
     void Pull()
     {
+        if(target == null)
+        {
+            RetractTongue();
+            return;
+        }
         targetPos = target.transform.position;
         float dist = Vector2.Distance(getMouthPos(), targetPos + tongueRelPos);
         Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
-        if (dist < 1.6)   // the tongue has almost returned back to the mouth
+        if (dist < 1.6 )   // the tongue has almost returned back to the mouth
         {
             RetractTongue();
         }
         else if (gettingPulled)
         {
+            tonguePoint.localPosition = new Vector2(0.2f, 0.15f);
+            float rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if (direction.x < 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, -rot + 90);
+            } else
+                transform.localRotation = Quaternion.Euler(0, 0, rot-90);
             rb.velocity = direction * pullSpeed;
         }
         else if (pulling)
@@ -145,12 +165,16 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RetractTongue()
     {
-        if (pulling)
-            target.GetComponent<Animator>().SetBool("Pulled", false);
         Destroy(tongue);
-        gettingPulled = false;
+        if (pulling && target != null)
+            target.GetComponent<Animator>().SetBool("Pulled", false);
+        tonguePoint.localPosition = new Vector2(0.3f, -0.2f);
+        if (isFacingRight == 1)
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        else
+            transform.localRotation = Quaternion.Euler(0, -180, 0);
+        GetPulled(false);
         pulling = false;
-        shooting = false;
     }
 
     // Tongue has hit something
@@ -160,21 +184,37 @@ public class PlayerMovement : MonoBehaviour
         print("Target hit");
         tonguePos = pos;
         target = hitTarget;
-        Vector2 targetdPos = target.transform.position;
-        tongueRelPos = tonguePos - targetPos;
         targetPos = target.transform.position;
         tongueRelPos = tonguePos - targetPos;
         print(tag);
         if (tag.Equals("Enemy"))
         {
-            print("yes");
+
             targetRB = target.GetComponent<Rigidbody2D>();
-            target.GetComponent<Animator>().SetBool("Pulled", true);
-            pulling = true;
+            if (target.GetComponent<Enemy>().weight < weight)
+            {
+                target.GetComponent<Animator>().SetBool("Pulled", true);
+                pulling = true;
+            }
+            else
+            {
+                GetPulled(true);
+            }
         }
         else if (tag.Equals("Ground"))
-            gettingPulled = true;
-        shooting = false;
+        {
+            GetPulled(true);
+        }
+    }
+
+    void GetPulled(bool pulled)
+    {
+        gettingPulled = pulled;
+        animator.SetBool("GettingPulled", pulled);
+        if(pulled)
+        {
+            Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos());
+        }
     }
 
     void ShootTongue()
@@ -185,6 +225,7 @@ public class PlayerMovement : MonoBehaviour
 
         Physics2D.IgnoreCollision(tongueCollider, GetComponent<BoxCollider2D>());
         tongue.GetComponent<Rigidbody2D>().AddForce(grappleDirection * (tongueSpeed + rb.velocity.magnitude));
+        print("shot ok");
     }
 
     bool IsWallSliding()
@@ -217,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = movement;
     }
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
         Collider2D grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
 
