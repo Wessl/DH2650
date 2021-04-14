@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (gettingPulled)
         {
-            tonguePoint.localPosition = new Vector2(0.2f, 0.15f);
+            tonguePoint.localPosition = new Vector2(0.2f, 0.96f);
             float rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             if (direction.x < 0)
             {
@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         Destroy(tongue);
         if (pulling && target != null)
             target.GetComponent<Animator>().SetBool("Pulled", false);
-        tonguePoint.localPosition = new Vector2(0.3f, -0.2f);
+        tonguePoint.localPosition = new Vector2(0.3f, 0.76f);
         if (isFacingRight == 1)
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         else
@@ -223,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
 
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
 
-        Physics2D.IgnoreCollision(tongueCollider, GetComponent<BoxCollider2D>());
+        Physics2D.IgnoreCollision(tongueCollider, GetComponent<CapsuleCollider2D>());
         tongue.GetComponent<Rigidbody2D>().AddForce(grappleDirection * (tongueSpeed + rb.velocity.magnitude));
         print("shot ok");
     }
@@ -270,11 +270,9 @@ public class PlayerMovement : MonoBehaviour
 
     bool IsTouchingWall()
     {
-        Collider2D touchingWall = Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, groundLayers);
-
+        Collider2D touchingWall = Physics2D.OverlapCapsule(wallCheck.position, new Vector2(1, 1.5f), CapsuleDirection2D.Vertical, 0, groundLayers);
         if (touchingWall != null)
             return true;
-
         return false;
     }
 
@@ -331,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 
-        Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
+        Gizmos.DrawWireCube(wallCheck.position, new Vector2(1, 1.5f));
 
         Gizmos.DrawWireSphere(ceilingCheck.position, ceilingCheckRadius);
 

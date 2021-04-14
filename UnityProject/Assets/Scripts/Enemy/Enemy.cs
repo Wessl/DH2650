@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        rb.freezeRotation = true;
         health = maxHealth;
     }
 
