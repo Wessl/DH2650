@@ -24,9 +24,10 @@ public class Enemy : MonoBehaviour
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
     [Range(1, 1000)]
-    public float maxHealth;
+    public float maxHealth, weight;
     [SerializeField]
     float health;
+    
 
     void Start()
     {
