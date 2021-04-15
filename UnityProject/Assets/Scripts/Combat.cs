@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Combat : MonoBehaviour
     int attacked;
     Vector2 attackOrigin;
     string slashStr;
+
+    public GameObject youDiedPanel;
 
     void Awake()
     {
@@ -204,7 +207,34 @@ public class Combat : MonoBehaviour
 
     void Die()
     {
-        // Do something
+        rb.gameObject.SetActive(false);
+        // Save the amount of times you died to PlayerPrefs, increment old value by 1
+        PlayerPrefs.SetInt("deathAmount", PlayerPrefs.GetInt("deathAmount") + 1);
+        // Show the panel
+        youDiedPanel.SetActive(true);
+        // Update text showing you died and how many deaths you have so far
+        var deaths = PlayerPrefs.GetInt("deathAmount");
+        var deathDigitEnd = (deaths % 10);
+        var ordinalNumber = "";
+        if (deathDigitEnd == 1)
+        {
+            ordinalNumber = "ST";
+        } 
+        else if (deathDigitEnd == 2)
+        {
+            ordinalNumber = "ND";
+        } 
+        else if (deathDigitEnd == 3)
+        {
+            ordinalNumber = "RD";
+        }
+        else
+        {
+            ordinalNumber = "TH";
+        }
+
+        Debug.Log(deathDigitEnd);
+        youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumber + " TIME";
     }
 
     private void OnDrawGizmos()

@@ -257,6 +257,7 @@
         </e>
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SnakeHead.cs" t="Include" />
+        <e p="UIButtonFunctions.cs" t="Include" />
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
       <e p="AstarPathfindingProjectEditor.csproj" t="IncludeRecursive" />
