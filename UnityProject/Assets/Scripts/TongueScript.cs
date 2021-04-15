@@ -47,8 +47,6 @@ public class TongueScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (hit)    // we only want the tongue to stick to one object, otherwise things get fucky..
-            return;
         dist = Vector2.Distance(playerMV.getMouthPos(), rb.position);
         if (dist < minLength)
         {

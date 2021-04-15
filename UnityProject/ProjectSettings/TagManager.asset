@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - Weapon
   - Tongue
+  - SnakeBoss
+  - Platform
+  - GroundEnemy
+  - FlyingEnemy
   layers:
   - Default
   - TransparentFX
@@ -21,8 +25,8 @@ TagManager:
   - Enemy
   - Player
   - Weapon
-  - 
-  - 
+  - SnakeBoss
+  - Platform
   - 
   - 
   - 

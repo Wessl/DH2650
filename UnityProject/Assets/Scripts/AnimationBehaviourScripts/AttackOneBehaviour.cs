@@ -9,7 +9,7 @@ public class AttackOneBehaviour : StateMachineBehaviour
     {
         animator.SetBool("LockedMovement", true);
         animator.SetBool("LockedDirection", true);
-        Combat.instance.Attack("altslash1", 200);
+        Combat.instance.Attack("normalslash", 50);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

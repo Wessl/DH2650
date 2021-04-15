@@ -9,6 +9,8 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         animator.SetBool("LockedDirection", false);
         animator.SetBool("LockedMovement", false);
+        animator.SetBool("MoveInput", false);
+        animator.SetBool("Hurt", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

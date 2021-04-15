@@ -15,9 +15,10 @@ public class Combat : MonoBehaviour
     Transform attackPoint;
     [SerializeField]
     float slash1height, slash2range;
-    PlayerMovement playerMovement;
     public LayerMask rayMask;
-    public float attackDamage;
+    public float attackDamage, maxHealth;
+    [SerializeField]
+    float health;
     Animation slashAnimation;
     float attackMove;
     int attacked;
@@ -26,9 +27,9 @@ public class Combat : MonoBehaviour
 
     void Awake()
     {
+        health = maxHealth;
         instance = this;
         rb = GetComponent<Rigidbody2D>();
-        playerMovement = GetComponent<PlayerMovement>();
         rayMask = ~(1 << LayerMask.NameToLayer("Enemy"));
         slashAnimation = slash.GetComponent<Animation>();
         foreach (AnimationState anim in slashAnimation)
@@ -57,19 +58,17 @@ public class Combat : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetMouseButtonDown(1))
         {
-            if (playerMovement.IsGrounded())
+            if (PlayerMovement.instance.grounded)
             {
                 attacking = true;
                 canAttack = false;
+            } else if (!PlayerMovement.instance.touchingCeiling)
+            {
+                //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
+                slash.GetComponent<Animation>().Play("rotatingslash");
             }
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-
-            slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
-            slash.GetComponent<Animation>().Play("rotatingslash");
         }
     }
     public void SwitchAttackStatus()
@@ -90,7 +89,7 @@ public class Combat : MonoBehaviour
     public void Attack(string name, float moveAmount)
     {
         slashStr = name;
-        attackMove = playerMovement.Orientation * moveAmount;
+        attackMove = PlayerMovement.instance.Orientation * moveAmount;
         attackOrigin = attackPoint.position;
         if (moveAmount > 0)
             attacked = 2;
@@ -104,7 +103,7 @@ public class Combat : MonoBehaviour
         float damage = 0;
         Vector2 point = new Vector2(0, 0);
         float radius = 0;
-        Vector2 direction = new Vector2(-playerMovement.Orientation, 0);
+        Vector2 direction = new Vector2(-PlayerMovement.instance.Orientation, 0);
         // play slash FX
         slash.GetComponent<Animation>().Play(slashStr);
 
@@ -126,17 +125,49 @@ public class Combat : MonoBehaviour
                 point = attackPoint.position;
                 radius = slash2range;
                 break;
+            case "normalslash":
+                damage = attackDamage * 1.5f;
+                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
+                radius = slash1height;
+                break;
+            case "runningslash":
+                damage = attackDamage * 1.5f;
+                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
+                radius = slash1height;
+                break;
+            default:
+                print("Not a valid slash name");
+                break;
         }
 
         // raycast to start point of attack
         RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(point, radius, direction, distance, enemyLayer);
         foreach (RaycastHit2D target in hitCollider)
         {
-            Enemy enemy = target.collider.GetComponent<Enemy>();
-            if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
-                damage *= 2;
-            enemy.TakeDamage(damage);
-            print("enemy hit");
+            string tag = target.collider.tag;
+            Enemy enemy;
+            switch (tag)
+            {
+                case "GroundEnemy":
+                    enemy = target.collider.GetComponent<Enemy>();
+                    if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
+                        damage *= 2;
+                    enemy.TakeDamage(damage);
+                    break;
+                case "FlyingEnemy":
+                    enemy = target.collider.GetComponent<Enemy>();
+                    if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
+                        damage *= 2;
+                    enemy.TakeDamage(damage);
+                    break;
+                case "SnakeBoss":
+                    target.collider.GetComponent<SnakeBoss>().TakeDamage(damage);
+                    break;
+                default:
+                    print("Hit a new tag??? " + tag);
+                    break;
+
+            }
         }
     }
 
@@ -157,9 +188,23 @@ public class Combat : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        animator.SetTrigger("Hurt");
+        health -= damage;
+
+        if (health < 0)
+            Die();
+    }
+
     public void Transition()
     {
         //rb.position += new Vector2(0.0025f*playerMovement.Orientation, 0);
+    }
+
+    void Die()
+    {
+        // Do something
     }
 
     private void OnDrawGizmos()

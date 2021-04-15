@@ -8,6 +8,7 @@ public class AttackTwoBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("LockedDirection", true);
+        animator.SetBool("AttackTwo", false);
         Combat.instance.Attack("slash2", 80);
     }
 

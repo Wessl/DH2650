@@ -21,6 +21,7 @@ public class SnakeAnimationBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("attack");
+        Enemy.instance.AttackHit();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

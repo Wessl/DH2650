@@ -16,17 +16,21 @@ public class HoldOneBehaviour : StateMachineBehaviour
     {
         if (Combat.instance.IsAttacking())
         {
-            animator.SetTrigger("AttackTwo");
+            animator.SetBool("AttackTwo", true);
             Combat.instance.SwitchAttackStatus();
             Combat.instance.SetAttack(false);
+        }
+        if (PlayerMovement.instance.mx != 0)
+        {
+            animator.SetBool("MoveInput", true);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.SetBool("MoveInput", false);
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
