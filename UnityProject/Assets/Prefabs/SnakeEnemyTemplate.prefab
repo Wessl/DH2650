@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 3757784626394345401}
   - component: {fileID: 3757784626394345346}
   m_Layer: 9
-  m_Name: SnakeEnemy 1
+  m_Name: SnakeEnemyTemplate
   m_TagString: GroundEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,4 +505,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0ae9a75bdb014ba99f57de48337f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParent: {fileID: 0}
+  enemyParent: {fileID: 3757784625423525645}
