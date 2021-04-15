@@ -126,10 +126,10 @@ public class Enemy : MonoBehaviour
     // Called from the animation behaviour state exit function
     public void AttackHit()
     {
-        Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+        Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
         foreach (Collider2D target in hitCollider)
         {
-            Debug.Log("anytinhg");
+            Debug.Log(target.tag);
             if (target.CompareTag("Player")) {
                 Combat player = target.GetComponent<Combat>();
                 player.TakeDamage(attackDamage);
