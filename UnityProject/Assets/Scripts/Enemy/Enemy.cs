@@ -8,6 +8,12 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Pathfinding;
 
+/* TODO for snake:
+ * Add player detection
+ * Basic AI movement
+ * Attacking & damage dealing
+*/
+
 public class Enemy : MonoBehaviour
 {
     public static Enemy instance;
@@ -114,27 +120,43 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void Move()
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("snake_attackanim"))
+        {
+            // If snake is not currently stuck in "attack" animation,
+            rb.velocity = new Vector2(transform.right.x * moveSpeed * Time.deltaTime, rb.velocity.y);
+            if (rb.velocity.magnitude > 0)
+            {
+                animator.SetBool("isMoving", true);
+            }
+        }
+        else
+        {
+            // If snake is stuck in attack animation, Lerp movespeed to 0. 
+            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, slowDownTime * Time.deltaTime);
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
-        // If this detects a player, it will trigger an Attack animation.
+        // If this detects a player, it will trigger an Attack animation. (No damage at the moment)
         if (other.CompareTag("Player"))
         {
             animator.SetTrigger("attack");
         }
     }
 
-    // Called from the animation behaviour state exit function
     public void AttackHit()
     {
         Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         foreach (Collider2D target in hitCollider)
         {
-            Debug.Log("anytinhg");
             if (target.CompareTag("Player")) {
                 Combat player = target.GetComponent<Combat>();
                 player.TakeDamage(attackDamage);
             }
-            //print(target.gameObject.layer);
+            print(target.gameObject.layer);
             
             //Combat player = target.GetComponent<Combat>();
             //player.TakeDamage(attackDamage);
