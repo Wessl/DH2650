@@ -29,7 +29,6 @@ public class Enemy : MonoBehaviour
 
     Path path;
     int currentWaypoint;
-    bool endOfPath;
     Seeker seeker;
 
     Vector2 attackPointVector;
@@ -50,6 +49,26 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        FollowPath();
+    }
+
+    void UpdatePath()
+    {
+        if(seeker.IsDone())
+            seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
+    }
+
+    void PathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
+        }
+    }
+
+    void FollowPath()
+    {
         if (path != null)
         {
             float distance = 1;
@@ -61,11 +80,8 @@ public class Enemy : MonoBehaviour
             {
                 if (currentWaypoint >= path.vectorPath.Count)
                 {
-                    endOfPath = true;
                     return;
                 }
-                else
-                    endOfPath = false;
 
                 Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
                 Vector2 movement = direction * moveSpeed;
@@ -81,36 +97,21 @@ public class Enemy : MonoBehaviour
                 {
                     currentWaypoint++;
                 }
-                if ((target.position.x > rb.position.x && transform.localScale.x < 0) || 
+                if ((target.position.x > rb.position.x && transform.localScale.x < 0) ||
                     (target.position.x < rb.position.x && transform.localScale.x > 0))
                 {
                     transform.localScale *= new Vector2(-1, 1);
                 }
-            } else
+            }
+            else
             {
                 if (!animator.GetBool("PulledEffect"))
                 {
-                   rb.velocity = new Vector2(0,0);
+                    rb.velocity = new Vector2(0, 0);
                 }
             }
 
 
-        }
-       
-    }
-
-    void UpdatePath()
-    {
-        if(seeker.IsDone())
-            seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
-    }
-
-    void PathComplete(Path p)
-    {
-        if (!p.error)
-        {
-            path = p;
-            currentWaypoint = 0;
         }
     }
 

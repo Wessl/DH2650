@@ -25,6 +25,7 @@ public class Combat : MonoBehaviour
     int attacked;
     Vector2 attackOrigin;
     string slashStr;
+    float damageTimer;
 
     public GameObject youDiedPanel;
 
@@ -51,6 +52,7 @@ public class Combat : MonoBehaviour
     void Update()
     {
         Attack();
+        damageTimer += Time.deltaTime;
     }
 
 
@@ -70,7 +72,8 @@ public class Combat : MonoBehaviour
             } else if (!PlayerMovement.instance.touchingCeiling)
             {
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
-                slash.GetComponent<Animation>().Play("rotatingslash");
+                slashStr = "rotatingslash";
+                ExecuteAttack();
             }
         }
     }
@@ -138,6 +141,13 @@ public class Combat : MonoBehaviour
                 point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
                 radius = slash1height;
                 break;
+            case "rotatingslash":
+                damage = attackDamage;
+                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
+                distance = 0;
+                radius = slash1height;
+                direction = new Vector2(1, 1);
+                break;
             default:
                 print("Not a valid slash name");
                 break;
@@ -164,7 +174,10 @@ public class Combat : MonoBehaviour
                     enemy.TakeDamage(damage);
                     break;
                 case "SnakeBoss":
-                    target.collider.GetComponent<SnakeBoss>().TakeDamage(damage);
+                    if(target.collider.name.Equals("SnakeBoss"))
+                        target.collider.GetComponent<SnakeBoss>().TakeDamage(damage);
+                    else
+                       GameObject.Find("SnakeBoss").GetComponent<SnakeBoss>().TakeDamage(damage);
                     break;
                 default:
                     print("Hit a new tag??? " + tag);
@@ -193,9 +206,12 @@ public class Combat : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (damageTimer < 2)
+            return;
         animator.SetTrigger("Hurt");
         health -= damage;
-
+        damageTimer = 0;
+        print("DAMAGED");
         if (health < 0)
             Die();
     }

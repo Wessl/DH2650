@@ -1,0 +1,41 @@
+
+SnakeBoss.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tail tip
+  rotate: false
+  xy: 1, 579
+  size: 413, 250
+  orig: 413, 250
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 1489, 1
+  size: 380, 1004
+  orig: 380, 1004
+  offset: 0, 0
+  index: -1
+head1
+  rotate: false
+  xy: 618, 305
+  size: 308, 337
+  orig: 308, 337
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 1, 1
+  size: 1486, 302
+  orig: 1486, 302
+  offset: 0, 0
+  index: -1
+ringpiece
+  rotate: false
+  xy: 1, 305
+  size: 615, 272
+  orig: 615, 272
+  offset: 0, 0
+  index: -1

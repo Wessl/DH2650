@@ -82,7 +82,6 @@ public class PlayerMovement : MonoBehaviour
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if ((grappleDirection.x > 0 && isFacingRight > 0) || (grappleDirection.x < 0 && isFacingRight < 0))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
             {
-                print("hello");
                 ShootTongue();  // shoot that thang
             }
         }
