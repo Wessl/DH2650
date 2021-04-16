@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 tonguePos, targetPos, tongueRelPos;
     float stickiness = 1;
 
+    public GameObject achievementPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,11 +94,11 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            Vector3 diff = worldPos - new Vector2(transform.position.x, transform.position.y-1);
-            diff.Normalize();
-            float rot = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-            animator.transform.localRotation = Quaternion.Euler(0, 0, rot);
+            achievementPanel.SetActive(true);
+            //achievementPanel.GetComponentInChildren<Text>().text = "You found a frog doll!";
         }
+
+
     }
 
     void FixedUpdate()
@@ -133,7 +135,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
             {
-                rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), speed);    // slow down horizontal movement a bit and force body up towards ceiling
+                print(Physics2D.gravity.y);
+                rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
                 animator.speed = rb.velocity.x / 10;
                 stickTimer -= Time.deltaTime;
             }

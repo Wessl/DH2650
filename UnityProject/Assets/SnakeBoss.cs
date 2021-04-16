@@ -24,7 +24,6 @@ public class SnakeBoss : MonoBehaviour
     public Animator headSkeletonAnimator, headAnimator, tailSkeletonAnimator, tailAnimator;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
-    [Range(1, 1000)]
     public float maxHealth, weight;
     [SerializeField]
     float health, headSpeed;
@@ -34,10 +33,12 @@ public class SnakeBoss : MonoBehaviour
     public Transform rightHead, leftHead, backHead, rightTail, leftTail, backTail;
     public float headSwipeRadius, tailSwipeRadius;
     public float damage;
-    float headTimer, tailTimer, combinedTimer, rotateTimer, rotateTime;
+    float headTimer, tailTimer, combinedTimer, healthLoss, rotateTime;
     public float attackCooldown;
     public LayerMask playerLayer;
     public Transform rotationPoint;
+    bool awake;
+    public ButtonActionable linkedGameObject;
 
     void Start()
     {
@@ -50,7 +51,18 @@ public class SnakeBoss : MonoBehaviour
 
     private void Update()
     {
-        rotateTimer += Time.deltaTime;
+        if (!awake)
+        {
+            if (Vector2.Distance(PlayerMovement.instance.transform.position, transform.position) < 45)
+            {
+                headTimer = 7;
+                combinedTimer = 7;
+                tailTimer = 4;
+                linkedGameObject.ButtonAction(true);
+                awake = true;
+            } else 
+                return;
+        }
         headTimer += Time.deltaTime;
         tailTimer += Time.deltaTime;
         combinedTimer += Time.deltaTime;
@@ -76,16 +88,16 @@ public class SnakeBoss : MonoBehaviour
                 Collider2D rightArea = Physics2D.OverlapCircle(rightTail.position, tailSwipeRadius, playerLayer);
                 if (leftArea != null)
                 {
-                    tailAttack("Tail 1");
+                    tailAttack("Tail 2");
                 }
                 else if (rightArea != null)
                 {
-                    tailAttack("Tail 2");
+                    tailAttack("Tail 1");
                 }
             }
         }
 
-        if(rotateTimer > 30)
+        if(healthLoss > 400)
         {
             Rotate();
         }
@@ -122,6 +134,7 @@ public class SnakeBoss : MonoBehaviour
     {
         var ps = Instantiate(bloodSplat, transform.position, Quaternion.identity);
         health -= damage;
+        healthLoss += damage;
         if (health <= 0)
         {
             Die();
@@ -149,14 +162,11 @@ public class SnakeBoss : MonoBehaviour
         float rot = transform.localRotation.z;
         transform.RotateAround(rotationPoint.position, new UnityEngine.Vector3(0, 0, 1), 20 * Time.deltaTime);
         rotateTime += Time.deltaTime;
-        if (rotateTime > 3) {
-            if ((rot > -60 && rot < -50)  || (rot > -10 && rot < 0) || (rot > 110 && rot < 120) || (rot > 40 && rot < 50))
-            {
-                rotateTimer = 0;
-                rotateTime = 0;
-            }
+        if (rotateTime > 8)
+        {
+            healthLoss = 0;
+            rotateTime = 0;
         }
-
     }
     public void AttackCollision(bool head) 
     {
