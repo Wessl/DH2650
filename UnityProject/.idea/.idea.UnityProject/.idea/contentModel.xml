@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_UnityProject.-15467873.00" t="ExcludeRecursive" />
-    <e p="C:\Users\love\Documents\Github Desktop\DH2650\UnityProject" t="IncludeRecursive">
+    <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_UnityProject.-1417593317.00" t="ExcludeRecursive" />
+    <e p="C:\Users\love\Documents\GitHub\DH2650\UnityProject" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
@@ -213,7 +213,6 @@
         </e>
         <e p="ButtonActionable.cs" t="Include" />
         <e p="enemyIdleBehaviour.cs" t="Include" />
-        <e p="FlyEnemyMovement.cs" t="Include" />
         <e p="InteractableGameButton.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">
@@ -233,10 +232,10 @@
             <e p="AttackOneBehaviour.cs" t="Include" />
             <e p="AttackThreeBehaviour.cs" t="Include" />
             <e p="AttackTwoBehaviour.cs" t="Include" />
+            <e p="GenericEnemyAnimationBehaviour.cs" t="Include" />
             <e p="HoldOneBehaviour.cs" t="Include" />
             <e p="HoldTwoBehaviour.cs" t="Include" />
             <e p="IdleBehaviour.cs" t="Include" />
-            <e p="SnakeAnimationBehaviour.cs" t="Include" />
             <e p="TransitionBehaviour.cs" t="Include" />
             <e p="WeaponBehavior.cs" t="Include" />
           </e>
@@ -253,11 +252,14 @@
             <e p="SnakeWallCheck.cs" t="Include" />
           </e>
           <e p="TongueScript.cs" t="Include" />
+          <e p="UIButtonFunctions.cs" t="Include" />
           <e p="Weapon.cs" t="Include" />
         </e>
+        <e p="SkeletonScript.cs" t="Include" />
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SnakeHead.cs" t="Include" />
-        <e p="UIButtonFunctions.cs" t="Include" />
+        <e p="snakeHeadBehaviour.cs" t="Include" />
+        <e p="snakeTailBehaviour.cs" t="Include" />
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
       <e p="AstarPathfindingProjectEditor.csproj" t="IncludeRecursive" />
