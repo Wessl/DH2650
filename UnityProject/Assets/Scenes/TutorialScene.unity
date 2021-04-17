@@ -148,11 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 199.34
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 31.68
+      value: -5.2
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1547,7 +1547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 199.44554, y: 31.973913, z: -9.664757}
+  m_LocalPosition: {x: -5.894451, y: -4.9060874, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871241011}
@@ -5846,10 +5846,6 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 360130238}
-    - target: {fileID: 1291563076045698589, guid: 2f3c45b9b7e1edd47aec98c7647604d3, type: 3}
-      propertyPath: weight
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f3c45b9b7e1edd47aec98c7647604d3, type: 3}
 --- !u!1 &1848855894
@@ -6394,7 +6390,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942701864}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 199.44554, y: 31.973913, z: -9.664757}
+  m_LocalPosition: {x: -5.894451, y: -4.9060874, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1082669470}
@@ -6891,10 +6887,6 @@ PrefabInstance:
     - target: {fileID: 1117844061703636962, guid: d28e0aaa2900b074890473e1f3c4e218, type: 3}
       propertyPath: m_Name
       value: SnakeEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 1117844061798255449, guid: d28e0aaa2900b074890473e1f3c4e218, type: 3}
-      propertyPath: m_Name
-      value: WallAndPlayerCheck
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d28e0aaa2900b074890473e1f3c4e218, type: 3}

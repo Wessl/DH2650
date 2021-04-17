@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public static Enemy instance;
     private Animator animator;
     private Rigidbody2D rb;
+    private Material spriteMat;
     public float moveSpeed;
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour
         instance = this;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        spriteMat = GetComponentInChildren<SpriteRenderer>().material;
         rb.freezeRotation = true;
         health = maxHealth;
         seeker = GetComponent<Seeker>();
@@ -150,6 +152,17 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+        StartCoroutine(FlashSprite());
+        
+    }
+
+    // Flash sprite white to indicate damage being taken
+    IEnumerator FlashSprite()
+    {
+        spriteMat.SetColor("_Color", new Color(1,0.55f,0.55f,0.88f));   // Arbitrary values
+        yield return new WaitForSeconds(0.07f);                                          // Arbitrary wait time, roughly four frames @60 fps
+        // Reset to base value
+        spriteMat.SetColor("_Color", new Color(1,1,1,0));               // Alpha 0 = default sprite color
     }
 
 
