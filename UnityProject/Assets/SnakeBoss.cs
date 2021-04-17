@@ -30,7 +30,7 @@ public class SnakeBoss : MonoBehaviour
     GameObject Head;
     public GameObject HeadInit;
     CircleCollider2D headCollider;
-    public Transform rightHead, leftHead, backHead, rightTail, leftTail, backTail;
+    public Transform rightHead, leftHead, backHead, tailDown, tailUp, backTail;
     public float headSwipeRadius, tailSwipeRadius;
     public float damage;
     float headTimer, tailTimer, combinedTimer, healthLoss, rotateTime;
@@ -39,6 +39,9 @@ public class SnakeBoss : MonoBehaviour
     public Transform rotationPoint;
     bool awake;
     public ButtonActionable linkedGameObject;
+    public Animation headSkeletonAnimation, tailSkeletonAnimation;
+    public DragonBones.UnityArmatureComponent headArmature, tailArmature;
+    bool headWindup, tailWindup;
 
     void Start()
     {
@@ -46,7 +49,6 @@ public class SnakeBoss : MonoBehaviour
         Physics2D.IgnoreLayerCollision(12, 10);
         Physics2D.IgnoreLayerCollision(12,7);
         health = maxHealth;
-
     }
 
     private void Update()
@@ -67,9 +69,23 @@ public class SnakeBoss : MonoBehaviour
         tailTimer += Time.deltaTime;
         combinedTimer += Time.deltaTime;
 
+        CheckAttackAreas();
+        if (headTimer > 2 / 3 && headTimer < 3)
+            AttackCollision(true);
+        else if (tailTimer > 2 / 3 && tailTimer < 3)
+            AttackCollision(false);
+
+        if(headTimer < 2/3)
+        if(healthLoss > 400)
+        {
+            Rotate();
+        }
+    }
+
+    void CheckAttackAreas()
+    {
         if (combinedTimer > attackCooldown)
         {
-
             if (headTimer > attackCooldown * 2)
             {
                 Collider2D leftArea = Physics2D.OverlapCircle(leftHead.position, headSwipeRadius, playerLayer);
@@ -77,44 +93,45 @@ public class SnakeBoss : MonoBehaviour
                 Collider2D[] hitCollider = Physics2D.OverlapCircleAll(rightHead.position, headSwipeRadius);
                 if (leftArea != null)
                 {
-                    headAttack("Left Head");
-                } else if (rightArea != null)
-                {
-                    headAttack("Right Head");
+                    headAttack("leftHead");
+                    return;
                 }
-            } else if (tailTimer > attackCooldown * 1.5f)
-            {
-                Collider2D leftArea = Physics2D.OverlapCircle(leftTail.position, tailSwipeRadius, playerLayer);
-                Collider2D rightArea = Physics2D.OverlapCircle(rightTail.position, tailSwipeRadius, playerLayer);
-                if (leftArea != null)
+                if (rightArea != null)
                 {
-                    tailAttack("Tail 2");
-                }
-                else if (rightArea != null)
-                {
-                    tailAttack("Tail 1");
+                    headAttack("rightHead");
+                    return;
                 }
             }
-        }
-
-        if(healthLoss > 400)
-        {
-            Rotate();
+            if (tailTimer > attackCooldown * 1.5f)
+            {
+                Collider2D upperArea = Physics2D.OverlapCircle(tailUp.position, tailSwipeRadius, playerLayer);
+                Collider2D lowerArea = Physics2D.OverlapCircle(tailDown.position, tailSwipeRadius, playerLayer);
+                if (upperArea != null)
+                {
+                    tailAttack("tailUp");
+                    return;
+                }
+                if (lowerArea != null)
+                {
+                    tailAttack("tailDown");
+                    return;
+                }
+            }
         }
     }
 
     void headAttack(string head)
     {
-        headAnimator.Play(head, -1, 0);
-        headSkeletonAnimator.Play(head, -1, 0);
+        headArmature.animation.Play(head, 1);
+        headSkeletonAnimation.Play(head);
         headTimer = 0;
         combinedTimer = 0;
     }
 
     void tailAttack(string tail)
     {
-        tailAnimator.Play(tail, -1, 0);
-        tailSkeletonAnimator.Play(tail, -1, 0);
+        tailArmature.animation.Play(tail, 1);
+        tailSkeletonAnimation.Play(tail);
         tailTimer = 0;
         combinedTimer = 0;
     }
@@ -216,9 +233,9 @@ public class SnakeBoss : MonoBehaviour
         Gizmos.DrawWireSphere(leftHead.position, headSwipeRadius);
 
 
-        Gizmos.DrawWireSphere(rightTail.position, tailSwipeRadius);
+        Gizmos.DrawWireSphere(tailUp.position, tailSwipeRadius);
 
-        Gizmos.DrawWireSphere(leftTail.position, tailSwipeRadius);
+        Gizmos.DrawWireSphere(tailDown.position, tailSwipeRadius);
         //Gizmos.DrawLine(ceilingCheck.position, new Vector3(ceilingCheck.position.x, ceilingCheck.position.y + ceilingCheckDist, ceilingCheck.position.z));
     }
 }

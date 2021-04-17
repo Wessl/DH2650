@@ -92,13 +92,6 @@ public class PlayerMovement : MonoBehaviour
             RetractTongue();
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            achievementPanel.SetActive(true);
-            //achievementPanel.GetComponentInChildren<Text>().text = "You found a frog doll!";
-        }
-
-
     }
 
     void FixedUpdate()
