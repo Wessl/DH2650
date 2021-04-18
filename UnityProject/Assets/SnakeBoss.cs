@@ -70,12 +70,14 @@ public class SnakeBoss : MonoBehaviour
         combinedTimer += Time.deltaTime;
 
         CheckAttackAreas();
-        if (headTimer > 2 / 3 && headTimer < 3)
+        if (headTimer > (1.0f / 3.0f) && headTimer < 1.5f)
+        {
             AttackCollision(true);
-        else if (tailTimer > 2 / 3 && tailTimer < 3)
+        }
+        else if (tailTimer > (1.0f / 3.0f) && tailTimer < 1.5f)
+        {
             AttackCollision(false);
-
-        if(headTimer < 2/3)
+        }
         if(healthLoss > 400)
         {
             Rotate();
@@ -102,7 +104,7 @@ public class SnakeBoss : MonoBehaviour
                     return;
                 }
             }
-            if (tailTimer > attackCooldown * 1.5f)
+            if (tailTimer > attackCooldown * 2)
             {
                 Collider2D upperArea = Physics2D.OverlapCircle(tailUp.position, tailSwipeRadius, playerLayer);
                 Collider2D lowerArea = Physics2D.OverlapCircle(tailDown.position, tailSwipeRadius, playerLayer);
@@ -130,6 +132,7 @@ public class SnakeBoss : MonoBehaviour
 
     void tailAttack(string tail)
     {
+        print(tailTimer);
         tailArmature.animation.Play(tail, 1);
         tailSkeletonAnimation.Play(tail);
         tailTimer = 0;

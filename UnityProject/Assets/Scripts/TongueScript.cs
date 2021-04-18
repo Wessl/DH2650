@@ -11,10 +11,11 @@ public class TongueScript : MonoBehaviour
     public float maxLength, minLength;
     public GameObject tongueCenterInit;
     private GameObject tongueCenter;
-    GameObject col;
+    GameObject target;
     float dist;
     Vector2 relativePos;
     bool hit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,9 +43,19 @@ public class TongueScript : MonoBehaviour
     private void FixedUpdate()
     {
         if (hit)
-            rb.position = new Vector2(col.transform.position.x, col.transform.position.y) + relativePos;    // updates tonguetip to stick on the position it hit
+            rb.position = new Vector2(target.transform.position.x, target.transform.position.y) + relativePos;    // updates tonguetip to stick on the position it hit
     }
 
+    public void Target(GameObject hitTarget, Vector2 hitPos)
+    {
+        hit = true;
+        target = hitTarget;
+        rb.velocity = new Vector2(0, 0);
+        print(hitTarget.transform.position.x + " " + hitTarget.transform.position.y);
+        relativePos = hitPos - new Vector2(target.transform.position.x, target.transform.position.y);
+    }
+
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         dist = Vector2.Distance(playerMV.getMouthPos(), rb.position);
@@ -60,7 +71,7 @@ public class TongueScript : MonoBehaviour
         print(col.tag);
         playerMV.TargetHit(col, rb.position, col.tag);
         relativePos = rb.position - new Vector2(col.transform.position.x, col.transform.position.y);
-    }
+    }*/
     
     // use this to stretch the gameobject between two points, center of player object and tongue end position in this case.
     // there is probably a much easier way of doing this...

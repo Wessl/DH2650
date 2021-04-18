@@ -26,8 +26,10 @@ public class PlayerMovement : MonoBehaviour
     Vector2 worldPos, grappleDirection;
     bool gettingPulled, pulling;
     CircleCollider2D tongueCollider;
-    Vector2 tonguePos, targetPos, tongueRelPos;
+    Vector2 hitPos, targetPos, tongueRelPos;
     float stickiness = 1;
+    public LayerMask playerMask;
+    float tongueSize;
 
     public GameObject achievementPanel;
 
@@ -38,7 +40,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         stickTimer = stickiness;
-        Physics2D.IgnoreLayerCollision(9, 10);
+        Physics2D.IgnoreLayerCollision(10, 9);
+        Physics2D.IgnoreLayerCollision(10, 14);
+        tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
     }
 
     // Update is called once per frame
@@ -48,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
         IsTouchingWall();
         IsTouchingCeiling();
         CheckInput();
+        if(tongue != null && !pulling && !gettingPulled)
+        {
+            CheckTongueCollision();
+        }
         if(!animator.GetBool("LockedDirection"))
             FixDirection();
         animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
@@ -79,13 +87,23 @@ public class PlayerMovement : MonoBehaviour
                 WallJump();
         }
 
-        if (Input.GetMouseButtonDown(0) && tongue == null)   // can only shoot if not already shooting
+        if (Input.GetMouseButtonDown(0))
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
-            if ((grappleDirection.x > 0 && isFacingRight > 0) || (grappleDirection.x < 0 && isFacingRight < 0))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
+            if (tongue == null &&                                                               // can only shoot if not already shooting
+                ((grappleDirection.x + tonguePoint.localPosition.x >= 0 && isFacingRight > 0)
+                || (grappleDirection.x - tonguePoint.localPosition.x <= 0 && isFacingRight < 0)))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
             {
+                
                 ShootTongue();  // shoot that thang
+            } else
+            {
+                print(grappleDirection.x + " " + tonguePoint.position.x);
+                print(isFacingRight);
+                print(tongue);
             }
+            
+            print("yeha");
         }
         else if (tongue != null && (!Input.GetMouseButton(0) || animator.GetBool("LockedMovement"))) // retract tongue if not holding button
         {
@@ -128,7 +146,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
             {
-                print(Physics2D.gravity.y);
                 rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
                 animator.speed = rb.velocity.x / 10;
                 stickTimer -= Time.deltaTime;
@@ -137,6 +154,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2((float)(rb.velocity.x / 1.1), rb.velocity.y);     // if player doesn't want to stick, still slow down horizontal movement (friction yo)
             }
+        }
+    }
+
+    void CheckTongueCollision()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(tonguePoint.position, (tongue.transform.position - tonguePoint.position).normalized, Vector2.Distance(tonguePoint.position, tongue.transform.position) +tongueSize, playerMask);
+
+        if (hit)
+        {
+            TargetHit(hit.collider.gameObject, hit.point, hit.collider.tag);
         }
     }
     
@@ -188,15 +215,16 @@ public class PlayerMovement : MonoBehaviour
     // TODO: mass comparison
     public void TargetHit(GameObject hitTarget, Vector2 pos, string tag)
     {
-        print("Target hit");
-        tonguePos = pos;
+        hitPos = pos;
         target = hitTarget;
         targetPos = target.transform.position;
-        tongueRelPos = tonguePos - targetPos;
-        print(tag);
+        tongueRelPos = hitPos - targetPos;
+        tongue.GetComponent<TongueScript>().Target(target, pos);
         switch(tag)
         {
             case "Enemy":
+            case "FlyingEnemy":
+            case "GroundEnemy":
                 targetRB = target.GetComponent<Rigidbody2D>();
                 if (target.GetComponent<Enemy>().weight < weight)
                 {
@@ -209,11 +237,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "Ground":
-                GetPulled(true);
-                break;
             case "SnakeBoss":
-                GetPulled(true);
-                break;
             case "Platform":
                 GetPulled(true);
                 break;
@@ -240,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
 
         Physics2D.IgnoreCollision(tongueCollider, GetComponent<CapsuleCollider2D>());
-        tongue.GetComponent<Rigidbody2D>().AddForce(grappleDirection * (tongueSpeed + rb.velocity.magnitude));
+        tongue.GetComponent<Rigidbody2D>().AddForce(grappleDirection * tongueSpeed);
     }
 
 

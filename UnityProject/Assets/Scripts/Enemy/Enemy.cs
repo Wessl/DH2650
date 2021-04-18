@@ -15,9 +15,6 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Material spriteMat;
     public float moveSpeed;
-    public ParticleSystem bloodSplat;
-    public ParticleSystem boneSplat;
-    public Transform deathPSInstancePoint;
     public Transform target, attackPoint;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
@@ -36,6 +33,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        GridGraph gridGraph = AstarPath.active.data.gridGraph;
         instance = this;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -132,7 +130,7 @@ public class Enemy : MonoBehaviour
         Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
         foreach (Collider2D target in hitCollider)
         {
-            Debug.Log(target.tag);
+            Debug.Log("enemy hit: " + target.tag);
             if (target.CompareTag("Player")) {
                 Combat player = target.GetComponent<Combat>();
                 player.TakeDamage(attackDamage);
@@ -146,7 +144,6 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        var ps = Instantiate(bloodSplat, transform.position, Quaternion.identity);
         health -= damage;
         if (health <= 0)
         {
@@ -174,9 +171,6 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Initialize death particle system(s)
-        Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
-        Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
         Destroy(gameObject);
     }
