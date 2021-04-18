@@ -231,26 +231,29 @@ public class Combat : MonoBehaviour
         // Update text showing you died and how many deaths you have so far
         var deaths = PlayerPrefs.GetInt("deathAmount");
         var deathDigitEnd = (deaths % 10);
-        var ordinalNumber = "";
-        if (deathDigitEnd == 1)
+        var ordinalNumberSuffix = "";
+        switch (deathDigitEnd)
         {
-            ordinalNumber = "ST";
-        } 
-        else if (deathDigitEnd == 2)
-        {
-            ordinalNumber = "ND";
-        } 
-        else if (deathDigitEnd == 3)
-        {
-            ordinalNumber = "RD";
+            case 1:
+                ordinalNumberSuffix = "ST";
+                break;
+            case 2:
+                ordinalNumberSuffix = "ND";
+                break;
+            case 3:
+                ordinalNumberSuffix = "RD";
+                break;
+            default:
+                ordinalNumberSuffix = "TH";
+                break;
         }
-        else
+        // Edge cases are 11, 12 and 13
+        if (deaths == 11 || deaths == 12 || deaths == 13)
         {
-            ordinalNumber = "TH";
+            ordinalNumberSuffix = "TH";
         }
-
-        Debug.Log(deathDigitEnd);
-        youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumber + " TIME";
+        
+        youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumberSuffix + " TIME";
     }
 
     private void OnDrawGizmos()

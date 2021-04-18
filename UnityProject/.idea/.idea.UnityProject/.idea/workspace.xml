@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TutorialScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ButtonActionable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ButtonActionable.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InteractableGameButton.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InteractableGameButton.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Combat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Combat.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +27,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/GenericEnemyAnimationBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/ButtonActionable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Snake/SnakeEdgeCheck.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/InteractableGameButton.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -52,10 +52,10 @@
       <option value="$PROJECT_DIR$/Assets/FlyEnemyMovement.cs" />
       <option value="$PROJECT_DIR$/Assets/UIButtonFunctions.cs" />
       <option value="$PROJECT_DIR$/Assets/AstarPathfindingProject/Core/AstarPath.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Combat.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/SnakeAnimationBehaviour.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/ColorizedSpriteShader.shader" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Combat.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -120,6 +120,7 @@
       <workItem from="1618488630408" duration="5026000" />
       <workItem from="1618574159917" duration="3535000" />
       <workItem from="1618687289368" duration="1466000" />
+      <workItem from="1618771365934" duration="306000" />
     </task>
     <servers />
   </component>
