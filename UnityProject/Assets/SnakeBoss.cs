@@ -132,22 +132,10 @@ public class SnakeBoss : MonoBehaviour
 
     void tailAttack(string tail)
     {
-        print(tailTimer);
         tailArmature.animation.Play(tail, 1);
         tailSkeletonAnimation.Play(tail);
         tailTimer = 0;
         combinedTimer = 0;
-    }
-
-    void Strike()
-    {
-        Vector2 direction = (target.position - headPoint.position).normalized;
-        Head = Instantiate(HeadInit, headPoint.position, Quaternion.identity);
-
-        headCollider = Head.GetComponent<CircleCollider2D>();
-        print(direction * headSpeed);
-        Physics2D.IgnoreCollision(headCollider, GetComponent<PolygonCollider2D>());
-        Head.GetComponent<Rigidbody2D>().AddForce(direction * headSpeed);
     }
 
     public void TakeDamage(float damage)

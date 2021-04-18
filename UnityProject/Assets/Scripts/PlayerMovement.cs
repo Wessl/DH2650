@@ -95,16 +95,8 @@ public class PlayerMovement : MonoBehaviour
                 || (grappleDirection.x - tonguePoint.localPosition.x <= 0 && isFacingRight < 0)))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
 
             {
-                
                 ShootTongue();  // shoot that thang
-            } else
-            {
-                print(grappleDirection.x + " " + tonguePoint.position.x);
-                print(isFacingRight);
-                print(tongue);
             }
-            
-            print("yeha");
         }
         else if (tongue != null && (!Input.GetMouseButton(0) || animator.GetBool("LockedMovement"))) // retract tongue if not holding button
         {
