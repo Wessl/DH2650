@@ -1786,35 +1786,6 @@ Transform:
   m_Father: {fileID: 2017057288}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &557051309 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2462606010109597989, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
-  m_PrefabInstance: {fileID: 2462606010436270557}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &557051311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557051309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a419daec90432458cae4e9ae74d26e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ConstrainRotation: 1
-  m_SolveFromDefaultPose: 1
-  m_Weight: 1
-  m_Chain:
-    m_EffectorTransform: {fileID: 0}
-    m_TargetTransform: {fileID: 0}
-    m_TransformCount: 0
-    m_Transforms: []
-    m_DefaultLocalRotations: []
-    m_StoredLocalRotations: []
-  m_Iterations: 10
-  m_Tolerance: 0.01
 --- !u!1001 &574570673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6147,6 +6118,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1883895389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
+  m_PrefabInstance: {fileID: 16166991}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857c7d8b4853bed4d8b9f316cfca3190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1883895392 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2537445189248313660, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
+  m_PrefabInstance: {fileID: 16166991}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af31f85669cc6c14092df3752d12b1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1900501064
 GameObject:
   m_ObjectHideFlags: 0
@@ -7190,6 +7183,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 557051310, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: playerCombatScriptRef
+      value: 
+      objectReference: {fileID: 1883895389}
+    - target: {fileID: 557051310, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: playerMovementScriptRef
+      value: 
+      objectReference: {fileID: 1883895392}
     - target: {fileID: 2462606010109597985, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -7276,11 +7277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2462606010109597989, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_Name
-      value: DeathCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 2462606010109597989, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Canvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}

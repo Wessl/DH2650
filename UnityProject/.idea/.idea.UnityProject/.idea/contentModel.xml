@@ -338,7 +338,6 @@
             <e p="HoldTwoBehaviour.cs" t="Include" />
             <e p="IdleBehaviour.cs" t="Include" />
             <e p="TransitionBehaviour.cs" t="Include" />
-            <e p="WeaponBehavior.cs" t="Include" />
           </e>
           <e p="ButtonActionable.cs" t="Include" />
           <e p="Combat.cs" t="Include" />
@@ -349,6 +348,7 @@
             <e p="EnemyWallCheck.cs" t="Include" />
           </e>
           <e p="enemyIdleBehaviour.cs" t="Include" />
+          <e p="GameMenu.cs" t="Include" />
           <e p="InteractableGameButton.cs" t="Include" />
           <e p="Node.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
@@ -365,7 +365,6 @@
           <e p="snakeHeadBehaviour.cs" t="Include" />
           <e p="snakeTailBehaviour.cs" t="Include" />
           <e p="TongueScript.cs" t="Include" />
-          <e p="UIButtonFunctions.cs" t="Include" />
         </e>
         <e p="SnakeBoss.cs" t="Include" />
       </e>

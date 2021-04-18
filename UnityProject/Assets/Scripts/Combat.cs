@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Combat : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class Combat : MonoBehaviour
     Vector2 attackOrigin;
     string slashStr;
     float damageTimer;
-
+    private int attackMouseKeyCode;
     public GameObject youDiedPanel;
 
     void Awake()
@@ -45,7 +46,7 @@ public class Combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        UpdateAttackButtonMapping();    // Set attack mouse key codes to the appropriate one according to settings
     }
 
     // Update is called once per frame
@@ -63,7 +64,7 @@ public class Combat : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(attackMouseKeyCode))
         {
             if (PlayerMovement.instance.grounded)
             {
@@ -254,6 +255,18 @@ public class Combat : MonoBehaviour
         }
         
         youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumberSuffix + " TIME";
+    }
+
+    public void UpdateAttackButtonMapping()
+    {
+        if (PlayerPrefs.GetInt("LeftMouseIsTongue") == 1)
+        {
+            attackMouseKeyCode = 1; // If mouse left click is tongue, then attack must be right mouse click
+        }
+        else
+        {
+            attackMouseKeyCode = 0; // If left mouse is not tongue, then attack must be left. 
+        }
     }
 
     private void OnDrawGizmos()

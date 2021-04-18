@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask playerMask;
     float tongueSize;
     public float airLerp;
+    private int tongueMouseKeyCode;
 
     public GameObject achievementPanel;
 
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 9);
         Physics2D.IgnoreLayerCollision(10, 14);
         tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
+        UpdateTongueButtonMapping();
     }
 
     // Update is called once per frame
@@ -88,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
                 WallJump();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(tongueMouseKeyCode))
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if (tongue == null &&                                                               // can only shoot if not already shooting
@@ -99,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
                 ShootTongue();  // shoot that thang
             }
         }
-        else if (tongue != null && (!Input.GetMouseButton(0) || animator.GetBool("LockedMovement"))) // retract tongue if not holding button
+        else if (tongue != null && (!Input.GetMouseButton(tongueMouseKeyCode) || animator.GetBool("LockedMovement"))) // retract tongue if not holding button
         {
             RetractTongue();
         }
@@ -341,7 +343,7 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
     
-    // Use this property to get the current orientation (facing right or left) of the frog.
+    // Use this property to get the current orientation (facing right or left) of the frog. Example.
     public int Orientation
     {
         get => isFacingRight;
@@ -352,6 +354,18 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 getMouthPos()
     {
         return tonguePoint.position;
+    }
+    
+    public void UpdateTongueButtonMapping()
+    {
+        if (PlayerPrefs.GetInt("LeftMouseIsTongue") == 1)
+        {
+            tongueMouseKeyCode = 0; // If mouse left click is tongue, then set tongue to be 0, i.e. left mouse button
+        }
+        else
+        {
+            tongueMouseKeyCode = 1; // If left mouse is not tongue, then right mouse must be tongue. 
+        }
     }
 
     private void OnDrawGizmos()
