@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
             if (tongue == null &&                                                               // can only shoot if not already shooting
                 ((grappleDirection.x + tonguePoint.localPosition.x >= 0 && isFacingRight > 0)
                 || (grappleDirection.x - tonguePoint.localPosition.x <= 0 && isFacingRight < 0)))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
+
             {
                 
                 ShootTongue();  // shoot that thang
