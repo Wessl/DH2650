@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     float stickiness = 1;
     public LayerMask playerMask;
     float tongueSize;
+    public float airLerp;
 
     public GameObject achievementPanel;
 
@@ -119,8 +120,8 @@ public class PlayerMovement : MonoBehaviour
                 else
                     rb.velocity = new Vector2(mx * speed/2, rb.velocity.y);
             }
-            else if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(rb.velocity.x + mx) || Mathf.Abs(rb.velocity.x) < speed / 1.1)    // more limited control while in the air
-                rb.velocity = new Vector2(rb.velocity.x + mx / 2, rb.velocity.y);
+            else   // more limited control while in the air
+                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * airLerp);
         }
         else
         {

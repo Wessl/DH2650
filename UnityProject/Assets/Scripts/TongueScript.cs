@@ -51,7 +51,6 @@ public class TongueScript : MonoBehaviour
         hit = true;
         target = hitTarget;
         rb.velocity = new Vector2(0, 0);
-        print(hitTarget.transform.position.x + " " + hitTarget.transform.position.y);
         relativePos = hitPos - new Vector2(target.transform.position.x, target.transform.position.y);
     }
 

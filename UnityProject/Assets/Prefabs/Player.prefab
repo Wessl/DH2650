@@ -185,7 +185,7 @@ MonoBehaviour:
   ceilingLayers:
     serializedVersion: 2
     m_Bits: 128
-  tongueSpeed: 80
+  tongueSpeed: 90
   pullSpeed: 40
   touchingCeiling: 0
   touchingWall: 0
@@ -197,6 +197,11 @@ MonoBehaviour:
   mx: 0
   my: 0
   stickTimer: 0
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 29312
+  airLerp: 2.5
+  achievementPanel: {fileID: 0}
 --- !u!95 &2537445189248313659
 Animator:
   serializedVersion: 3
@@ -291,7 +296,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackDamage: 50
-  maxHealth: 50
+  maxHealth: 100
   health: 0
   youDiedPanel: {fileID: 0}
 --- !u!70 &2537445189248313657

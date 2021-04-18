@@ -12,6 +12,7 @@ TagManager:
   - Platform
   - GroundEnemy
   - FlyingEnemy
+  - NewGroundEnemy
   layers:
   - Default
   - TransparentFX

@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 368726897}
   - component: {fileID: 919381471}
   - component: {fileID: 919381476}
+  - component: {fileID: 1191987944920026521}
   m_Layer: 9
   m_Name: SnakeEnemy
   m_TagString: GroundEnemy
@@ -150,6 +151,7 @@ Transform:
   - {fileID: 1117844061798255454}
   - {fileID: 4093574395604201765}
   - {fileID: 529147981}
+  - {fileID: 6807610170054332587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,6 +242,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  lerp: 5
+  jumpSpeed: 20
   bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
   boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
   deathPSInstancePoint: {fileID: 8504759094864020410}
@@ -256,6 +260,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   nextWaypointDist: 2.93
+  xMovement: 0
+  groundCheckRadius: 1
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  jump: 0
+  groundCheck: {fileID: 6807610170054332587}
+  grounded: 0
 --- !u!114 &919381471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +318,26 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &1191987944920026521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117844061703636962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85830e0da03f584f8562537e0739925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allNodes: []
+  closestNode: {fileID: 0}
+  targetNode: {fileID: 0}
+  target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
+  Path: []
+  enemyMovement: {fileID: 368726897}
+  minDist: 1
+  maxDist: 20
 --- !u!1 &1117844061798255449
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +438,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1117844061441302194}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6255423308707153384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6807610170054332587}
+  m_Layer: 9
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6807610170054332587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6255423308707153384}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.61, y: -3.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1117844061703636960}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6351374836843811964
 GameObject:

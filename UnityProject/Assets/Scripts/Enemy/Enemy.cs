@@ -14,7 +14,10 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private Material spriteMat;
-    public float moveSpeed;
+    public float moveSpeed, lerp, jumpSpeed;
+    public ParticleSystem bloodSplat;
+    public ParticleSystem boneSplat;
+    public Transform deathPSInstancePoint;
     public Transform target, attackPoint;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
@@ -24,6 +27,11 @@ public class Enemy : MonoBehaviour
     public LayerMask playerLayer;
 
     public float nextWaypointDist = 3;
+    public float xMovement, groundCheckRadius;
+    public LayerMask groundLayers;
+    public bool jump;
+    public Transform groundCheck;
+    public bool grounded;
 
     Path path;
     int currentWaypoint;
@@ -40,16 +48,22 @@ public class Enemy : MonoBehaviour
         spriteMat = GetComponentInChildren<SpriteRenderer>().material;
         rb.freezeRotation = true;
         health = maxHealth;
-        seeker = GetComponent<Seeker>();
-
-        InvokeRepeating("UpdatePath", 0f, .5f);
-        attackPointVector = rb.position - (Vector2)attackPoint.position;
-        seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
+        
+        if(!CompareTag("NewGroundEnemy"))
+            OldPathfindingSetup();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        FollowPath();
+        if (CompareTag("NewGroundEnemy"))
+        {
+            IsGrounded();
+            GroundMovement();
+        } else
+        {
+            OldFollowPath();
+        }
+        FixDirection();
     }
 
     void UpdatePath()
@@ -58,60 +72,44 @@ public class Enemy : MonoBehaviour
             seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
     }
 
+    void IsGrounded()
+    {
+        Collider2D ground = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
+
+        if (ground != null)
+            grounded = true;
+        else
+            grounded = false;
+    }
+
+    void GroundMovement()
+    {
+        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(xMovement * moveSpeed, rb.velocity.y), Time.deltaTime * lerp);
+        Jump();
+    }
+
+    void Jump()
+    {
+        if(grounded && jump)
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        jump = false;
+    }
+
+    void FixDirection()
+    {
+        if ((rb.velocity.x > 0 && transform.localScale.x < 0) ||
+                    (rb.velocity.x < 0 && transform.localScale.x > 0))
+        {
+            transform.localScale *= new Vector2(-1, 1);
+        }
+    }
+
     void PathComplete(Path p)
     {
         if (!p.error)
         {
             path = p;
             currentWaypoint = 0;
-        }
-    }
-
-    void FollowPath()
-    {
-        if (path != null)
-        {
-            float distance = 1;
-            if (tag.Equals("FlyingEnemy"))
-                distance = Vector2.Distance(target.position, attackPoint.position);
-            else if (tag.Equals("GroundEnemy"))
-                distance = Mathf.Abs(target.position.x - attackPoint.position.x);
-            if (0.5f < distance)
-            {
-                if (currentWaypoint >= path.vectorPath.Count)
-                {
-                    return;
-                }
-
-                Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-                Vector2 movement = direction * moveSpeed;
-                float dist = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-                if (!animator.GetBool("PulledEffect"))
-                {
-                    if (tag.Equals("FlyingEnemy"))
-                        rb.AddForce(movement * Time.deltaTime);
-                    else if (tag.Equals("GroundEnemy"))
-                        rb.velocity = new Vector2(movement.x, rb.velocity.y);
-                }
-                if (dist < nextWaypointDist)
-                {
-                    currentWaypoint++;
-                }
-                if ((target.position.x > rb.position.x && transform.localScale.x < 0) ||
-                    (target.position.x < rb.position.x && transform.localScale.x > 0))
-                {
-                    transform.localScale *= new Vector2(-1, 1);
-                }
-            }
-            else
-            {
-                if (!animator.GetBool("PulledEffect"))
-                {
-                    rb.velocity = new Vector2(0, 0);
-                }
-            }
-
-
         }
     }
 
@@ -171,6 +169,9 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        // Initialize death particle system(s)
+        Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
+        Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
         Destroy(gameObject);
     }
@@ -178,5 +179,63 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        if(CompareTag("GroundEnemy"))
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    void OldPathfindingSetup()
+    {
+        seeker = GetComponent<Seeker>();
+        InvokeRepeating("UpdatePath", 0f, .5f);
+        attackPointVector = rb.position - (Vector2)attackPoint.position;
+        seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
+    }
+
+    void OldFollowPath()
+    {
+        if (path != null)
+        {
+            float distance = 1;
+            if (tag.Equals("FlyingEnemy"))
+                distance = Vector2.Distance(target.position, attackPoint.position);
+            else if (tag.Equals("GroundEnemy"))
+                distance = Mathf.Abs(target.position.x - attackPoint.position.x);
+            if (0.5f < distance)
+            {
+                if (currentWaypoint >= path.vectorPath.Count)
+                {
+                    return;
+                }
+
+                Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+                Vector2 movement = direction * moveSpeed;
+                float dist = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+                if (!animator.GetBool("PulledEffect"))
+                {
+                    if (tag.Equals("FlyingEnemy"))
+                        rb.AddForce(movement * Time.deltaTime);
+                    else if (tag.Equals("GroundEnemy"))
+                        rb.velocity = new Vector2(movement.x, rb.velocity.y);
+                }
+                if (dist < nextWaypointDist)
+                {
+                    currentWaypoint++;
+                }
+                if ((target.position.x > rb.position.x && transform.localScale.x < 0) ||
+                    (target.position.x < rb.position.x && transform.localScale.x > 0))
+                {
+                    transform.localScale *= new Vector2(-1, 1);
+                }
+            }
+            else
+            {
+                if (!animator.GetBool("PulledEffect"))
+                {
+                    rb.velocity = new Vector2(0, 0);
+                }
+            }
+
+
+        }
     }
 }
