@@ -20,11 +20,12 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        allNodes = FindObjectsOfType<Node>().ToList();
+        //FindAllNodes();
     }
     // Start is called before the first frame update
     void Start()
     {
+        FindAllNodes();
         if (CompareTag("NewGroundEnemy"))
             InvokeRepeating("UpdatePath", 0f, .5f);
     }
@@ -34,6 +35,11 @@ public class EnemyAI : MonoBehaviour
     {
         if(CompareTag("NewGroundEnemy"))
             MoveTowardsPath();
+    }
+
+    public void FindAllNodes()
+    {
+        allNodes = FindObjectsOfType<Node>().ToList();
     }
 
     Node GetClosestNodeTo(Transform t)
@@ -56,11 +62,10 @@ public class EnemyAI : MonoBehaviour
 
     void UpdatePath()
     {
-        if ((GetClosestNodeTo(target).Equals(targetNode) && GetClosestNodeTo(transform).Equals(closestNode)) || !enemyMovement.grounded)
+        if ((GetClosestNodeTo(target).Equals(targetNode) && GetClosestNodeTo(transform).Equals(closestNode) && Path.Count>0)  || !enemyMovement.grounded)
         {
             return;
         }
-        print("updating path");
         Path.Clear();
 
         targetNode = GetClosestNodeTo(target);
@@ -70,7 +75,6 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("Node is missing");
             return;
         }
-
         HashSet<Node> visitedNodes = new HashSet<Node>();
         Queue<Node> unvisitedNodes = new Queue<Node>();
         Dictionary<Node, Node> nodeAndParent = new Dictionary<Node, Node>();
@@ -100,7 +104,7 @@ public class EnemyAI : MonoBehaviour
 
     void MakePath(Dictionary<Node, Node> nodeAndP)
     {
-        if(nodeAndP.Count > 0)
+        if (nodeAndP.Count > 0)
         {
             if(nodeAndP.ContainsKey(targetNode) && nodeAndP.ContainsValue(closestNode))
             {
@@ -128,35 +132,36 @@ public class EnemyAI : MonoBehaviour
         {
             currentNode = targetNode;
         }
-            var xMag = Mathf.Abs(currentNode.transform.position.x - transform.position.x);
-            var yDiff = currentNode.transform.position.y - transform.position.y;
-            if (currentNode && xMag >= minDist && yDiff <= maxDist)
+        
+        var xMag = Mathf.Abs(currentNode.transform.position.x - transform.position.x);
+        var yDiff = currentNode.transform.position.y - transform.position.y;
+        if (currentNode && xMag >= minDist && yDiff <= maxDist)
+        {
+            if (transform.position.x > currentNode.transform.position.x)
             {
-                if (transform.position.x > currentNode.transform.position.x)
-                {
-                    enemyMovement.xMovement = -1;
-                }
-                else if (transform.position.x < currentNode.transform.position.x)
-                {
-                    enemyMovement.xMovement = 1;
-                }
+                enemyMovement.xMovement = -1;
+            }
+            else if (transform.position.x < currentNode.transform.position.x)
+            {
+                enemyMovement.xMovement = 1;
+            }
             if (transform.position.y < currentNode.transform.position.y && (yDiff > minDist))
-                {
-                    enemyMovement.jump = true;
-                }
-            }
-            else if(enemyMovement.grounded)
             {
-                if (Path.Count > 1)
-                {
-                    Path.Remove(Path.First());
-                }
-
-                if (currentNode == targetNode && Vector2.Distance(currentNode.transform.position, transform.position) < minDist)
-                {
-                    Path.Clear();
-                }
+                enemyMovement.jump = true;
             }
+        }
+        else if(enemyMovement.grounded)
+        {
+            if (Path.Count > 1)
+            {
+                Path.Remove(Path.First());
+            }
+
+            if (currentNode == targetNode && Vector2.Distance(currentNode.transform.position, transform.position) < minDist)
+            {
+                Path.Clear();
+            }
+        }
         
     }
 }

@@ -92,10 +92,10 @@ MonoBehaviour:
   allNodes: []
   closestNode: {fileID: 0}
   targetNode: {fileID: 0}
-  target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
+  target: {fileID: 0}
   Path: []
   enemyMovement: {fileID: 5480225080227567992}
-  minDist: 1
+  minDist: 1.5
   maxDist: 20
 --- !u!212 &5480225080227567974
 SpriteRenderer:

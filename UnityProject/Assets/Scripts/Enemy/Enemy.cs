@@ -41,7 +41,6 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        GridGraph gridGraph = AstarPath.active.data.gridGraph;
         instance = this;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
