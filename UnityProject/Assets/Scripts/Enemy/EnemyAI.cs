@@ -60,6 +60,7 @@ public class EnemyAI : MonoBehaviour
         return cNode;
     } 
 
+    // This only uses BFS basically, so it's not optimized at all. Will fix later.
     void UpdatePath()
     {
         if ((GetClosestNodeTo(target).Equals(targetNode) && GetClosestNodeTo(transform).Equals(closestNode) && Path.Count>0)  || !enemyMovement.grounded)

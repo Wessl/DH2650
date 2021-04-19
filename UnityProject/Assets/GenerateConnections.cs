@@ -4,22 +4,41 @@ using UnityEngine;
 
 public class GenerateConnections : MonoBehaviour
 {
-    public GameObject[] nodes;
-    public GameObject[] platforms;
+    public List<GameObject> nodes;
+    public List<GameObject> platforms;
     public bool generateNodes;
     public bool generateConnections;
     public LayerMask UIMask;
 
     private void Awake()
     {
+        platforms = new List<GameObject>();
+        nodes = new List<GameObject>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.tag.Equals("Platform") || child.tag.Equals("Ground"))
+                platforms.Add(child);
+
+        }
         if (generateNodes)
         {
-            platforms = GameObject.FindGameObjectsWithTag("Platform");
             GenerateNodes();
         }
         if (generateConnections)
         {
-            nodes = GameObject.FindGameObjectsWithTag("Node");
+            foreach(var p in platforms)
+            {
+                for (int i = 0; i < p.transform.childCount; i++)
+                {
+                    GameObject child = p.transform.GetChild(i).gameObject;
+                    if (child.tag.Equals("Node"))
+                    {
+
+                        nodes.Add(child);
+                    }
+                }
+            }
             GenerateGeneralConnections();
         }
     }
@@ -47,6 +66,7 @@ public class GenerateConnections : MonoBehaviour
 
     }
 
+    // Generate nodes for every platform in the parent and internal connections for them.
     void GenerateNodes()
     {
         foreach(var obj in platforms)
@@ -74,6 +94,8 @@ public class GenerateConnections : MonoBehaviour
         }
     }
 
+    // Generate connections between nodes on different platforms. Only the edge nodes can generate connections to merge platforms or create jump nodes.
+    // Jump nodes are created from the top node, down to a bottom node and thus any node could become a jump node but only edge nodes can be landing nodes.
     void GenerateGeneralConnections()
     {
         List<GameObject> leftEdgeNodes = new List<GameObject>();
