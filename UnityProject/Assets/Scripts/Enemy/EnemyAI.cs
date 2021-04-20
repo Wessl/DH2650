@@ -16,7 +16,13 @@ public class EnemyAI : MonoBehaviour
 
     public Enemy enemyMovement;
 
-    public float minDist, maxDist;
+    public float minDist, maxDist, jumpDist, engagementRange;
+
+    public LayerMask UIMask;
+
+    public bool engaged;
+
+    public LayerMask playerAndGround;
 
     private void Awake()
     {
@@ -25,16 +31,33 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        engaged = true;
         FindAllNodes();
         if (CompareTag("NewGroundEnemy"))
-            InvokeRepeating("UpdatePath", 0f, .5f);
+            InvokeRepeating("UpdatePathNew", 0f, .5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CompareTag("NewGroundEnemy"))
+        if(CompareTag("NewGroundEnemy") && engaged)
             MoveTowardsPath();
+        //ScanForPlayer();
+    }
+
+    void ScanForPlayer()
+    {
+        float dist = (target.transform.position - transform.position).sqrMagnitude;
+        if (dist < engagementRange)
+        {
+            Vector2 dir = (target.transform.position - transform.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,Mathf.Sqrt(dist),playerAndGround);
+
+            if(hit.collider.CompareTag("Player"))
+                engaged = true;
+        }
+        else
+            engaged = false;
     }
 
     public void FindAllNodes()
@@ -42,13 +65,18 @@ public class EnemyAI : MonoBehaviour
         allNodes = FindObjectsOfType<Node>().ToList();
     }
 
-    Node GetClosestNodeTo(Transform t)
+    Node GetClosestNodeTo(Transform t, bool target)
     {
+        Collider2D[] hitCollider = Physics2D.OverlapCircleAll(t.position, maxDist, UIMask);
+        
         Node cNode = null;
 
         float minDistance = Mathf.Infinity;
-        foreach (Node node in allNodes)
+        foreach (Collider2D hit in hitCollider)
         {
+            if (!hit.CompareTag("Node"))
+                continue;
+            Node node = hit.GetComponent<Node>();
             float dist = (node.transform.position - t.position).sqrMagnitude;
             if (dist < minDistance)
             {
@@ -58,19 +86,76 @@ public class EnemyAI : MonoBehaviour
         }
 
         return cNode;
-    } 
+    }
 
-    // This only uses BFS basically, so it's not optimized at all. Will fix later.
-    void UpdatePath()
+    void UpdatePathNew()
     {
-        if ((GetClosestNodeTo(target).Equals(targetNode) && GetClosestNodeTo(transform).Equals(closestNode) && Path.Count>0)  || !enemyMovement.grounded)
+        /*
+        if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
+        if (!enemyMovement.grounded || !engaged)
         {
             return;
         }
         Path.Clear();
 
-        targetNode = GetClosestNodeTo(target);
-        closestNode = GetClosestNodeTo(transform);
+        targetNode = GetClosestNodeTo(target, true);
+        closestNode = GetClosestNodeTo(transform, false);
+
+        List<Node> unvisited = new List<Node>();
+        HashSet<Node> visited = new HashSet<Node>();
+        unvisited.Add(closestNode);
+
+        while(unvisited.Count > 0)
+        {
+            Node currentNode = unvisited[0];
+            for(int i=1;i<unvisited.Count;i++)
+            {
+                if (unvisited[i].fCost < currentNode.fCost ||
+                    (unvisited[i].fCost == currentNode.fCost && unvisited[i].fCost == currentNode.fCost && unvisited[i].hCost < currentNode.hCost))
+                {
+                    currentNode = unvisited[i];
+                }
+            }
+            unvisited.Remove(currentNode);
+            visited.Add(currentNode);
+            if (currentNode.Equals(targetNode))
+            {
+                MakePath(closestNode, targetNode);
+                return;
+            }
+
+            foreach(Node n in currentNode.connectedTo)
+            {
+                if (visited.Contains(n)) 
+                    continue;
+
+                //float gCost = (n.transform.position - closestNode.transform.position).sqrMagnitude
+                float gCost = currentNode.gCost + Vector2.Distance(currentNode.transform.position, n.transform.position);
+                if(gCost < n.gCost || !unvisited.Contains(n))
+                {
+                    n.gCost = gCost;
+                    n.hCost = Vector2.Distance(n.transform.position, targetNode.transform.position);
+                    n.parent = currentNode;
+
+                    if (!unvisited.Contains(n))
+                        unvisited.Add(n);
+                }
+            }
+        }
+    }
+
+
+        // This only uses BFS basically, so it's not optimized at all. Will fix later.
+        void UpdatePath()
+    {
+        if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count>0)  || !enemyMovement.grounded)
+        {
+            return;
+        }
+        Path.Clear();
+
+        targetNode = GetClosestNodeTo(target, true);
+        closestNode = GetClosestNodeTo(transform, false);
         if(targetNode == null || closestNode == null)
         {
             Debug.Log("Node is missing");
@@ -87,7 +172,7 @@ public class EnemyAI : MonoBehaviour
             Node n = unvisitedNodes.Dequeue();
             if(n.Equals(targetNode))
             {
-                MakePath(nodeAndParent);
+                //MakePath(nodeAndParent);
                 return;
             }
 
@@ -103,22 +188,16 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void MakePath(Dictionary<Node, Node> nodeAndP)
+    void MakePath(Node start, Node end)
     {
-        if (nodeAndP.Count > 0)
+        Path.Clear();
+        Node currentNode = end;
+        while(!currentNode.Equals(start))
         {
-            if(nodeAndP.ContainsKey(targetNode) && nodeAndP.ContainsValue(closestNode))
-            {
-                Node currNode = targetNode;
-                while(currNode != closestNode)
-                {
-                    Path.Add(currNode);
-                    currNode = nodeAndP[currNode];
-                }
-                Path.Add(closestNode);
-                Path.Reverse();
-            }
+            Path.Add(currentNode);
+            currentNode = currentNode.parent;
         }
+        Path.Reverse();
     }
 
     void MoveTowardsPath() {
@@ -131,11 +210,12 @@ public class EnemyAI : MonoBehaviour
             
         }  else
         {
-            currentNode = targetNode;
+            return;
         }
+        float xMag = Mathf.Abs(currentNode.transform.position.x - transform.position.x);
+        float nodeXMag = Mathf.Abs(currentNode.transform.position.x - currentNode.parent.transform.position.x);
+        float yDiff = currentNode.transform.position.y - transform.position.y;
         
-        var xMag = Mathf.Abs(currentNode.transform.position.x - transform.position.x);
-        var yDiff = currentNode.transform.position.y - transform.position.y;
         if (currentNode && xMag >= minDist && yDiff <= maxDist)
         {
             if (transform.position.x > currentNode.transform.position.x)
@@ -146,9 +226,20 @@ public class EnemyAI : MonoBehaviour
             {
                 enemyMovement.xMovement = 1;
             }
-            if (transform.position.y < currentNode.transform.position.y && (yDiff > minDist))
+            print(nodeXMag);
+            print(xMag);
+            if ((transform.position.y < currentNode.transform.position.y && (yDiff > minDist)))
             {
-                enemyMovement.jump = true;
+                float jump = yDiff * 5;
+                if (jump > 20)
+                    jump = 20;
+                enemyMovement.jumpSpeed = jump;
+            } else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
+            {
+                float jump = nodeXMag * 3 + yDiff * 5;
+                if (jump > 20)
+                    jump = 20;
+                enemyMovement.jumpSpeed = jump;
             }
         }
         else if(enemyMovement.grounded)
@@ -164,5 +255,16 @@ public class EnemyAI : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(Path!=null)
+        {
+            foreach(var n in Path)
+            {
+                Gizmos.DrawIcon(n.transform.position, "blendSampler", true, Color.red);
+            }
+        }
     }
 }
