@@ -84,6 +84,10 @@ public class EnemyAI : MonoBehaviour
                 cNode = node;
             }
         }
+        // If there is no nodes hit, assign default node as cNode. Otherwise Nullreference later. Occurs e.g. if player falls off platform and gets too far away
+        if (hitCollider.Length == 0)
+        {
+            cNode = allNodes[0];
 
         return cNode;
     }
