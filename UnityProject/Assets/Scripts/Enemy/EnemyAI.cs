@@ -88,6 +88,7 @@ public class EnemyAI : MonoBehaviour
         if (hitCollider.Length == 0)
         {
             cNode = allNodes[0];
+        }
 
         return cNode;
     }
@@ -234,13 +235,13 @@ public class EnemyAI : MonoBehaviour
             print(xMag);
             if ((transform.position.y < currentNode.transform.position.y && (yDiff > minDist)))
             {
-                float jump = yDiff * 5;
+                float jump = yDiff * 10;
                 if (jump > 20)
                     jump = 20;
                 enemyMovement.jumpSpeed = jump;
             } else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
             {
-                float jump = nodeXMag * 3 + yDiff * 5;
+                float jump = nodeXMag * 5 + yDiff * 10;
                 if (jump > 20)
                     jump = 20;
                 enemyMovement.jumpSpeed = jump;
