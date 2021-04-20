@@ -344,6 +344,8 @@ MonoBehaviour:
   - {fileID: 799120236}
   - {fileID: 555253150}
   - {fileID: 1385119973}
+  gCost: 0
+  hCost: 0
 --- !u!1 &99585795
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +738,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 2075518024}
+  gCost: 0
+  hCost: 0
 --- !u!1 &189258094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,6 +1041,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1385119973}
   - {fileID: 1231116776}
+  gCost: 0
+  hCost: 0
 --- !u!1 &252330790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,6 +1571,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1973761255}
   - {fileID: 1274132890}
+  gCost: 0
+  hCost: 0
 --- !u!4 &362629008
 Transform:
   m_ObjectHideFlags: 0
@@ -1628,6 +1636,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 989385286}
   - {fileID: 1990929823}
+  gCost: 0
+  hCost: 0
 --- !u!4 &374391023
 Transform:
   m_ObjectHideFlags: 0
@@ -2505,6 +2515,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 555253150}
   - {fileID: 1231116776}
+  gCost: 0
+  hCost: 0
 --- !u!4 &536336132
 Transform:
   m_ObjectHideFlags: 0
@@ -2784,6 +2796,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 80048529}
   - {fileID: 536336131}
+  gCost: 0
+  hCost: 0
 --- !u!4 &555253151
 Transform:
   m_ObjectHideFlags: 0
@@ -2874,6 +2888,8 @@ MonoBehaviour:
   - {fileID: 721491371}
   - {fileID: 1385119973}
   - {fileID: 2075518024}
+  gCost: 0
+  hCost: 0
 --- !u!1 &614126278
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,6 +3380,8 @@ MonoBehaviour:
   - {fileID: 1973761255}
   - {fileID: 1990929823}
   - {fileID: 6997853425716728722}
+  gCost: 0
+  hCost: 0
 --- !u!4 &699443464
 Transform:
   m_ObjectHideFlags: 0
@@ -3550,6 +3568,8 @@ MonoBehaviour:
   - {fileID: 583154054}
   - {fileID: 1709600287}
   - {fileID: 1511701851}
+  gCost: 0
+  hCost: 0
 --- !u!1 &792153275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3882,6 +3902,8 @@ MonoBehaviour:
   - {fileID: 1371044180}
   - {fileID: 80048529}
   - {fileID: 1709600287}
+  gCost: 0
+  hCost: 0
 --- !u!1 &827250545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,6 +3936,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 989385286}
+  gCost: 0
+  hCost: 0
 --- !u!4 &827250547
 Transform:
   m_ObjectHideFlags: 0
@@ -4293,6 +4317,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 827250546}
   - {fileID: 374391022}
+  gCost: 0
+  hCost: 0
 --- !u!4 &989385287
 Transform:
   m_ObjectHideFlags: 0
@@ -5670,6 +5696,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 536336131}
   - {fileID: 237355431}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1238208144
 GameObject:
   m_ObjectHideFlags: 0
@@ -6065,6 +6093,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 362629007}
+  gCost: 0
+  hCost: 0
 --- !u!58 &1274132891
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6698,6 +6728,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1735226017}
   - {fileID: 1371044180}
+  gCost: 0
+  hCost: 0
 --- !u!4 &1336001853
 Transform:
   m_ObjectHideFlags: 0
@@ -7071,6 +7103,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1336001852}
   - {fileID: 799120236}
+  gCost: 0
+  hCost: 0
 --- !u!4 &1371044181
 Transform:
   m_ObjectHideFlags: 0
@@ -7132,6 +7166,8 @@ MonoBehaviour:
   - {fileID: 237355431}
   - {fileID: 80048529}
   - {fileID: 583154054}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1389766237
 GameObject:
   m_ObjectHideFlags: 0
@@ -7545,6 +7581,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1709600287}
   - {fileID: 1735226017}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1454287072
 GameObject:
   m_ObjectHideFlags: 0
@@ -7938,6 +7976,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1772468036}
   - {fileID: 721491371}
+  gCost: 0
+  hCost: 0
 --- !u!4 &1513662796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5480225080227567973, guid: d7f5dd543bc285e469d5b2a39c77eac3, type: 3}
@@ -8871,6 +8911,8 @@ MonoBehaviour:
   - {fileID: 1437182697}
   - {fileID: 799120236}
   - {fileID: 721491371}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1712624119
 GameObject:
   m_ObjectHideFlags: 0
@@ -9028,6 +9070,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1336001852}
   - {fileID: 1437182697}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1735680913
 GameObject:
   m_ObjectHideFlags: 0
@@ -9291,6 +9335,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 1511701851}
+  gCost: 0
+  hCost: 0
 --- !u!1 &1848855894
 GameObject:
   m_ObjectHideFlags: 0
@@ -10042,6 +10088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1952053171}
   - component: {fileID: 1952053170}
+  - component: {fileID: 1952053172}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -10063,7 +10110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: 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
+    dataString: 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
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -10150,6 +10197,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1952053172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952053169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: 2147483647
 --- !u!1 &1964739628
 GameObject:
   m_ObjectHideFlags: 0
@@ -10292,6 +10367,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 699443463}
   - {fileID: 362629007}
+  gCost: 0
+  hCost: 0
 --- !u!4 &1973761256
 Transform:
   m_ObjectHideFlags: 0
@@ -10369,6 +10446,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 374391022}
   - {fileID: 699443463}
+  gCost: 0
+  hCost: 0
 --- !u!58 &1990929824
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10876,6 +10955,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 139866944}
   - {fileID: 583154054}
+  gCost: 0
+  hCost: 0
 --- !u!1 &2116683714
 GameObject:
   m_ObjectHideFlags: 0
@@ -11309,6 +11390,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6997853424980682160}
   - {fileID: 6997853425716728722}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853424970852159
 GameObject:
   m_ObjectHideFlags: 0
@@ -11342,6 +11425,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6997853425710935256}
   - {fileID: 6997853424970852158}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853424980682161
 GameObject:
   m_ObjectHideFlags: 0
@@ -11435,6 +11520,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6997853425614202978}
   - {fileID: 6997853425716728722}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425077936395
 GameObject:
   m_ObjectHideFlags: 0
@@ -11467,6 +11554,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 6997853425554041580}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425142455873
 GameObject:
   m_ObjectHideFlags: 0
@@ -11560,6 +11649,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6997853425614202978}
   - {fileID: 6997853425142455872}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425554041581
 GameObject:
   m_ObjectHideFlags: 0
@@ -11623,6 +11714,8 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6997853425077936394}
   - {fileID: 6997853425554041580}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425614202979
 GameObject:
   m_ObjectHideFlags: 0
@@ -11655,6 +11748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 6997853424980682160}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425710935257
 GameObject:
   m_ObjectHideFlags: 0
@@ -11719,6 +11814,8 @@ MonoBehaviour:
   - {fileID: 6997853424970852158}
   - {fileID: 699443463}
   - {fileID: 6997853425077936394}
+  gCost: 0
+  hCost: 0
 --- !u!1 &6997853425716728723
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,12 +65,6 @@ public class Enemy : MonoBehaviour
         FixDirection();
     }
 
-    void UpdatePath()
-    {
-        if(seeker.IsDone())
-            seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
-    }
-
     void IsGrounded()
     {
         Collider2D ground = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
@@ -89,9 +83,9 @@ public class Enemy : MonoBehaviour
 
     void Jump()
     {
-        if(grounded && jump)
+        if(grounded && jumpSpeed>0)
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
-        jump = false;
+        jumpSpeed = 0;
     }
 
     void FixDirection()
@@ -100,15 +94,6 @@ public class Enemy : MonoBehaviour
                     (rb.velocity.x < 0 && transform.localScale.x > 0))
         {
             transform.localScale *= new Vector2(-1, 1);
-        }
-    }
-
-    void PathComplete(Path p)
-    {
-        if (!p.error)
-        {
-            path = p;
-            currentWaypoint = 0;
         }
     }
 
@@ -180,6 +165,21 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         if(CompareTag("GroundEnemy"))
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    void UpdatePath()
+    {
+        if (seeker.IsDone())
+            seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
+    }
+
+    void PathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
+        }
     }
 
     void OldPathfindingSetup()
