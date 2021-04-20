@@ -315,6 +315,7 @@
             </e>
           </e>
         </e>
+        <e p="GenerateConnections.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
         </e>
