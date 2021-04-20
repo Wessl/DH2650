@@ -316,6 +316,7 @@
           </e>
         </e>
         <e p="GenerateConnections.cs" t="Include" />
+        <e p="GenericEnemyJump.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
         </e>
@@ -334,7 +335,7 @@
             <e p="AttackOneBehaviour.cs" t="Include" />
             <e p="AttackThreeBehaviour.cs" t="Include" />
             <e p="AttackTwoBehaviour.cs" t="Include" />
-            <e p="GenericEnemyAnimationBehaviour.cs" t="Include" />
+            <e p="GenericEnemyAttackAnimationBehaviour.cs" t="Include" />
             <e p="HoldOneBehaviour.cs" t="Include" />
             <e p="HoldTwoBehaviour.cs" t="Include" />
             <e p="IdleBehaviour.cs" t="Include" />

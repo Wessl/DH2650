@@ -170,6 +170,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1082531024}
   - {fileID: 761479430}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &6923925
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -233,6 +236,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 856406189}
   - {fileID: 798757801}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &15461245
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -297,6 +303,9 @@ MonoBehaviour:
   - {fileID: 660131258}
   - {fileID: 2046135155}
   - {fileID: 761479430}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &78112544
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -360,6 +369,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1257263289}
   - {fileID: 1961159433}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &80350126
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -439,6 +451,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 341892709}
   - {fileID: 265914562}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!1 &96665892
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +501,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1326725364}
   - {fileID: 761479430}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &96665895
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -549,6 +567,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1941397789}
   - {fileID: 419323295}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &140425567
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -622,7 +643,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181604836}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.49, y: 6.31, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1967890306}
@@ -840,6 +861,9 @@ MonoBehaviour:
   - {fileID: 754899461}
   - {fileID: 2108279283}
   - {fileID: 80777843}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &265914563
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -933,6 +957,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1731845511}
   - {fileID: 80777843}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &341892710
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1139,6 +1166,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 140425566}
   - {fileID: 2119134769}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &419323296
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1202,6 +1232,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1331607438}
   - {fileID: 508685304}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &467784424
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1400,6 +1433,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 467784423}
   - {fileID: 1007334419}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &508685305
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1463,6 +1499,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 822956886}
   - {fileID: 1007334419}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &511384510
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1634,6 +1673,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1595044215}
   - {fileID: 1485431768}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &594244426
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1696,6 +1738,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 1034578759}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &624103625
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1759,6 +1804,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 78112543}
   - {fileID: 984345513}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &660131259
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2001,6 +2049,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 265914562}
   - {fileID: 1380924488}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &754899462
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2065,6 +2116,9 @@ MonoBehaviour:
   - {fileID: 96665894}
   - {fileID: 6923924}
   - {fileID: 78112543}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &761479431
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2216,6 +2270,9 @@ MonoBehaviour:
   - {fileID: 15461244}
   - {fileID: 1331607438}
   - {fileID: 1941397789}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &798757802
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2309,6 +2366,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1972502373}
   - {fileID: 1225548745}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &815409273
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2372,6 +2432,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 511384509}
   - {fileID: 1579377951}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &822956887
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2502,6 +2565,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1131487489}
   - {fileID: 15461244}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &856406190
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2791,6 +2857,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1370258209}
   - {fileID: 660131258}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &984345514
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2854,6 +2923,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 508685304}
   - {fileID: 511384509}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1007334420
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2917,6 +2989,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1972502373}
   - {fileID: 624103624}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1034578760
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2979,6 +3054,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 1731845511}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1057365018
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3042,6 +3120,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 6923924}
   - {fileID: 1599198203}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1082531025
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3220,6 +3301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 856406189}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1131487490
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3283,6 +3367,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1380924488}
   - {fileID: 815409272}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1225548746
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3345,6 +3432,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 80350125}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1257263290
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3408,6 +3498,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1518086223}
   - {fileID: 1806344493}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1266788893
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3471,6 +3564,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1806344493}
   - {fileID: 96665894}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1326725365
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3535,6 +3631,9 @@ MonoBehaviour:
   - {fileID: 467784423}
   - {fileID: 798757801}
   - {fileID: 1732482338}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1331607439
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3598,6 +3697,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1485431768}
   - {fileID: 984345513}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1370258210
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3774,6 +3876,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 754899461}
   - {fileID: 1225548745}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1380924489
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4133,6 +4238,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 1599198203}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1471885294
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4196,6 +4304,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 594244425}
   - {fileID: 1370258209}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1485431769
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4372,6 +4483,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1266788892}
   - {fileID: 1595044215}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1518086224
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4435,6 +4549,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1961159433}
   - {fileID: 1599198203}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1529522498
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4498,6 +4615,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 822956886}
   - {fileID: 2108279283}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1579377952
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4561,6 +4681,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1518086223}
   - {fileID: 594244425}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1595044216
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4625,6 +4748,9 @@ MonoBehaviour:
   - {fileID: 1082531024}
   - {fileID: 1471885293}
   - {fileID: 1529522497}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1599198204
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4956,6 +5082,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1057365017}
   - {fileID: 341892709}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1731845512
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5019,6 +5148,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 2046135155}
   - {fileID: 1331607438}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1732482339
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5195,6 +5327,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1326725364}
   - {fileID: 1266788892}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1806344494
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5288,6 +5423,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 140425566}
   - {fileID: 798757801}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1941397790
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5351,6 +5489,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 80350125}
   - {fileID: 1529522497}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1961159434
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5521,6 +5662,15 @@ MonoBehaviour:
   enemyMovement: {fileID: 1967890305}
   minDist: 1.5
   maxDist: 20
+  jumpDist: 10
+  engagementRange: 0
+  UIMask:
+    serializedVersion: 2
+    m_Bits: 32
+  engaged: 0
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1967890305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5536,6 +5686,7 @@ MonoBehaviour:
   moveSpeed: 10
   lerp: 5
   jumpSpeed: 20
+  jumpTimeDelay: 0.2
   bloodSplat: {fileID: 0}
   boneSplat: {fileID: 0}
   deathPSInstancePoint: {fileID: 0}
@@ -5643,6 +5794,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 815409272}
   - {fileID: 1034578759}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &1972502374
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5736,6 +5890,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 78112543}
   - {fileID: 1732482338}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &2046135156
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5799,6 +5956,9 @@ MonoBehaviour:
   connectedTo:
   - {fileID: 1579377951}
   - {fileID: 265914562}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &2108279284
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5861,6 +6021,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedTo:
   - {fileID: 419323295}
+  gCost: 0
+  hCost: 0
+  parent: {fileID: 0}
 --- !u!58 &2119134770
 CircleCollider2D:
   m_ObjectHideFlags: 0

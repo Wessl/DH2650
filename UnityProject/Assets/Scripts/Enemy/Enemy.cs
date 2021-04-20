@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private Material spriteMat;
-    public float moveSpeed, lerp, jumpSpeed;
+    public float moveSpeed, lerp, jumpSpeed, jumpTimeDelay;
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
     public Transform deathPSInstancePoint;
@@ -83,9 +83,29 @@ public class Enemy : MonoBehaviour
 
     void Jump()
     {
-        if(grounded && jumpSpeed>0)
-            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        if (grounded && jumpSpeed > 0)
+        {
+            if (jumpTimeDelay > 0)
+            {
+                StartCoroutine(DelayJump(jumpSpeed));
+            }
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+            }
+
+            if (animator != null)
+            {
+                animator.SetTrigger("jump");
+            }
+        }
         jumpSpeed = 0;
+    }
+
+    IEnumerator DelayJump(float jumpSpeed)
+    {
+        yield return new WaitForSeconds(jumpTimeDelay);
+        rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
     }
 
     void FixDirection()
