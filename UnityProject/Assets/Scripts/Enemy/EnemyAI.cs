@@ -53,11 +53,13 @@ public class EnemyAI : MonoBehaviour
             Vector2 dir = (target.transform.position - transform.position).normalized;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,Mathf.Sqrt(dist),playerAndGround);
 
-            if(hit.collider.CompareTag("Player"))
+            if (hit.collider.CompareTag("Player"))
+            {
                 engaged = true;
+                return;
+            }
         }
-        else
-            engaged = false;
+        engaged = false;
     }
 
     public void FindAllNodes()
