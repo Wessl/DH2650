@@ -97,51 +97,58 @@ public class EnemyAI : MonoBehaviour
     {
         /*
         if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
-        if (!enemyMovement.grounded || !engaged)
+        if (!enemyMovement.grounded || !engaged)        // Don't update the path if the seeker isn't grounded or not engaged
         {
             return;
         }
         Path.Clear();
 
-        targetNode = GetClosestNodeTo(target, true);
-        closestNode = GetClosestNodeTo(transform, false);
+        targetNode = GetClosestNodeTo(target, true);            // Set the targetNode to the node closest to the target
+        closestNode = GetClosestNodeTo(transform, false);       // Set the closestNode to the node closest to the seeker
 
         List<Node> unvisited = new List<Node>();
         HashSet<Node> visited = new HashSet<Node>();
-        unvisited.Add(closestNode);
+        unvisited.Add(closestNode);     // Start the path-search with just the closest node as root and go from there
 
         while(unvisited.Count > 0)
         {
             Node currentNode = unvisited[0];
-            for(int i=1;i<unvisited.Count;i++)
+            for(int i=1;i<unvisited.Count;i++)      // For first iteration this will be skipped since only root is in
             {
+                // If another univisted node has a lower fCost or equal fCost and lower hCost, then that is our new currentNode (see Node.cs for definition)
                 if (unvisited[i].fCost < currentNode.fCost ||
                     (unvisited[i].fCost == currentNode.fCost && unvisited[i].fCost == currentNode.fCost && unvisited[i].hCost < currentNode.hCost))
                 {
                     currentNode = unvisited[i];
                 }
             }
+            // Remove current node from unvisited and add it to visited
             unvisited.Remove(currentNode);
             visited.Add(currentNode);
+
+            // If current node is the target node then we have our path and can return
             if (currentNode.Equals(targetNode))
             {
                 MakePath(closestNode, targetNode);
                 return;
             }
 
-            foreach(Node n in currentNode.connectedTo)
+            foreach(Node n in currentNode.connectedTo) // Check all the current node's neighbors
             {
-                if (visited.Contains(n)) 
+                if (visited.Contains(n))    // If a neighbor is already visited, skip it
                     continue;
 
                 //float gCost = (n.transform.position - closestNode.transform.position).sqrMagnitude
                 float gCost = currentNode.gCost + Vector2.Distance(currentNode.transform.position, n.transform.position);
+
+                // Update the gCost and hCost of the node if it isn't in unvisited or if it has new lower gCost 
                 if(gCost < n.gCost || !unvisited.Contains(n))
                 {
                     n.gCost = gCost;
                     n.hCost = Vector2.Distance(n.transform.position, targetNode.transform.position);
                     n.parent = currentNode;
 
+                    // If not already in unvisited, add it
                     if (!unvisited.Contains(n))
                         unvisited.Add(n);
                 }
@@ -149,50 +156,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
-        // This only uses BFS basically, so it's not optimized at all. Will fix later.
-        void UpdatePath()
-    {
-        if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count>0)  || !enemyMovement.grounded)
-        {
-            return;
-        }
-        Path.Clear();
-
-        targetNode = GetClosestNodeTo(target, true);
-        closestNode = GetClosestNodeTo(transform, false);
-        if(targetNode == null || closestNode == null)
-        {
-            Debug.Log("Node is missing");
-            return;
-        }
-        HashSet<Node> visitedNodes = new HashSet<Node>();
-        Queue<Node> unvisitedNodes = new Queue<Node>();
-        Dictionary<Node, Node> nodeAndParent = new Dictionary<Node, Node>();
-
-        unvisitedNodes.Enqueue(closestNode);
-
-        while(unvisitedNodes.Count > 0)
-        {
-            Node n = unvisitedNodes.Dequeue();
-            if(n.Equals(targetNode))
-            {
-                //MakePath(nodeAndParent);
-                return;
-            }
-
-            foreach (Node node in n.connectedTo)
-            {
-                if(!visitedNodes.Contains(node))
-                {
-                    visitedNodes.Add(node);
-                    nodeAndParent.Add(node, n);
-                    unvisitedNodes.Enqueue(node);
-                }
-            }
-        }
-    }
-
+    // Create the path by checking the parent of each node until you reach the other end
     void MakePath(Node start, Node end)
     {
         Path.Clear();
@@ -202,9 +166,11 @@ public class EnemyAI : MonoBehaviour
             Path.Add(currentNode);
             currentNode = currentNode.parent;
         }
+        // Path is in reverse so reverse it
         Path.Reverse();
     }
 
+    // Traverse the path
     void MoveTowardsPath() {
         enemyMovement.xMovement = 0;
         enemyMovement.jump = false;
@@ -217,11 +183,14 @@ public class EnemyAI : MonoBehaviour
         {
             return;
         }
+        // Distance between seeker and current node, used to switch the current node before fully reaching it
         float xMag = Mathf.Abs(currentNode.transform.position.x - transform.position.x);
+        // Distance between current node and the previous node, used to delay hoirzontal jumps until the right distance
         float nodeXMag = Mathf.Abs(currentNode.transform.position.x - currentNode.parent.transform.position.x);
+        // Vertical distance between seeker and current node
         float yDiff = currentNode.transform.position.y - transform.position.y;
         
-        if (currentNode && xMag >= minDist && yDiff <= maxDist)
+        if (currentNode && xMag >= minDist && yDiff <= maxDist)     // Move towards node if the horizontal distance to it is big enough
         {
             if (transform.position.x > currentNode.transform.position.x)
             {
@@ -231,15 +200,17 @@ public class EnemyAI : MonoBehaviour
             {
                 enemyMovement.xMovement = 1;
             }
-            print(nodeXMag);
-            print(xMag);
-            if ((transform.position.y < currentNode.transform.position.y && (yDiff > minDist)))
+
+            // Do a jump depending on the vertical distance
+            if (yDiff > minDist)
             {
                 float jump = yDiff * 5;
                 if (jump > 20)
                     jump = 20;
                 enemyMovement.jumpSpeed = jump;
-            } else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
+            }
+            // Do a "horizontal" jump if the seeker is close enough to the edge and the the node isn't below the seeker
+            else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
             {
                 float jump = nodeXMag * 3 + yDiff * 5;
                 if (jump > 20)
@@ -247,7 +218,7 @@ public class EnemyAI : MonoBehaviour
                 enemyMovement.jumpSpeed = jump;
             }
         }
-        else if(enemyMovement.grounded)
+        else if(enemyMovement.grounded)     // If hoirzontal distance is small enough and seeker is grounded, get a new node
         {
             if (Path.Count > 1)
             {
