@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         engaged = true;
-        FindAllNodes();
+        //FindAllNodes();
         if (CompareTag("NewGroundEnemy"))
             InvokeRepeating("UpdatePathNew", 0f, .5f);
     }

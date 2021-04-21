@@ -27,6 +27,7 @@ public class SnakeBoss : MonoBehaviour
     public float maxHealth, weight;
     [SerializeField]
     float health, headSpeed;
+    int skipColliders;
     GameObject Head;
     public GameObject HeadInit;
     CircleCollider2D headCollider;
@@ -124,6 +125,7 @@ public class SnakeBoss : MonoBehaviour
 
     void headAttack(string head)
     {
+        skipColliders = 3;
         headArmature.animation.Play(head, 1);
         headSkeletonAnimation.Play(head);
         headTimer = 0;
@@ -132,6 +134,10 @@ public class SnakeBoss : MonoBehaviour
 
     void tailAttack(string tail)
     {
+        if (tail.Equals("tailUp"))
+            skipColliders = 4;
+        else if (tail.Equals("tailDown"))
+            skipColliders = 3;
         tailArmature.animation.Play(tail, 1);
         tailSkeletonAnimation.Play(tail);
         tailTimer = 0;
@@ -182,21 +188,29 @@ public class SnakeBoss : MonoBehaviour
         if (head)
         {
             trans = transform.Find("HeadSkeletonAnimator");
-        } else
+        } else 
             trans = transform.Find("TailSkeletonAnimator");
-        GetTheKids(trans);
+        int skip = skipColliders;
+        GetTheKids(trans, skip);
     }
 
-    void GetTheKids(Transform trans)
+    void GetTheKids(Transform trans, int skip)
     {
         foreach (Transform child in trans)
         {
-            bool hit = CheckChildCollision(child.position, child.GetComponent<CircleCollider2D>().radius, damage);
-            if (hit)
-                return;
+            if (skip < 1)
+            {
+                bool hit = CheckChildCollision(child.position, child.GetComponent<CircleCollider2D>().radius, damage);
+                if (hit)
+                    return;
+            }
+            else
+            {
+                skip--;
+            }
             if (child.childCount > 0)
             {
-                GetTheKids(child);
+                GetTheKids(child, skip);
             }
         }
     }

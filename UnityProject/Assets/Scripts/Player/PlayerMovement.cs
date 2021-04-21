@@ -24,13 +24,13 @@ public class PlayerMovement : MonoBehaviour
     public int isFacingRight = 1;
     public float mx, my, stickTimer;
     Vector2 worldPos, grappleDirection;
-    bool gettingPulled, pulling;
+    bool gettingPulled, pulling, jump;
     CircleCollider2D tongueCollider;
     Vector2 hitPos, targetPos, tongueRelPos;
     float stickiness = 1;
     public LayerMask playerMask;
     float tongueSize;
-    public float airLerp;
+    public float airLerp, groundLerp, jumpMemory;
     private int tongueMouseKeyCode;
 
     public GameObject achievementPanel;
@@ -67,6 +67,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Forward", true);
         else if (mx * isFacingRight == -1)
             animator.SetBool("Forward", false);
+        if (jumpMemory > 0)
+            jumpMemory -= Time.deltaTime;
+        else if(jump)
+            jump = false;
     }
 
 
@@ -84,10 +88,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (animator.GetBool("LockedMovement"))
                 animator.SetBool("MoveInput", true);
-            else if (grounded)
-                Jump();
-            else if (touchingWall)
-                WallJump();
+            jump = true;
+            jumpMemory = 0.1f;
         }
 
         if (Input.GetMouseButtonDown(tongueMouseKeyCode))
@@ -112,15 +114,27 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pulling || gettingPulled)         // keep on pulling
             Pull();
+        if (jump)
+        {
+            if (grounded)
+                Jump();
+            else if (touchingWall)
+                WallJump();
+        }
         if (!animator.GetBool("LockedMovement") && !gettingPulled)
         {
             
             if (grounded)  // snappy movement if player is grounded 
             {
                 if (!animator.GetBool("Hurt"))
-                    rb.velocity = new Vector2(mx * speed, rb.velocity.y);
+                {
+                    if(mx!=0)
+                        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * groundLerp);
+                    else
+                        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * groundLerp * 2);
+                }
                 else
-                    rb.velocity = new Vector2(mx * speed/2, rb.velocity.y);
+                    rb.velocity = new Vector2(mx * speed / 2, rb.velocity.y);
             }
             else   // more limited control while in the air
                 rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * airLerp);
@@ -135,8 +149,8 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
             else if(rb.velocity.y > jumpForce)  // he shouldn't go too fast tho
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            else if(my > 0)
-                rb.velocity = new Vector2(rb.velocity.x, (float)(rb.velocity.y+0.5));
+            /*else if(my > 0)
+                rb.velocity = new Vector2(rb.velocity.x, (float)(rb.velocity.y+0.5));*/
         }
         else if (touchingCeiling && !gettingPulled)
         {
@@ -155,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckTongueCollision()
     {
-        RaycastHit2D hit = Physics2D.Raycast(tonguePoint.position, (tongue.transform.position - tonguePoint.position).normalized, Vector2.Distance(tonguePoint.position, tongue.transform.position) +tongueSize, playerMask);
+        RaycastHit2D hit = Physics2D.Raycast(tonguePoint.position, (tongue.transform.position - tonguePoint.position).normalized, Vector2.Distance(tonguePoint.position, tongue.transform.position) + tongueSize, playerMask);
 
         if (hit)
         {
@@ -235,7 +249,11 @@ public class PlayerMovement : MonoBehaviour
             case "Ground":
             case "SnakeBoss":
             case "Platform":
+            case "Ceiling":
+            case "GrapplePoint":
                 GetPulled(true);
+                break;
+            case "Nongrappable":
                 break;
             default:
                 print("Maybe do something for layer: " + tag);
@@ -269,14 +287,16 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
 
         rb.velocity = movement;
+        jump = false;
     }
 
     void WallJump()
     {
-        Vector2 movement = new Vector2(-isFacingRight*jumpForce/2, jumpForce);
+        Vector2 movement = new Vector2(-isFacingRight*jumpForce, jumpForce);
 
         //Flip(); //flips character after wall jump (not needed with mouse tracking)
         rb.velocity = movement;
+        jump = false;
     }
 
     void IsGrounded()

@@ -483,8 +483,8 @@ namespace DragonBones
 
         private bool _IsPrefab()
         {
-            return PrefabUtility.GetPrefabParent(_armatureComponent.gameObject) == null
-                && PrefabUtility.GetPrefabObject(_armatureComponent.gameObject) != null;
+            return PrefabUtility.GetCorrespondingObjectFromSource(_armatureComponent.gameObject) == null
+                && PrefabUtility.GetCorrespondingObjectFromSource(_armatureComponent.gameObject) != null;
         }
 
         private List<string> _GetSortingLayerNames()

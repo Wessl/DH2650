@@ -53,24 +53,13 @@ public class TongueScript : MonoBehaviour
         rb.velocity = new Vector2(0, 0);
         relativePos = hitPos - new Vector2(target.transform.position.x, target.transform.position.y);
     }
-
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        dist = Vector2.Distance(playerMV.getMouthPos(), rb.position);
-        if (dist < minLength)
+        if (collision.gameObject.CompareTag("Nongrappable"))
         {
-            print(minLength + "dist " + dist);
             playerMV.RetractTongue();
         }
-
-        col = collision.gameObject;
-        hit = true;
-        rb.velocity = new Vector2(0, 0);
-        print(col.tag);
-        playerMV.TargetHit(col, rb.position, col.tag);
-        relativePos = rb.position - new Vector2(col.transform.position.x, col.transform.position.y);
-    }*/
+    }
     
     // use this to stretch the gameobject between two points, center of player object and tongue end position in this case.
     // there is probably a much easier way of doing this...

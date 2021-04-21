@@ -72,6 +72,8 @@ public class GenerateConnections : MonoBehaviour
         foreach(var obj in platforms)
         {
             float width = obj.transform.localScale.x;
+            if (width < 2)
+                continue;
             Node lastNode = null; ;
             for (int i = 0; i < width / 2; i++) {
                 GameObject node = new GameObject("Node" + i);
