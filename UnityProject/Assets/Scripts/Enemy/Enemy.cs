@@ -27,11 +27,13 @@ public class Enemy : MonoBehaviour
     public LayerMask playerLayer;
 
     public float nextWaypointDist = 3;
-    public float xMovement, groundCheckRadius;
+    public float xMovement, groundCheckRadius, flyingLerp, engagementRange;
     public LayerMask groundLayers;
     public bool jump;
     public Transform groundCheck;
-    public bool grounded;
+    public bool grounded, engaged;
+    public LayerMask playerAndGround;
+
 
     Path path;
     int currentWaypoint;
@@ -58,11 +60,29 @@ public class Enemy : MonoBehaviour
         {
             IsGrounded();
             GroundMovement();
-        } else
+        } else if (engaged)
         {
             OldFollowPath();
         }
         FixDirection();
+        float dist = (target.transform.position - transform.position).sqrMagnitude;
+        if (!engaged && dist <= engagementRange)
+            ScanForPlayer(dist);
+        else if (dist > engagementRange)
+        {
+            rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0,0), Time.deltaTime * flyingLerp);
+            engaged = false;
+        }
+    }
+
+    void ScanForPlayer(float dist)
+    {
+        Vector2 dir = (target.transform.position - transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Sqrt(dist), playerAndGround);
+        if (hit.collider.CompareTag("Player"))
+        {
+            engaged = true;
+        }
     }
 
     void IsGrounded()
@@ -188,7 +208,8 @@ public class Enemy : MonoBehaviour
     }
 
     void UpdatePath()
-    {
+    {   if (!engaged)
+            return;
         if (seeker.IsDone())
             seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
     }
@@ -205,7 +226,7 @@ public class Enemy : MonoBehaviour
     void OldPathfindingSetup()
     {
         seeker = GetComponent<Seeker>();
-        InvokeRepeating("UpdatePath", 0f, .5f);
+        InvokeRepeating("UpdatePath", 0f, .25f);
         attackPointVector = rb.position - (Vector2)attackPoint.position;
         seeker.StartPath(rb.position, (Vector2)target.position + attackPointVector, PathComplete);
     }
@@ -232,7 +253,7 @@ public class Enemy : MonoBehaviour
                 if (!animator.GetBool("PulledEffect"))
                 {
                     if (tag.Equals("FlyingEnemy"))
-                        rb.AddForce(movement * Time.deltaTime);
+                        rb.velocity = Vector2.Lerp(rb.velocity, movement, Time.deltaTime * flyingLerp);
                     else if (tag.Equals("GroundEnemy"))
                         rb.velocity = new Vector2(movement.x, rb.velocity.y);
                 }

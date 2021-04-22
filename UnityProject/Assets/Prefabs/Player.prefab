@@ -185,7 +185,7 @@ MonoBehaviour:
   ceilingLayers:
     serializedVersion: 2
     m_Bits: 128
-  tongueSpeed: 90
+  tongueSpeed: 3000
   pullSpeed: 40
   touchingCeiling: 0
   touchingWall: 0
@@ -201,6 +201,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 29312
   airLerp: 2.5
+  groundLerp: 10
+  jumpMemory: 0
   achievementPanel: {fileID: 0}
 --- !u!95 &2537445189248313659
 Animator:

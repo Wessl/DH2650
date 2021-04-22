@@ -13,7 +13,6 @@ public class Node : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawIcon(transform.position, "blendSampler");
         foreach (var n in connectedTo)
         {
             Gizmos.DrawLine(transform.position, n.transform.position);
