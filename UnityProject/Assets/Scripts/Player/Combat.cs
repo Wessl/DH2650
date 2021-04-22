@@ -54,6 +54,8 @@ public class Combat : MonoBehaviour
     {
         Attack();
         damageTimer += Time.deltaTime;
+        if (transform.position.y < -20)
+            Die();
     }
 
 
@@ -80,7 +82,7 @@ public class Combat : MonoBehaviour
     }
     public void SwitchAttackStatus()
     {
-            canAttack = !canAttack;
+        canAttack = !canAttack;
     }
 
     public bool IsAttacking()
@@ -110,75 +112,77 @@ public class Combat : MonoBehaviour
         float damage = 0;
         Vector2 point = new Vector2(0, 0);
         float radius = 0;
+        Vector2 size = new Vector2(0, 0);
         Vector2 direction = new Vector2(-PlayerMovement.instance.Orientation, 0);
         // play slash FX
         slash.GetComponent<Animation>().Play(slashStr);
+        Vector2 slash1origin = attackOrigin + new Vector2(0.3f, -0.3f);
+        Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f, -0.3f);
 
         // assign damage and attackpoint
-        switch(slashStr)
+        switch (slashStr)
         {
-            case "slash1":
-                damage = attackDamage;
-                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
-                radius = slash1height;
-                break;
             case "altslash1":
                 damage = attackDamage;
-                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
+                point = slash1point - new Vector2(distance / 2, 0);
                 radius = slash1height;
+                size = new Vector2(distance, slash1height);
                 break;
             case "slash2":
                 damage = attackDamage * 1.5f;
-                point = attackPoint.position;
+                point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2range;
+                size = new Vector2(distance, slash2range);
                 break;
+            case "slash1":
             case "normalslash":
-                damage = attackDamage * 1.5f;
-                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
-                radius = slash1height;
-                break;
             case "runningslash":
                 damage = attackDamage * 1.5f;
-                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
+                point = slash1point - new Vector2(distance/2, 0);
                 radius = slash1height;
+                size = new Vector2(distance, slash1height);
                 break;
             case "rotatingslash":
                 damage = attackDamage;
-                point = new Vector3(0.3f, -0.3f, 0) + attackPoint.position;
-                distance = 0;
-                radius = slash1height;
-                direction = new Vector2(1, 1);
+                point = attackPoint.position;
+                radius = slash2range;
                 break;
             default:
                 print("Not a valid slash name");
                 break;
         }
-
+        Collider2D[] hit = null;
         // raycast to start point of attack
-        RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(point, radius, direction, distance, enemyLayer);
-        foreach (RaycastHit2D target in hitCollider)
+        if (slashStr.Equals("rotatingslash"))
+            hit = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
+        else
+            hit = Physics2D.OverlapCapsuleAll(point, size, CapsuleDirection2D.Horizontal, 0, enemyLayer);
+        //RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(point, radius, direction, distance, enemyLayer);
+        foreach (Collider2D target in hit)
         {
-            string tag = target.collider.tag;
+            print("enemy hit");
+            string tag = target.tag;
             Enemy enemy;
             switch (tag)
             {
                 case "GroundEnemy":
-                    enemy = target.collider.GetComponent<Enemy>();
-                    if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
-                        damage *= 2;
-                    enemy.TakeDamage(damage);
-                    break;
                 case "FlyingEnemy":
-                    enemy = target.collider.GetComponent<Enemy>();
+                    enemy = target.GetComponent<Enemy>();
                     if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
                         damage *= 2;
                     enemy.TakeDamage(damage);
                     break;
                 case "SnakeBoss":
-                    if(target.collider.name.Equals("SnakeBoss"))
-                        target.collider.GetComponent<SnakeBoss>().TakeDamage(damage);
+                    if(target.name.Equals("SnakeBoss"))
+                        target.GetComponent<SnakeBoss>().TakeDamage(damage);
                     else
                        GameObject.Find("SnakeBoss").GetComponent<SnakeBoss>().TakeDamage(damage);
+                    break;
+                case "Larva":
+                    target.GetComponent<Larva>().TakeDamage();
+                    break;
+                case "NewGroundEnemy":
+                    target.GetComponent<Enemy>().TakeDamage(damage);
                     break;
                 default:
                     print("Hit a new tag??? " + tag);

@@ -18,6 +18,7 @@ TagManager:
   - Ceiling
   - Nongrappable
   - GrapplePoint
+  - Larva
   layers:
   - Default
   - TransparentFX

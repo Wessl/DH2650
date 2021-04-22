@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3150500985401244819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7277383777850139282}
+  m_Layer: 9
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7277383777850139282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3150500985401244819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.51, y: 0.21, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5480225080227567973}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5480225080227567970
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +45,7 @@ GameObject:
   - component: {fileID: 5480225080227567975}
   - component: {fileID: 5480225080227567972}
   - component: {fileID: 5480225080227567995}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GenericGroundEnemy
   m_TagString: NewGroundEnemy
   m_Icon: {fileID: 0}
@@ -34,7 +64,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5480225080582233268}
-  - {fileID: 5480225080236673393}
+  - {fileID: 7277383777850139282}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53,30 +83,37 @@ MonoBehaviour:
   moveSpeed: 10
   lerp: 5
   jumpSpeed: 20
-  bloodSplat: {fileID: 0}
-  boneSplat: {fileID: 0}
-  deathPSInstancePoint: {fileID: 0}
+  jumpTimeDelay: 0
+  bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
+  boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
+  deathPSInstancePoint: {fileID: 5480225080227567973}
   target: {fileID: 0}
-  attackPoint: {fileID: 5480225080236673393}
+  attackPoint: {fileID: 7277383777850139282}
   slowDownTime: 0
-  maxHealth: 0
-  weight: 0
+  maxHealth: 50
+  weight: 10
   attackRange: 0
   attackDamage: 0
   stopDistance: 0
   health: 0
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   nextWaypointDist: 3
   xMovement: 0
   groundCheckRadius: 0.49
+  flyingLerp: 0
+  engagementRange: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 8320
   jump: 0
   groundCheck: {fileID: 5480225080582233268}
   grounded: 0
+  engaged: 0
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 1152
 --- !u!114 &5480225080227567993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,8 +132,17 @@ MonoBehaviour:
   target: {fileID: 0}
   Path: []
   enemyMovement: {fileID: 5480225080227567992}
-  minDist: 1.5
+  minDist: 1
   maxDist: 20
+  jumpDist: 3
+  engagementRange: 450
+  UIMask:
+    serializedVersion: 2
+    m_Bits: 32
+  engaged: 0
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 1152
 --- !u!212 &5480225080227567974
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -164,7 +210,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e3d8084dd37829841b4b55d73ae85772, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -223,36 +269,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!1 &5480225080236673406
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5480225080236673393}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5480225080236673393
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5480225080236673406}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5480225080227567973}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5480225080582233269
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5480225080582233268}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

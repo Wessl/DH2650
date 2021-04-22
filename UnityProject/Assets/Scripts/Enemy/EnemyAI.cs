@@ -31,7 +31,6 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        engaged = true;
         //FindAllNodes();
         if (CompareTag("NewGroundEnemy"))
             InvokeRepeating("UpdatePathNew", 0f, .5f);
@@ -42,24 +41,24 @@ public class EnemyAI : MonoBehaviour
     {
         if(CompareTag("NewGroundEnemy") && engaged)
             MoveTowardsPath();
-        //ScanForPlayer();
+        float dist = (target.transform.position - transform.position).sqrMagnitude;
+        if (!engaged && dist <= engagementRange)
+            ScanForPlayer(dist);
+        else if (dist > engagementRange)
+        {
+            enemyMovement.xMovement = 0;
+            engaged = false;
+        }
     }
 
-    void ScanForPlayer()
+    void ScanForPlayer(float dist)
     {
-        float dist = (target.transform.position - transform.position).sqrMagnitude;
-        if (dist < engagementRange)
+        Vector2 dir = (target.transform.position - transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,Mathf.Sqrt(dist),playerAndGround);
+        if (hit.collider.CompareTag("Player"))
         {
-            Vector2 dir = (target.transform.position - transform.position).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,Mathf.Sqrt(dist),playerAndGround);
-
-            if (hit.collider.CompareTag("Player"))
-            {
-                engaged = true;
-                return;
-            }
+            engaged = true;
         }
-        engaged = false;
     }
 
     public void FindAllNodes()
@@ -97,9 +96,11 @@ public class EnemyAI : MonoBehaviour
 
     void UpdatePathNew()
     {
+        if (!engaged)
+            return;
         /*
         if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
-        if (!enemyMovement.grounded || !engaged)        // Don't update the path if the seeker isn't grounded or not engaged
+        if (GetClosestNodeTo(transform, false).Equals(closestNode) && !enemyMovement.grounded)        // Don't update the path if the seeker isn't grounded or not engaged
         {
             return;
         }
@@ -204,7 +205,7 @@ public class EnemyAI : MonoBehaviour
             }
 
             // Do a jump depending on the vertical distance
-            if (yDiff > minDist)
+            if (yDiff > minDist && xMag>=1.515f)
             {
                 float jump = yDiff * 5;
                 if (jump > 20)

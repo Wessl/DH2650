@@ -218,7 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 400
+  moveSpeed: 15
+  lerp: 0
+  jumpSpeed: 0
+  jumpTimeDelay: 0
   bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
   boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
   deathPSInstancePoint: {fileID: 1291563075585168926}
@@ -235,6 +238,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   nextWaypointDist: 3
+  xMovement: 0
+  groundCheckRadius: 0
+  flyingLerp: 5
+  engagementRange: 450
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  jump: 0
+  groundCheck: {fileID: 0}
+  grounded: 0
+  engaged: 0
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 1152
 --- !u!114 &7034682660627168916
 MonoBehaviour:
   m_ObjectHideFlags: 0

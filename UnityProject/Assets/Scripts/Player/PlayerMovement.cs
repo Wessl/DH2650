@@ -7,14 +7,14 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     public Rigidbody2D rb, targetRB;
     public float jumpForce = 20f;
-    public Transform groundCheck, wallCheck, ceilingCheck, tonguePoint;
+    public Transform groundCheck, wallCheck, ceilingCheck, tonguePoint, backWallCheck;
     public float speed, groundCheckRadius, wallCheckRadius, ceilingCheckRadius, wallSlideSpeed;
     public Animator animator;
    
     public LayerMask groundLayers, ceilingLayers;
     public float tongueSpeed = 50;
     public float pullSpeed = 40;
-    public bool touchingCeiling, touchingWall, grounded;
+    public bool touchingCeiling, touchingWall, grounded, backTouchingWall;
 
     public GameObject tongueInit;
     GameObject tongue, target;
@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     float tongueSize;
     public float airLerp, groundLerp, jumpMemory;
     private int tongueMouseKeyCode;
+    public float dashTime, dashSpeed;
+    float dashTimer;
 
     public GameObject achievementPanel;
 
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     {
         IsGrounded();
         IsTouchingWall();
+        IsBackTouchingWall();
         IsTouchingCeiling();
         CheckInput();
         if(tongue != null && !pulling && !gettingPulled)
@@ -118,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (grounded)
                 Jump();
-            else if (touchingWall)
+            else if (touchingWall || backTouchingWall)
                 WallJump();
         }
         if (!animator.GetBool("LockedMovement") && !gettingPulled)
@@ -143,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
-        if (touchingWall && !grounded)
+        if ((touchingWall || backTouchingWall) && !grounded)
         {   // frog can wall run for a short time with enough momentum, otherwise he slides down wall
             if (rb.velocity.y < -wallSlideSpeed && my >= 0)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
@@ -292,7 +295,11 @@ public class PlayerMovement : MonoBehaviour
 
     void WallJump()
     {
-        Vector2 movement = new Vector2(-isFacingRight*jumpForce, jumpForce);
+        Vector2 movement = new Vector2(0, 0);
+        if(touchingWall)
+            movement = new Vector2(-isFacingRight*jumpForce, jumpForce);
+        else
+            movement = new Vector2(isFacingRight * jumpForce, jumpForce);
 
         //Flip(); //flips character after wall jump (not needed with mouse tracking)
         rb.velocity = movement;
@@ -312,12 +319,22 @@ public class PlayerMovement : MonoBehaviour
 
     void IsTouchingWall()
     {
-        Collider2D wallTouch = Physics2D.OverlapCapsule(wallCheck.position, new Vector2(1, 1.5f), CapsuleDirection2D.Vertical, 0, ceilingLayers);
+        Collider2D wallTouch = Physics2D.OverlapCapsule(wallCheck.position, new Vector2(0.5f, 1.5f), CapsuleDirection2D.Vertical, 0, ceilingLayers);
         if (wallTouch != null)
             touchingWall = true;
         else
             touchingWall = false;
     }
+
+    void IsBackTouchingWall()
+    {
+        Collider2D wallTouch = Physics2D.OverlapCapsule(backWallCheck.position, new Vector2(0.5f, 1.5f), CapsuleDirection2D.Vertical, 0, ceilingLayers);
+        if (wallTouch != null)
+            backTouchingWall = true;
+        else
+            backTouchingWall = false;
+    }
+
 
     void IsTouchingCeiling()
     {
@@ -325,7 +342,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (ceilingTouch != null)
         {
-            print(ceilingTouch.tag);
             touchingCeiling = true;
             animator.speed = Mathf.Abs(rb.velocity.x)/speed;
         }
@@ -347,8 +363,6 @@ public class PlayerMovement : MonoBehaviour
         else if (isFacingRight==-1 && mx > 0)
             Flip();
         */
-        if (touchingWall && !grounded)
-            return;
         Vector2 direction = worldPos - rb.position;
         if (direction.x > 0 && isFacingRight == -1)
             Flip();
@@ -392,7 +406,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 
-        Gizmos.DrawWireCube(wallCheck.position, new Vector2(1, 1.5f));
+        Gizmos.DrawWireCube(wallCheck.position, new Vector2(0.5f, 1.5f));
 
         Gizmos.DrawWireSphere(ceilingCheck.position, ceilingCheckRadius);
 

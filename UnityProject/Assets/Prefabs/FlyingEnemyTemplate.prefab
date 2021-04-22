@@ -129,7 +129,7 @@ Animator:
   m_GameObject: {fileID: 3114346997879521594}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 10dc9ff5aff85314c8ae1d0d20f0046c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26e56ba421e49734292a86032a120a60, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -150,14 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 400
+  moveSpeed: 15
+  lerp: 0
+  jumpSpeed: 0
+  jumpTimeDelay: 0
   bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
   boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
   deathPSInstancePoint: {fileID: 3114346997794106345}
-  target: {fileID: 0}
+  target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
   attackPoint: {fileID: 3114346999529112712}
   slowDownTime: 0
-  maxHealth: 1000
+  maxHealth: 50
   weight: 70
   attackRange: 0.5
   attackDamage: 50
@@ -165,8 +168,17 @@ MonoBehaviour:
   health: 0
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   nextWaypointDist: 3
+  xMovement: 0
+  groundCheckRadius: 0
+  flyingLerp: 5
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  jump: 0
+  groundCheck: {fileID: 0}
+  grounded: 0
 --- !u!114 &3114346997879521541
 MonoBehaviour:
   m_ObjectHideFlags: 0
