@@ -9,6 +9,7 @@ public class GameMenu : MonoBehaviour
 {
     private Combat playerCombatScriptRef;
     private PlayerMovement playerMovementScriptRef;
+    public GameObject areYouSureYouWantToQuitPanel;
     public GameObject optionsPanel;
     public Text actualLeftMouseAction;
     public Text actualRightMouseAction;
@@ -58,6 +59,32 @@ public class GameMenu : MonoBehaviour
     public void DeathRespawnButtonClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ExitGame()
+    {
+        areYouSureYouWantToQuitPanel.SetActive(true);
+    }
+
+    public void ExitGameYes()
+    {
+        Application.Quit();
+    }
+
+    public void ExitGameNo()
+    {
+        areYouSureYouWantToQuitPanel.SetActive(false);
+    }
+
+    public void CloseThisMenu()
+    {
+        optionsPanel.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void MainMenu()
+    {
+        Debug.Log("Not yet implemented! Coming soon");
     }
     
     // Ability to change button layout

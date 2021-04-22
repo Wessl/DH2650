@@ -315,7 +315,6 @@
             </e>
           </e>
         </e>
-        <e p="GenerateConnections.cs" t="Include" />
         <e p="GenericEnemyJump.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
@@ -342,18 +341,22 @@
             <e p="TransitionBehaviour.cs" t="Include" />
           </e>
           <e p="ButtonActionable.cs" t="Include" />
-          <e p="Combat.cs" t="Include" />
           <e p="Enemy" t="Include">
             <e p="Enemy.cs" t="Include" />
             <e p="EnemyAI.cs" t="Include" />
             <e p="EnemyEdgeCheck.cs" t="Include" />
             <e p="EnemyWallCheck.cs" t="Include" />
+            <e p="GenerateConnections.cs" t="Include" />
+            <e p="Node.cs" t="Include" />
           </e>
           <e p="enemyIdleBehaviour.cs" t="Include" />
           <e p="GameMenu.cs" t="Include" />
           <e p="InteractableGameButton.cs" t="Include" />
-          <e p="Node.cs" t="Include" />
-          <e p="PlayerMovement.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="Combat.cs" t="Include" />
+            <e p="PlayerMovement.cs" t="Include" />
+            <e p="TongueScript.cs" t="Include" />
+          </e>
           <e p="pulledBehaviour.cs" t="Include" />
           <e p="rotate.cs" t="Include" />
           <e p="RunningAttackBehaviour.cs" t="Include" />
@@ -366,7 +369,6 @@
           <e p="SnakeHead.cs" t="Include" />
           <e p="snakeHeadBehaviour.cs" t="Include" />
           <e p="snakeTailBehaviour.cs" t="Include" />
-          <e p="TongueScript.cs" t="Include" />
         </e>
         <e p="SnakeBoss.cs" t="Include" />
       </e>
