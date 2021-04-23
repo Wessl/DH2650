@@ -29,6 +29,7 @@ public class Combat : MonoBehaviour
     float damageTimer;
     private int attackMouseKeyCode;
     public GameObject youDiedPanel;
+    public Transform geezer;
 
     void Awake()
     {
@@ -127,20 +128,28 @@ public class Combat : MonoBehaviour
                 point = slash1point - new Vector2(distance / 2, 0);
                 radius = slash1height;
                 size = new Vector2(distance, slash1height);
+                LowGeezer(true);
                 break;
             case "slash2":
                 damage = attackDamage * 1.5f;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2range;
                 size = new Vector2(distance, slash2range);
+                LowGeezer(false);
                 break;
             case "slash1":
             case "normalslash":
+                damage = attackDamage * 1.5f;
+                point = slash1point - new Vector2(distance / 2, 0);
+                radius = slash1height;
+                size = new Vector2(distance, slash1height);
+                break;
             case "runningslash":
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance/2, 0);
                 radius = slash1height;
                 size = new Vector2(distance, slash1height);
+                LowGeezer(true);
                 break;
             case "rotatingslash":
                 damage = attackDamage;
@@ -190,6 +199,15 @@ public class Combat : MonoBehaviour
 
             }
         }
+    }
+
+    public void LowGeezer(bool low)
+    {
+        if (low)
+            geezer.localPosition = new Vector2(0.5f, 0.6f);
+        else
+            geezer.localPosition = new Vector2(-0.1f, 1.1f);
+            
     }
 
     public void AttackMovement()
