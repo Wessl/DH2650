@@ -150,7 +150,7 @@ MonoBehaviour:
   attackPoint: {fileID: 5348850010060760878}
   platform: {fileID: 0}
   attackDamage: 10
-  weight: 10
+  weight: 60
   speed: 0.05
   playerLayer:
     serializedVersion: 2
