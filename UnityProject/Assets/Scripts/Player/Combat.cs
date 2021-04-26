@@ -144,6 +144,7 @@ public class Combat : MonoBehaviour
                 radius = slash1height;
                 size = new Vector2(distance, slash1height);
                 break;
+            case "idleslash":
             case "runningslash":
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance/2, 0);

@@ -254,12 +254,13 @@ public class PlayerMovement : MonoBehaviour
             case "Platform":
             case "Ceiling":
             case "GrapplePoint":
+            case "Larva":
                 GetPulled(true);
                 break;
             case "Nongrappable":
                 break;
             default:
-                print("Maybe do something for layer: " + tag);
+                print("Maybe do something for tag: " + tag);
                 break;
         }
     }
