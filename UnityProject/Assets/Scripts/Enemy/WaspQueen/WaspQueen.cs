@@ -8,11 +8,12 @@ public class WaspQueen : MonoBehaviour
     public float speed;
     bool attacking;
     public Transform floor;
+    float floorLevel;
     Vector2 target;
     // Start is called before the first frame update
     void Start()
     {
-        
+        floorLevel = floor.position.y + 2;
     }
 
     // Update is called once per frame
@@ -21,7 +22,7 @@ public class WaspQueen : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             Vector3 direction = (transform.position - player.position).normalized;
-            float y = player.position.y - floor.position.y;
+            float y = player.position.y - floorLevel;
             float scale = y / direction.y;
             
             target = player.position - direction*scale;
