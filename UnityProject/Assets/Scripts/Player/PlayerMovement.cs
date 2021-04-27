@@ -32,9 +32,11 @@ public class PlayerMovement : MonoBehaviour
     float tongueSize;
     public float airLerp, groundLerp, jumpMemory;
     private int tongueMouseKeyCode;
-    public float dashTime, dashSpeed;
+    public float dashTime, dashSpeed, dashCooldown, imageDistance;
     float dashTimer;
-
+    Vector2 lastImagePos;
+    bool dashUnlocked, dashing, dashed;
+    Vector2 dashDirection;
     public GameObject achievementPanel;
 
     // Start is called before the first frame update
@@ -48,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 14);
         tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
         UpdateTongueButtonMapping();
+        dashTimer = dashTime;
     }
 
     // Update is called once per frame
@@ -110,7 +113,8 @@ public class PlayerMovement : MonoBehaviour
         {
             RetractTongue();
         }
-
+        
+        Dash();
     }
 
     void FixedUpdate()
@@ -126,12 +130,12 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!animator.GetBool("LockedMovement") && !gettingPulled)
         {
-            
+
             if (grounded)  // snappy movement if player is grounded 
             {
                 if (!animator.GetBool("Hurt"))
                 {
-                    if(mx!=0)
+                    if (mx != 0)
                         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * groundLerp);
                     else
                         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * groundLerp * 2);
@@ -168,6 +172,58 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2((float)(rb.velocity.x / 1.1), rb.velocity.y);     // if player doesn't want to stick, still slow down horizontal movement (friction yo)
             }
         }
+    }
+
+    void Dash()
+    {
+        if (dashUnlocked)
+            return;
+        if(dashed)
+        {
+            if (dashTimer > -dashCooldown)
+            {
+                dashTimer -= Time.deltaTime;
+                return;
+            }
+            else
+                dashed = false;
+        }
+
+        if (!dashing)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                dashDirection = (worldPos - (Vector2)transform.position).normalized;
+                dashing = true;
+                AfterImagePool.Instance.GetFromPool(isFacingRight);
+                lastImagePos = transform.position;
+                dashTimer = dashTime;
+            }
+        }
+        else
+        {
+            if (dashTimer <= 0)
+            {
+                dashed = true;
+                dashing = false;
+                float yVel = rb.velocity.y;
+                if (yVel > jumpForce*0.8f)
+                    yVel = jumpForce * 0.8f;
+                rb.velocity = new Vector2(rb.velocity.x, yVel);
+            }
+            else
+            {
+                dashTimer -= Time.deltaTime;
+                rb.velocity = dashDirection * dashSpeed;
+
+                if(((Vector2)transform.position - lastImagePos).sqrMagnitude > imageDistance)
+                {
+                    AfterImagePool.Instance.GetFromPool(isFacingRight);
+                    lastImagePos = transform.position;
+                }
+            }
+        }
+        
     }
 
     void CheckTongueCollision()
@@ -312,7 +368,9 @@ public class PlayerMovement : MonoBehaviour
         Collider2D ground = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
 
         if (ground != null)
+        {
             grounded = true;
+        }
         else
             grounded = false;
         animator.SetBool("Grounded", grounded);
