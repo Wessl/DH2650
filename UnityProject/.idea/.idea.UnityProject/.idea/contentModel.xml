@@ -329,11 +329,13 @@
             </e>
           </e>
         </e>
+        <e p="Projectile.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="AnimationBehaviourScripts" t="Include">
             <e p="AttackOneBehaviour.cs" t="Include" />
             <e p="AttackThreeBehaviour.cs" t="Include" />
             <e p="AttackTwoBehaviour.cs" t="Include" />
+            <e p="enemyIdleBehaviour.cs" t="Include" />
             <e p="GenericEnemyAttackAnimationBehaviour.cs" t="Include" />
             <e p="HoldOneBehaviour.cs" t="Include" />
             <e p="HoldTwoBehaviour.cs" t="Include" />
@@ -347,12 +349,19 @@
             <e p="EnemyEdgeCheck.cs" t="Include" />
             <e p="EnemyWallCheck.cs" t="Include" />
             <e p="GenerateConnections.cs" t="Include" />
+            <e p="Larva.cs" t="Include" />
             <e p="Node.cs" t="Include" />
+            <e p="WaspQueen" t="Include">
+              <e p="WaspQueen.cs" t="Include" />
+              <e p="WaspQueenCamera.cs" t="Include" />
+              <e p="WaspQueenFloor.cs" t="Include" />
+            </e>
           </e>
-          <e p="enemyIdleBehaviour.cs" t="Include" />
           <e p="GameMenu.cs" t="Include" />
           <e p="InteractableGameButton.cs" t="Include" />
           <e p="Player" t="Include">
+            <e p="AfterImage.cs" t="Include" />
+            <e p="AfterImagePool.cs" t="Include" />
             <e p="Combat.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
             <e p="TongueScript.cs" t="Include" />
@@ -369,8 +378,14 @@
           <e p="SnakeHead.cs" t="Include" />
           <e p="snakeHeadBehaviour.cs" t="Include" />
           <e p="snakeTailBehaviour.cs" t="Include" />
+          <e p="TextBoxManager.cs" t="Include" />
         </e>
+        <e p="ShooterBoye.cs" t="Include" />
         <e p="SnakeBoss.cs" t="Include" />
+        <e p="SpriteShift.cs" t="Include" />
+        <e p="Text" t="Include">
+          <e p="test.txt" t="Include" />
+        </e>
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
       <e p="AstarPathfindingProjectEditor.csproj" t="IncludeRecursive" />
