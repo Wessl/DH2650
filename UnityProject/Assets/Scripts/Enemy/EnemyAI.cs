@@ -207,7 +207,7 @@ public class EnemyAI : MonoBehaviour
             // Do a jump depending on the vertical distance
             if (yDiff > minDist && xMag>=1.515f)
             {
-                float jump = yDiff * 5;
+                float jump = 10 + yDiff * 2.5f;
                 if (jump > 20)
                     jump = 20;
                 enemyMovement.jumpSpeed = jump;

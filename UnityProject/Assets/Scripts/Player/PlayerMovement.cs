@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         stickTimer = stickiness;
         Physics2D.IgnoreLayerCollision(10, 9);
         Physics2D.IgnoreLayerCollision(10, 14);
+        Physics2D.IgnoreLayerCollision(10, 15);
         tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
         UpdateTongueButtonMapping();
         dashTimer = dashTime;
@@ -313,6 +314,7 @@ public class PlayerMovement : MonoBehaviour
             case "Larva":
                 GetPulled(true);
                 break;
+            case "Boss":
             case "Nongrappable":
                 break;
             default:

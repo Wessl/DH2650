@@ -8,6 +8,7 @@ public class WaspQueenCamera : MonoBehaviour
     public CinemachineVirtualCamera camera;
     public Transform center;
     bool bossCamera;
+    int cameraSize = 23;
     CinemachineFramingTransposer ftransposer;
     // Start is called before the first frame update
     void Start()
@@ -18,14 +19,14 @@ public class WaspQueenCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(bossCamera && camera.m_Lens.OrthographicSize < 30)
+        if(bossCamera && camera.m_Lens.OrthographicSize < cameraSize)
         {
             camera.m_Lens.OrthographicSize += Time.deltaTime*2.5f;
-            if (camera.m_Lens.OrthographicSize > 30)
+            if (camera.m_Lens.OrthographicSize > cameraSize)
             {
                 ftransposer.m_XDamping = 10;
                 ftransposer.m_YDamping = 10;
-                camera.m_Lens.OrthographicSize = 30;
+                camera.m_Lens.OrthographicSize = cameraSize;
             }
         }
 

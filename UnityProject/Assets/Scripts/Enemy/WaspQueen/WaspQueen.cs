@@ -21,13 +21,7 @@ public class WaspQueen : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            Vector3 direction = (transform.position - player.position).normalized;
-            float y = player.position.y - floorLevel;
-            float scale = y / direction.y;
-            
-            target = player.position - direction*scale;
-            if (target.x > leftBounds.position.x && target.x < rightBounds.position.x)
-                attacking = true;
+            AttackInit();
         }
         if (Input.GetKey(KeyCode.Q))
             MoveBack();
@@ -35,6 +29,16 @@ public class WaspQueen : MonoBehaviour
             Attack();
     }
 
+    void AttackInit()
+    {
+        Vector3 direction = (transform.position - player.position).normalized;
+        float y = player.position.y - floorLevel;
+        float scale = y / direction.y;
+
+        target = player.position - direction * scale;
+        if (target.x > leftBounds.position.x && target.x < rightBounds.position.x)
+            attacking = true;
+    }
 
     void Attack()
     {
