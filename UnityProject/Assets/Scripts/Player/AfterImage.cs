@@ -19,7 +19,6 @@ public class AfterImage : MonoBehaviour
     private SpriteRenderer playerSR;
 
     private Color color;
-    // Start is called before the first frame update
     void OnEnable()
     {
         SR = GetComponent<SpriteRenderer>();

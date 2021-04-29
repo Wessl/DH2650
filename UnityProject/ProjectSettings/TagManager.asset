@@ -19,7 +19,8 @@ TagManager:
   - Nongrappable
   - GrapplePoint
   - Larva
-  - Boss
+  - WaspQueen
+  - Spikes
   layers:
   - Default
   - TransparentFX

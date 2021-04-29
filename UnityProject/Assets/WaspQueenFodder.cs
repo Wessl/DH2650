@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaspQueenFloor : MonoBehaviour
+public class WaspQueenFodder : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

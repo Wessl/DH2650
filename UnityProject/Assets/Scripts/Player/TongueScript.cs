@@ -55,7 +55,7 @@ public class TongueScript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Nongrappable") || collision.gameObject.CompareTag("Boss"))
+        if (collision.gameObject.CompareTag("Nongrappable") || collision.gameObject.CompareTag("WaspQueen"))
         {
             playerMV.RetractTongue();
         }

@@ -7,17 +7,12 @@ using UnityEngine.UI;
 
 public class GameMenu : MonoBehaviour
 {
-    private Combat playerCombatScriptRef;
-    private PlayerMovement playerMovementScriptRef;
     public GameObject areYouSureYouWantToQuitPanel;
     public GameObject optionsPanel;
     public Text actualLeftMouseAction;
     public Text actualRightMouseAction;
     void Start()
     {
-        var player = GameObject.FindWithTag("Player");
-        playerCombatScriptRef = player.GetComponent<Combat>();
-        playerMovementScriptRef = player.GetComponent<PlayerMovement>();
         // Make sure some playerprefs exist
         if (!PlayerPrefs.HasKey("LeftMouseIsTongue"))
         {
@@ -104,8 +99,8 @@ public class GameMenu : MonoBehaviour
             actualRightMouseAction.text = "Attack";
         }
         // Actually update the player scripts so the correct buttons are used
-        playerCombatScriptRef.UpdateAttackButtonMapping();
-        playerMovementScriptRef.UpdateTongueButtonMapping();
+        Combat.instance.UpdateAttackButtonMapping();
+        PlayerMovement.instance.UpdateTongueButtonMapping();
         
         
     }
