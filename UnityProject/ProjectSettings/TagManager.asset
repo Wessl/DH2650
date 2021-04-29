@@ -19,6 +19,8 @@ TagManager:
   - Nongrappable
   - GrapplePoint
   - Larva
+  - WaspQueen
+  - Spikes
   - StationaryShootingEnemy
   layers:
   - Default
@@ -36,7 +38,7 @@ TagManager:
   - SnakeBoss
   - Platform
   - GrapplePoint
-  - 
+  - WaspQueen
   - 
   - 
   - 

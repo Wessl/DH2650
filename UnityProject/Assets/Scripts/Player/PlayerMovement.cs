@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         stickTimer = stickiness;
         Physics2D.IgnoreLayerCollision(10, 9);
         Physics2D.IgnoreLayerCollision(10, 14);
+        Physics2D.IgnoreLayerCollision(10, 15);
         tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
         UpdateTongueButtonMapping();
         dashTimer = dashTime;
@@ -318,6 +319,7 @@ public class PlayerMovement : MonoBehaviour
             case "Larva":
                 GetPulled(true);
                 break;
+            case "Boss":
             case "Nongrappable":
                 break;
             default:
@@ -464,6 +466,12 @@ public class PlayerMovement : MonoBehaviour
         {
             tongueMouseKeyCode = 1; // If left mouse is not tongue, then right mouse must be tongue. 
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Spikes"))
+            Combat.instance.TakeDamage(150);
     }
 
     private void OnDrawGizmos()

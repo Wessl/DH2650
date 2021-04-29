@@ -194,6 +194,10 @@ public class Combat : MonoBehaviour
                 case "NewGroundEnemy":
                     target.GetComponent<Enemy>().TakeDamage(damage);
                     break;
+                case "WaspQueen":
+                    print("waspqueen hit");
+                    target.GetComponent<WaspQueen>().TakeDamage(damage);
+                    break;
                 default:
                     print("Hit a new tag??? " + tag);
                     break;

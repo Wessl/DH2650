@@ -7,7 +7,6 @@ public class TextBoxManager : MonoBehaviour
 {
     public GameObject textBox;
     public Text text;
-    public Text test;
     public TextAsset textFile;
     public string printText;
     public string[] lines;
@@ -18,25 +17,30 @@ public class TextBoxManager : MonoBehaviour
     public float delay;
     public float timer;
     private int charIndex;
-    private bool invisibleCars;
+    private bool lineFinished;
     private float switchTimer;
+    public Image avatar;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentLine = 0;
-        if (textFile != null)
-        {
-            lines = textFile.text.Split('\n');
-        }
-        lastLine = lines.Length;
-        PrintText(test, lines[currentLine++]);
+        textBox.SetActive(false);
     }
 
     // Call this function when you want to print something, seperate each message with a new line
-    public void PrintText(Text text, string printText)
+    public void PrintText(string[] lines, Sprite avatar)
     {
-        this.text = text;
+        textBox.SetActive(true);
+        currentLine = 0;
+        this.lines = lines;
+        this.avatar.sprite = avatar;
+        lastLine = lines.Length;
+        NewLine(lines[currentLine++]);
+    }
+   
+    public void NewLine(string printText)
+    {
+        lineFinished = false;
         this.printText = printText;
         charIndex = 0;
     }
@@ -50,10 +54,10 @@ public class TextBoxManager : MonoBehaviour
             else if (currentLine<lastLine)
             {
                 switchTimer = 0;
-                PrintText(test, lines[currentLine++]);
+                NewLine(lines[currentLine++]);
             } else
             {
-                textBox.SetActive(false);
+                ClearTextBox();
             }
         }
         Write();
@@ -61,7 +65,9 @@ public class TextBoxManager : MonoBehaviour
 
     void Write()
     {
-        if (text == null)
+        if (!textBox.active)
+            return;
+        if (lineFinished)
         {
             if (switchTimer > 0)
             {
@@ -70,9 +76,9 @@ public class TextBoxManager : MonoBehaviour
             {
                 if (currentLine >= lastLine)
                 {
-                    textBox.SetActive(false);
+                    ClearTextBox();
                 } else 
-                    PrintText(test, lines[currentLine++]);
+                    NewLine(lines[currentLine++]);
             }
             return;
         }
@@ -88,10 +94,16 @@ public class TextBoxManager : MonoBehaviour
 
             if (charIndex > printText.Length)
             {
-                print(charIndex);
-                text = null;
-                switchTimer = 3;
+                lineFinished = true;
+                switchTimer = 2;
             }
         }
+    }
+
+    void ClearTextBox()
+    {
+        text.text = "";
+        this.avatar.sprite = null;
+        textBox.SetActive(false);
     }
 }
