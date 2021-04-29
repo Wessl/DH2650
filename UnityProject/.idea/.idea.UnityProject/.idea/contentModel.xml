@@ -212,6 +212,8 @@
             <e p="UnityReferenceHelper.cs" t="Include" />
           </e>
         </e>
+        <e p="CameraShake.cs" t="Include" />
+        <e p="CrumbledFloorBehaviour.cs" t="Include" />
         <e p="DragonBones" t="Include">
           <e p="Demos" t="Include">
             <e p="Scripts" t="Include">
@@ -354,7 +356,6 @@
             <e p="WaspQueen" t="Include">
               <e p="WaspQueen.cs" t="Include" />
               <e p="WaspQueenCamera.cs" t="Include" />
-              <e p="WaspQueenFloor.cs" t="Include" />
             </e>
           </e>
           <e p="GameMenu.cs" t="Include" />
@@ -384,8 +385,12 @@
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SpriteShift.cs" t="Include" />
         <e p="Text" t="Include">
+          <e p="orangeGoo.txt" t="Include" />
+          <e p="startingText.txt" t="Include" />
           <e p="test.txt" t="Include" />
         </e>
+        <e p="TextTrigger.cs" t="Include" />
+        <e p="WaspQueenFodder.cs" t="Include" />
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
       <e p="AstarPathfindingProjectEditor.csproj" t="IncludeRecursive" />

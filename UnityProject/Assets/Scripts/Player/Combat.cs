@@ -198,6 +198,10 @@ public class Combat : MonoBehaviour
                     print("waspqueen hit");
                     target.GetComponent<WaspQueen>().TakeDamage(damage);
                     break;
+                case "StationaryShootingEnemy":
+                    Debug.Log("enemy hit is " + target.name);
+                    target.GetComponentInParent<ShooterBoye>().TakeDamage(damage);
+                    break;
                 default:
                     print("Hit a new tag??? " + tag);
                     break;

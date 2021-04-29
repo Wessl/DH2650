@@ -19,6 +19,8 @@ public class ShooterBoye : MonoBehaviour
     public float shootDelay;
     private float timeSinceLastShot;
     private Rigidbody2D rb;
+    public float health;
+    public ParticleSystem deathParticleSystem;
     
     // Start is called before the first frame update
     void Start()
@@ -48,7 +50,6 @@ public class ShooterBoye : MonoBehaviour
     private void FindPlayer()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, playerLayer);
-        Debug.Log("attempting raycast. found the following:");
         foreach (var hit in hits)
         {
             if (hit.transform.CompareTag("Player"))
@@ -62,6 +63,21 @@ public class ShooterBoye : MonoBehaviour
         {
             playerIsInRange = false;
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Instantiate(deathParticleSystem, body.transform.position, Quaternion.identity);
+        Destroy(body);      // Don't need to destroy the foundation of the shooter boye, only body
     }
 
     void FaceAndAttack()
