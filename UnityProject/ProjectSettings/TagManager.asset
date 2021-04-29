@@ -19,6 +19,7 @@ TagManager:
   - Nongrappable
   - GrapplePoint
   - Larva
+  - StationaryShootingEnemy
   layers:
   - Default
   - TransparentFX

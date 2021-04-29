@@ -305,6 +305,11 @@ public class PlayerMovement : MonoBehaviour
                     GetPulled(true);
                 }
                 break;
+            case "StationaryShootingEnemy":
+                targetRB = target.GetComponent<Rigidbody2D>();
+                pulling = true;
+                target.GetComponentInParent<ShooterBoye>().Unstuck();
+                break;
             case "Ground":
             case "SnakeBoss":
             case "Platform":

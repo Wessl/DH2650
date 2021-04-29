@@ -18,10 +18,12 @@ public class ShooterBoye : MonoBehaviour
     public float damagePerShot;
     public float shootDelay;
     private float timeSinceLastShot;
+    private Rigidbody2D rb;
     
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponentInChildren<Rigidbody2D>();
         timePassedSinceLastFindAttempt = 0;
         timeSinceLastShot = 1;
         playerIsInRange = false;
@@ -87,13 +89,17 @@ public class ShooterBoye : MonoBehaviour
         {
             timeSinceLastShot += Time.deltaTime;
         }
-    
-        
+    }
+
+    // Activate this when stationary enemy is no longer stuck to its foundation i.e. gets pulled by the player
+    public void Unstuck()
+    {
+        rb.gravityScale = 1;
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.position, radius);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     IEnumerator DestroyProjectile(GameObject proj)

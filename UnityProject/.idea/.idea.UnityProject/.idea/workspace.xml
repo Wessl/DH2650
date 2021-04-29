@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Area1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Area1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/potentialcave.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/potentialcave.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/randomStuffToadBossAndCurvyGeometryPlatformTest.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/randomStuffToadBossAndCurvyGeometryPlatformTest.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaUnderground.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaUnderground.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ShooterBoye.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ShooterBoye.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,6 +64,7 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyWallCheck.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Projectile.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" />
       <option value="$PROJECT_DIR$/Assets/ShooterBoye.cs" />
     </changedPaths>
   </component>
@@ -135,7 +134,8 @@
       <workItem from="1618851530210" duration="2072000" />
       <workItem from="1619092551836" duration="1719000" />
       <workItem from="1619103782501" duration="774000" />
-      <workItem from="1619600594574" duration="3703000" />
+      <workItem from="1619600594574" duration="4284000" />
+      <workItem from="1619690830904" duration="2882000" />
     </task>
     <servers />
   </component>
