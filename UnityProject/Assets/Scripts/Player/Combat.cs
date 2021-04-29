@@ -202,6 +202,10 @@ public class Combat : MonoBehaviour
                     Debug.Log("enemy hit is " + target.name);
                     target.GetComponentInParent<ShooterBoye>().TakeDamage(damage);
                     break;
+                case "Projectile":
+                    Debug.Log("deflected projectile!");
+                    target.GetComponent<Projectile>().Deflect();
+                    break;
                 default:
                     print("Hit a new tag??? " + tag);
                     break;

@@ -22,6 +22,7 @@ TagManager:
   - WaspQueen
   - Spikes
   - StationaryShootingEnemy
+  - Projectile
   layers:
   - Default
   - TransparentFX

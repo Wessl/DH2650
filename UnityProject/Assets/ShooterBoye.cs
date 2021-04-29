@@ -21,10 +21,12 @@ public class ShooterBoye : MonoBehaviour
     private Rigidbody2D rb;
     public float health;
     public ParticleSystem deathParticleSystem;
+    private bool alive;
     
     // Start is called before the first frame update
     void Start()
     {
+        alive = true;
         rb = GetComponentInChildren<Rigidbody2D>();
         timePassedSinceLastFindAttempt = 0;
         timeSinceLastShot = 1;
@@ -35,7 +37,7 @@ public class ShooterBoye : MonoBehaviour
     void Update()
     {
         timePassedSinceLastFindAttempt += Time.deltaTime;
-        if (timePassedSinceLastFindAttempt > detectionDelay)
+        if (timePassedSinceLastFindAttempt > detectionDelay && alive)
         {
             FindPlayer();
             timePassedSinceLastFindAttempt = 0;
@@ -76,6 +78,8 @@ public class ShooterBoye : MonoBehaviour
 
     void Die()
     {
+        playerIsInRange = false;
+        alive = false;
         Instantiate(deathParticleSystem, body.transform.position, Quaternion.identity);
         Destroy(body);      // Don't need to destroy the foundation of the shooter boye, only body
     }
@@ -124,4 +128,6 @@ public class ShooterBoye : MonoBehaviour
         yield return new WaitForSeconds(10);
         Destroy(proj);
     }
+    
+    
 }

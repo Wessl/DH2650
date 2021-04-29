@@ -332,6 +332,7 @@
           </e>
         </e>
         <e p="Projectile.cs" t="Include" />
+        <e p="ProjectileDamageComponent.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="AnimationBehaviourScripts" t="Include">
             <e p="AttackOneBehaviour.cs" t="Include" />
