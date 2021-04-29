@@ -22,6 +22,8 @@ public class ShooterBoye : MonoBehaviour
     public float health;
     public ParticleSystem deathParticleSystem;
     private bool alive;
+    private CapsuleCollider2D collider;
+    public Transform projectileInstantiationPoint;
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,7 @@ public class ShooterBoye : MonoBehaviour
         timePassedSinceLastFindAttempt = 0;
         timeSinceLastShot = 1;
         playerIsInRange = false;
+        collider = GetComponentInChildren<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
@@ -51,7 +54,7 @@ public class ShooterBoye : MonoBehaviour
 
     private void FindPlayer()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, playerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(body.transform.position, radius, playerLayer);
         foreach (var hit in hits)
         {
             if (hit.transform.CompareTag("Player"))
@@ -99,7 +102,7 @@ public class ShooterBoye : MonoBehaviour
         // Attack player
         if (timeSinceLastShot > shootDelay)
         {
-            var proj = Instantiate(projectile, body.transform.position, quaternion.identity);
+            var proj = Instantiate(projectile, projectileInstantiationPoint.position, quaternion.identity);
             proj.GetComponent<Rigidbody2D>().velocity = targ.normalized * projectileSpeed;
             proj.GetComponent<Projectile>().DamageToDeal = damagePerShot;
             StartCoroutine(DestroyProjectile(proj));
@@ -115,6 +118,7 @@ public class ShooterBoye : MonoBehaviour
     public void Unstuck()
     {
         rb.gravityScale = 1;
+        collider.isTrigger = false; // Turn off trigger to enable collisions after being grabbed
     }
 
     private void OnDrawGizmos()

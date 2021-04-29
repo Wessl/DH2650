@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 4aa7f6aeb4c005b4bac8a0d6cc7eedef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -99,9 +99,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.010072589}
+  m_Offset: {x: 0, y: 0.0017541051}
   serializedVersion: 2
-  m_Radius: 0.6117171
+  m_Radius: 0.57919365
 --- !u!50 &-1610493885052965618
 Rigidbody2D:
   serializedVersion: 4
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb544f1265b4c3408e9f42f3305c563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyPS: {fileID: 3564742993517365614, guid: eeb0f621ffd5c6543a9c5f2495ad6692, type: 3}
 --- !u!1 &8677734132808361665
 GameObject:
   m_ObjectHideFlags: 0
