@@ -11,7 +11,7 @@ public class WaspQueen : MonoBehaviour
     public LayerMask playerLayer;
     public bool active, floorDestroyed;
     public Animator floorAnimator;
-    bool attacking, shortAttacking, goingLeft, countingDown;
+    bool attacking, shortAttacking, goingLeft, countingDown, movingBack;
     public Transform floor;
     [SerializeField]
     float floorLevel, attackTimer, stuckTimer, health;
@@ -30,9 +30,17 @@ public class WaspQueen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        attackTimer -= Time.deltaTime;
-        stuckTimer -= Time.deltaTime;
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        } else
+            attackInit();
+        if (stuckTimer > 0)
+        {
+            stuckTimer -= Time.deltaTime;
+            if (stuckTimer <= 0 && attackTimer > 0 && transform.position.y < returnPoint.position.y)
+                movingBack = true;
+        }
         if(transform.position.x == leftBounds.position.x+4)
         {
             goingLeft = false;
@@ -44,14 +52,12 @@ public class WaspQueen : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (attackTimer <= 0)
-        {
-            attackInit();
-        }
-        if (stuckTimer <= 0 && attackTimer > 0 && transform.position.y < returnPoint.position.y)
+        if (movingBack)
             MoveBack();
-        else if (transform.position.y >= returnPoint.position.y && attackTimer > 0)
+        else if (attackTimer > 0)
+        {
             countingDown = false;
+        }
         if (attacking)
             FloorAttack();
         else if (shortAttacking)
@@ -102,6 +108,7 @@ public class WaspQueen : MonoBehaviour
             attackTimer = attackCooldown;
             stuckTimer = stuckTime;
             Crumbling();
+            CameraShake.instance.ShakeCamera(5,0.4f);
             attacking = false;
         }
     }
@@ -115,6 +122,7 @@ public class WaspQueen : MonoBehaviour
         {
             attackTimer = attackCooldown*0.75f;
             stuckTimer = stuckTime*0.75f;
+            CameraShake.instance.ShakeCamera(2.5f, 0.25f);
             shortAttacking = false;
         }
     }
@@ -134,6 +142,10 @@ public class WaspQueen : MonoBehaviour
 
     void MoveBack()
     {
+        if(transform.position.y >= returnPoint.position.y)
+        {
+            movingBack = false;
+        }
         float step = moveSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, returnPoint.position.y), step);
     }

@@ -239,6 +239,7 @@ public class Combat : MonoBehaviour
         animator.SetTrigger("Hurt");
         health -= damage;
         damageTimer = 0;
+        CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED");
         if (health < 0)
             Die();

@@ -39,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 dashDirection;
     public GameObject achievementPanel;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 144;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
