@@ -331,8 +331,6 @@
             </e>
           </e>
         </e>
-        <e p="Projectile.cs" t="Include" />
-        <e p="ProjectileDamageComponent.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="AnimationBehaviourScripts" t="Include">
             <e p="AttackOneBehaviour.cs" t="Include" />
@@ -371,6 +369,11 @@
           <e p="pulledBehaviour.cs" t="Include" />
           <e p="rotate.cs" t="Include" />
           <e p="RunningAttackBehaviour.cs" t="Include" />
+          <e p="ShooterAndProjectile" t="Include">
+            <e p="Projectile.cs" t="Include" />
+            <e p="ProjectileDamageComponent.cs" t="Include" />
+            <e p="ShooterBoye.cs" t="Include" />
+          </e>
           <e p="SkeletonScript.cs" t="Include" />
           <e p="Snake" t="Include">
             <e p="SnakeController.cs" t="Include" />
@@ -382,7 +385,6 @@
           <e p="snakeTailBehaviour.cs" t="Include" />
           <e p="TextBoxManager.cs" t="Include" />
         </e>
-        <e p="ShooterBoye.cs" t="Include" />
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SpriteShift.cs" t="Include" />
         <e p="Text" t="Include">
