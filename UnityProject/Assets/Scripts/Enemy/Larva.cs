@@ -26,10 +26,13 @@ public class Larva: MonoBehaviour
     {
         float x = platform.localScale.x;
         float y = platform.localScale.y;
-        upperRight = (Vector2)platform.position + new Vector2(x / 2, y / 2);
-        upperLeft = upperRight - new Vector2(x, 0);
-        bottomLeft = upperLeft - new Vector2(0, y);
-        bottomRight = bottomLeft + new Vector2(x, 0);
+        float width = 0.15f;
+        upperRight = (Vector2)platform.position + new Vector2(x / 2 + width, y / 2 + width);
+        upperLeft = upperRight - new Vector2(x+width*2, 0);
+        bottomLeft = upperLeft - new Vector2(0, y + width*2);
+        bottomRight = bottomLeft + new Vector2(x+width*2, 0);
+
+        transform.position = upperRight;
         animator = GetComponent<Animator>();
         spriteMat = GetComponentInChildren<SpriteRenderer>().material;
     }
@@ -45,25 +48,30 @@ public class Larva: MonoBehaviour
     {
         Vector2 pos = transform.position;
         Vector2 newPos = pos;
+        float step = speed * Time.deltaTime;
         if (pos.x == upperLeft.x && !(pos.y == bottomLeft.y))
         {
             transform.eulerAngles = new UnityEngine.Vector3(0, 0, 90);
-            newPos = Vector2.MoveTowards(pos, bottomLeft, speed);
+            newPos = Vector2.MoveTowards(pos, bottomLeft, step);
         }
         else if (pos.y == bottomLeft.y && !(pos.x == bottomRight.x))
         {
             transform.eulerAngles = new UnityEngine.Vector3(0, 0, 180);
-            newPos = Vector2.MoveTowards(pos, bottomRight, speed);
+            newPos = Vector2.MoveTowards(pos, bottomRight, step);
         }
         else if (pos.x == bottomRight.x && !(pos.y == upperRight.y))
         {
             transform.eulerAngles = new UnityEngine.Vector3(0, 0, 270);
-            newPos = Vector2.MoveTowards(pos, upperRight, speed);
+            newPos = Vector2.MoveTowards(pos, upperRight, step);
         }
         else if (pos.y == upperRight.y && !(pos.x == upperLeft.x))
         {
             transform.eulerAngles = new UnityEngine.Vector3(0, 0, 0);
-            newPos = Vector2.MoveTowards(pos, upperLeft, speed);
+            newPos = Vector2.MoveTowards(pos, upperLeft, step);
+        } else
+        {
+            Debug.LogWarning("Larva on wrong path!");
+            print(upperLeft.y - upperRight.y);
         }
         transform.position = newPos;
     }
