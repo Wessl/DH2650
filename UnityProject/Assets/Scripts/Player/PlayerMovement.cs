@@ -274,7 +274,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RetractTongue()
     {
-        Destroy(tongue);
+        AfterImagePool.Instance.AddToPool(tongue);
+        tongue = null;
         if (pulling && target != null)
             target.GetComponent<Animator>().SetBool("Pulled", false);
         tonguePoint.localPosition = new Vector2(0.3f, 0.76f);
@@ -345,8 +346,8 @@ public class PlayerMovement : MonoBehaviour
 
     void ShootTongue()
     {
-        tongue = Instantiate(tongueInit,tonguePoint.position,Quaternion.identity);
-
+        print("shoot");
+        tongue = TonguePool.Instance.GetFromPool();
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
 
         Physics2D.IgnoreCollision(tongueCollider, GetComponent<CapsuleCollider2D>());

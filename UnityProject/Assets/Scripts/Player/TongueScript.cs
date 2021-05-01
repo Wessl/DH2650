@@ -15,14 +15,24 @@ public class TongueScript : MonoBehaviour
     float dist;
     Vector2 relativePos;
     bool hit;
+    private SpriteRenderer SR;
+    private SpriteRenderer playerSR;
+    private Transform mouth;
+    private Color color;
+    void OnEnable()
+    {
+        SR = GetComponent<SpriteRenderer>();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        mouth = player.transform.Find("TonguePoint").transform;
 
+        transform.position = mouth.position;
+        tongueCenter = transform.GetChild(0).gameObject;
+        rb = GetComponent<Rigidbody2D>();
+        playerMV = PlayerMovement.instance;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        playerMV = player.GetComponent<PlayerMovement>();
-        rb = GetComponent<Rigidbody2D>();
-        tongueCenter = Instantiate(tongueCenterInit, transform.position, quaternion.identity);
     }
 
     // Update is called once per frame
@@ -35,6 +45,7 @@ public class TongueScript : MonoBehaviour
         
         if (dist > maxLength)   // the tongue isn't that long, time to pull back
         {
+            print("too long");
             playerMV.RetractTongue();
         }
         
@@ -72,9 +83,9 @@ public class TongueScript : MonoBehaviour
         Vector3 direction = finalPosition - initialPosition;
         direction = Vector3.Normalize(direction);
         tongue.transform.up = direction;
-        Vector3 scale = new Vector3(0.3f,0.3f,0.3f);               // Tongue center is too thick, scale down
+        Vector3 scale = new Vector3(0.3f, 1, 1);
         scale.y = Vector3.Distance(initialPosition, finalPosition) / spriteSize;
-        tongue.transform.localScale = scale;
+        tongue.transform.localScale = scale*5;
     }
     
     // When this is destroyed, remove the center of the tongue as well
