@@ -30,6 +30,8 @@ public class Combat : MonoBehaviour
     private int attackMouseKeyCode;
     public GameObject youDiedPanel;
     public Transform geezer;
+    public AudioSource swing1;
+    public AudioSource swing2;
 
     void Awake()
     {
@@ -124,6 +126,7 @@ public class Combat : MonoBehaviour
         switch (slashStr)
         {
             case "altslash1":
+                swing1.Play();
                 damage = attackDamage;
                 point = slash1point - new Vector2(distance / 2, 0);
                 radius = slash1height;
@@ -131,6 +134,7 @@ public class Combat : MonoBehaviour
                 LowGeezer(true);
                 break;
             case "slash2":
+                swing2.Play();
                 damage = attackDamage * 1.5f;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2range;
@@ -139,6 +143,7 @@ public class Combat : MonoBehaviour
                 break;
             case "slash1":
             case "normalslash":
+                swing1.Play();
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance / 2, 0);
                 radius = slash1height;
@@ -146,6 +151,7 @@ public class Combat : MonoBehaviour
                 break;
             case "idleslash":
             case "runningslash":
+                swing1.Play();
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance/2, 0);
                 radius = slash1height;
@@ -171,6 +177,7 @@ public class Combat : MonoBehaviour
         foreach (Collider2D target in hit)
         {
             print("enemy hit");
+            StartCoroutine(HitSleep(0.02f));
             string tag = target.tag;
             Enemy enemy;
             switch (tag)
@@ -247,6 +254,7 @@ public class Combat : MonoBehaviour
         animator.SetTrigger("Hurt");
         health -= damage;
         damageTimer = 0;
+        HitSleep(0.02f);
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED");
         if (health < 0)
@@ -303,6 +311,17 @@ public class Combat : MonoBehaviour
         {
             attackMouseKeyCode = 0; // If left mouse is not tongue, then attack must be left. 
         }
+    }
+
+    IEnumerator HitSleep(float time)
+    {
+        Time.timeScale = 0;
+        float pauseEndTime = Time.realtimeSinceStartup + time;
+        while (Time.realtimeSinceStartup < pauseEndTime)
+        {
+            yield return 0;
+        }
+        Time.timeScale = 1;
     }
 
     private void OnDrawGizmos()
