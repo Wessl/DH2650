@@ -328,18 +328,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
-      propertyPath: slash1radius
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
-      propertyPath: slash2radius
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: youDiedPanel
       value: 
       objectReference: {fileID: 1076694713}
@@ -19004,12 +18992,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1117844061703636962, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: m_Name
-      value: SnakeEnemy 1
+      value: Generic Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1117844061703636967, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: m_Mass
-      value: 1
+      value: 1.4463496
       objectReference: {fileID: 0}
+    - target: {fileID: 1191987944920026521, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 360130238}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
 --- !u!1 &1084579480
@@ -27169,27 +27161,6 @@ Transform:
   m_Father: {fileID: 729861563}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1632349956 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1117844061703636962, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
-  m_PrefabInstance: {fileID: 1084524829}
-  m_PrefabAsset: {fileID: 0}
---- !u!70 &1632349963
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632349956}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
-  m_Direction: 0
 --- !u!1 &1635750779
 GameObject:
   m_ObjectHideFlags: 0

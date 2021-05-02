@@ -239,7 +239,7 @@ public class Combat : MonoBehaviour
         else if (attacked > 0)
         {
             // stop movement
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            rb.velocity = new Vector2(0, 0);
             ExecuteAttack();
             attacked--;
         }
