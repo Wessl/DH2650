@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
             jumpMemory = 0.1f;
         }
 
-        if (Input.GetMouseButtonDown(tongueMouseKeyCode))
+        if (Input.GetMouseButtonDown(tongueMouseKeyCode) && !animator.GetBool("LockedMovement"))
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if (tongue == null &&                                                               // can only shoot if not already shooting
@@ -346,7 +346,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ShootTongue()
     {
-        print("shoot");
         tongue = TonguePool.Instance.GetFromPool();
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
 
