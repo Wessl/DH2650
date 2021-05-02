@@ -16,7 +16,7 @@ public class Combat : MonoBehaviour
     [SerializeField]
     Transform attackPoint;
     [SerializeField]
-    float slash1height, slash2range;
+    float slash1radius, slash2radius;
     public LayerMask rayMask;
     public float attackDamage, maxHealth;
     [SerializeField]
@@ -127,16 +127,16 @@ public class Combat : MonoBehaviour
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
                 point = slash1point - new Vector2(distance / 2, 0);
-                radius = slash1height;
-                size = new Vector2(distance, slash1height);
+                radius = slash1radius;
+                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "slash2":
                 AudioManager.Instance.Play("Sword Swing 2");
                 damage = attackDamage * 1.5f;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
-                radius = slash2range;
-                size = new Vector2(distance, slash2range);
+                radius = slash2radius;
+                size = new Vector2(distance + slash1radius * 2, slash2radius*2);
                 LowGeezer(false);
                 break;
             case "slash1":
@@ -144,22 +144,22 @@ public class Combat : MonoBehaviour
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance / 2, 0);
-                radius = slash1height;
-                size = new Vector2(distance, slash1height);
+                radius = slash1radius;
+                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
                 break;
             case "idleslash":
             case "runningslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage * 1.5f;
                 point = slash1point - new Vector2(distance/2, 0);
-                radius = slash1height;
-                size = new Vector2(distance, slash1height);
+                radius = slash1radius;
+                size = new Vector2(distance + slash1radius*2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "rotatingslash":
                 damage = attackDamage;
                 point = attackPoint.position;
-                radius = slash2range;
+                radius = slash2radius;
                 break;
             default:
                 print("Not a valid slash name");
@@ -324,7 +324,7 @@ public class Combat : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(new Vector3(0.3f, -0.3f, 0) + attackPoint.position, slash1height);
-        Gizmos.DrawWireSphere(attackPoint.position, slash2range);
+        Gizmos.DrawWireSphere(new Vector3(0.3f, -0.3f, 0) + attackPoint.position, slash1radius);
+        Gizmos.DrawWireSphere(attackPoint.position, slash2radius);
     }
 }

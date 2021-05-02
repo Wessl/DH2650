@@ -43,7 +43,9 @@ public class EnemyAI : MonoBehaviour
             MoveTowardsPath();
         float dist = (target.transform.position - transform.position).sqrMagnitude;
         if (!engaged && dist <= engagementRange)
+        {
             ScanForPlayer(dist);
+        }
         else if (dist > engagementRange)
         {
             enemyMovement.xMovement = 0;
