@@ -16,7 +16,7 @@ public class WaspQueen : MonoBehaviour
     public CapsuleCollider2D caps;
     [SerializeField]
     float floorLevel, attackTimer, stuckTimer, health;
-    Vector2 target;
+    Vector2 target, targetDirection;
     public DragonBones.UnityArmatureComponent armature;
     float rot;
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class WaspQueen : MonoBehaviour
     {
         instance = this;
         health = maxHealth;
-        floorLevel = floor.position.y + caps.size.y/2 + 1;
+        floorLevel = floor.position.y;
         stuckTimer = 6;
         attackTimer = 6;
         gameObject.SetActive(false);
@@ -90,8 +90,8 @@ public class WaspQueen : MonoBehaviour
             float step = moveSpeed  * Time.deltaTime;
             if (countingDown && attackTimer < 0)
             {
-                Vector2 direction = (target - (Vector2)transform.position).normalized;
-                rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                targetDirection = (target - (Vector2)transform.position).normalized;
+                rot = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
 
                 transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 90), Time.deltaTime * 50);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, returnPoint.position.y), step / 4);
@@ -113,11 +113,13 @@ public class WaspQueen : MonoBehaviour
     {
         if (attacking || shortAttacking)
             return;
-        Vector3 direction = (transform.position - player.position).normalized;
+        targetDirection = (transform.position - player.position).normalized;
         float y = player.position.y - floorLevel;
-        float scale = y / direction.y;
-
-        target = player.position - direction * scale;
+        float scale = y / targetDirection.y;
+        print(scale);
+        print(targetDirection.x);
+        print(scale - 2 * Mathf.Abs(targetDirection.x));
+        target = (Vector2)player.position + targetDirection * (scale-2*Mathf.Abs(targetDirection.x));
         target += playerRB.velocity * velocityMult;
         if (!countingDown && attackTimer <= 0)
         {
@@ -137,7 +139,7 @@ public class WaspQueen : MonoBehaviour
         if ((Vector2)transform.position == target)
         {
             armature.animation.Play("impact", 1);
-            attackTimer = attackCooldown;
+            attackTimer = Random.Range(attackCooldown, attackCooldown+5);
             stuckTimer = stuckTime;
             Crumbling();
             CameraShake.instance.ShakeCamera(5,0.4f);
@@ -153,8 +155,8 @@ public class WaspQueen : MonoBehaviour
         if ((Vector2)transform.position == target)
         {
             armature.animation.Play("impact", 1);
-            attackTimer = attackCooldown*0.75f;
-            stuckTimer = stuckTime*0.75f;
+            attackTimer = Random.Range(attackCooldown * 0.75f, attackCooldown * 0.75f + 5);
+            stuckTimer = stuckTime;
             CameraShake.instance.ShakeCamera(2.5f, 0.25f);
             shortAttacking = false;
         }
@@ -198,7 +200,7 @@ public class WaspQueen : MonoBehaviour
 
         else
         {
-            target = (Vector2)player.position + playerRB.velocity * velocityMult;
+            target = (Vector2)player.position + playerRB.velocity * velocityMult - targetDirection;
             shortAttacking = true;
             armature.animation.timeScale = 1f;
             armature.animation.Play("attack", 1);
