@@ -24,7 +24,7 @@ public class WaspQueen : MonoBehaviour
     {
         instance = this;
         health = maxHealth;
-        floorLevel = floor.position.y;
+        floorLevel = floor.position.y + caps.size.y/2 + 1;
         stuckTimer = 6;
         attackTimer = 6;
         gameObject.SetActive(false);
@@ -116,10 +116,8 @@ public class WaspQueen : MonoBehaviour
         targetDirection = (transform.position - player.position).normalized;
         float y = player.position.y - floorLevel;
         float scale = y / targetDirection.y;
-        print(scale);
-        print(targetDirection.x);
-        print(scale - 2 * Mathf.Abs(targetDirection.x));
-        target = (Vector2)player.position + targetDirection * (scale-2*Mathf.Abs(targetDirection.x));
+        print(y);
+        target = (Vector2)player.position - targetDirection * y;
         target += playerRB.velocity * velocityMult;
         if (!countingDown && attackTimer <= 0)
         {
