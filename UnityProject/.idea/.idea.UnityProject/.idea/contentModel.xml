@@ -318,6 +318,7 @@
             </e>
           </e>
         </e>
+        <e p="FoliageWind.shader" t="Include" />
         <e p="GenericEnemyJump.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
