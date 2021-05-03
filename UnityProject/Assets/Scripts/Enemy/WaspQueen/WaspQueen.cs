@@ -19,6 +19,9 @@ public class WaspQueen : MonoBehaviour
     Vector2 target, targetDirection;
     public DragonBones.UnityArmatureComponent armature;
     float rot;
+    public Material material;
+    public ParticleSystem bloodSplat;
+    public ParticleSystem boneSplat;
     // Start is called before the first frame update
     void Start()
     {
@@ -92,8 +95,9 @@ public class WaspQueen : MonoBehaviour
             {
                 targetDirection = (target - (Vector2)transform.position).normalized;
                 rot = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-
-                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 90), Time.deltaTime * 50);
+                float localZ = transform.localRotation.z;
+                print(Mathf.Abs(localZ - (rot + 90)));
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 90), Time.deltaTime * 3 * ( 10 + Mathf.Abs(localZ-(rot+90))));
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, returnPoint.position.y), step / 4);
             }
             else if (goingLeft)
@@ -116,8 +120,7 @@ public class WaspQueen : MonoBehaviour
         targetDirection = (transform.position - player.position).normalized;
         float y = player.position.y - floorLevel;
         float scale = y / targetDirection.y;
-        print(y);
-        target = (Vector2)player.position - targetDirection * y;
+        target = (Vector2)player.position - targetDirection * scale - targetDirection * Mathf.Abs(targetDirection.x) * 2;
         target += playerRB.velocity * velocityMult;
         if (!countingDown && attackTimer <= 0)
         {
@@ -207,6 +210,7 @@ public class WaspQueen : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        StartCoroutine(Flash());
         health -= damage;
         if (health <= 0)
         {
@@ -214,8 +218,18 @@ public class WaspQueen : MonoBehaviour
         }
 
     }
+    IEnumerator Flash()
+    {
+        material.color = Color.red;
+        yield return new WaitForSeconds(0.05f);
+        material.color = Color.white;
+    }
+
     void Die()
     {
+        material.color = Color.white;
+        Instantiate(bloodSplat, transform.position, Quaternion.identity);
+        Instantiate(boneSplat, transform.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
         Destroy(gameObject);
     }
