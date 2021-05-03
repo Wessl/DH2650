@@ -11,17 +11,20 @@ public class WaspQueen : MonoBehaviour
     public LayerMask playerLayer;
     public bool active, floorDestroyed;
     public Animator floorAnimator;
-    bool attacking, shortAttacking, goingLeft, countingDown, movingBack;
+    bool attacking, shortAttacking, goingLeft, countingDown, movingBack, stuck;
     public Transform floor;
+    public CapsuleCollider2D caps;
     [SerializeField]
     float floorLevel, attackTimer, stuckTimer, health;
     Vector2 target;
+    public DragonBones.UnityArmatureComponent armature;
+    float rot;
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
         health = maxHealth;
-        floorLevel = floor.position.y + 2;
+        floorLevel = floor.position.y + caps.size.y/2 + 1;
         stuckTimer = 6;
         attackTimer = 6;
         gameObject.SetActive(false);
@@ -37,9 +40,23 @@ public class WaspQueen : MonoBehaviour
             attackInit();
         if (stuckTimer > 0)
         {
+
             stuckTimer -= Time.deltaTime;
-            if (stuckTimer <= 0 && attackTimer > 0 && transform.position.y < returnPoint.position.y)
+            if (stuckTimer <= 0 && attackTimer > 0 && transform.position.y < returnPoint.position.y && !movingBack)
+            {
+                armature.animation.Play("flying", -1);
                 movingBack = true;
+                stuck = false;
+            }
+            if (!armature.animation.isPlaying) {
+                armature.animation.Play("stuck", 1);
+                stuck = true;
+            }
+            if (stuck)
+            {
+                var dir = Quaternion.AngleAxis(rot, Vector3.forward) * Vector3.right;
+                transform.position = Vector2.MoveTowards(transform.position, transform.position - dir * 50, 0.1f * Time.deltaTime);
+            }
         }
         if(transform.position.x == leftBounds.position.x+4)
         {
@@ -68,15 +85,27 @@ public class WaspQueen : MonoBehaviour
 
     private void Move()
     {
-        if(stuckTimer < 0 && !attacking)
+        if(stuckTimer < 0 && !attacking && !movingBack)
         {
             float step = moveSpeed  * Time.deltaTime;
             if (countingDown && attackTimer < 0)
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, returnPoint.position.y), step/4);
-            else if(goingLeft)
+            {
+                Vector2 direction = (target - (Vector2)transform.position).normalized;
+                rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 90), Time.deltaTime * 50);
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, returnPoint.position.y), step / 4);
+            }
+            else if (goingLeft)
+            {
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, 15), Time.deltaTime * 50);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(leftBounds.position.x + 4, returnPoint.position.y), step);
+            }
             else
+            {
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, -15), Time.deltaTime * 50);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(rightBounds.position.x - 1, returnPoint.position.y), step);
+            }
         }
     }
 
@@ -94,6 +123,8 @@ public class WaspQueen : MonoBehaviour
         {
             countingDown = true;
             print("starting coroutine");
+            armature.animation.timeScale = 0.5f;
+            armature.animation.Play("attackCountdown", 1);
             StartCoroutine(SetAttacking());
         }
     }
@@ -105,6 +136,7 @@ public class WaspQueen : MonoBehaviour
         CheckCollision();
         if ((Vector2)transform.position == target)
         {
+            armature.animation.Play("impact", 1);
             attackTimer = attackCooldown;
             stuckTimer = stuckTime;
             Crumbling();
@@ -120,6 +152,7 @@ public class WaspQueen : MonoBehaviour
         CheckCollision();
         if ((Vector2)transform.position == target)
         {
+            armature.animation.Play("impact", 1);
             attackTimer = attackCooldown*0.75f;
             stuckTimer = stuckTime*0.75f;
             CameraShake.instance.ShakeCamera(2.5f, 0.25f);
@@ -145,7 +178,9 @@ public class WaspQueen : MonoBehaviour
         if(transform.position.y >= returnPoint.position.y)
         {
             movingBack = false;
+            return;
         }
+        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime*50);
         float step = moveSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, returnPoint.position.y), step);
     }
@@ -157,12 +192,16 @@ public class WaspQueen : MonoBehaviour
         {
             target.y -= playerRB.velocity.y * velocityMult;
             attacking = true;
+            armature.animation.timeScale = 1f;
+            armature.animation.Play("attack", 1);
         }
 
         else
         {
             target = (Vector2)player.position + playerRB.velocity * velocityMult;
             shortAttacking = true;
+            armature.animation.timeScale = 1f;
+            armature.animation.Play("attack", 1);
         }
     }
 
