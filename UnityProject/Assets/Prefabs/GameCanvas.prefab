@@ -2840,7 +2840,7 @@ GameObject:
   - component: {fileID: 2462606009364297574}
   m_Layer: 5
   m_Name: DeathPanel
-  m_TagString: DeathPanel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3133,8 +3133,8 @@ GameObject:
   - component: {fileID: 473299105}
   - component: {fileID: 5110450684068821404}
   m_Layer: 5
-  m_Name: DeathCanvas
-  m_TagString: Untagged
+  m_Name: GameCanvas
+  m_TagString: GameCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

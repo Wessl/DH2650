@@ -212,6 +212,7 @@
             <e p="UnityReferenceHelper.cs" t="Include" />
           </e>
         </e>
+        <e p="AudioManager.cs" t="Include" />
         <e p="CameraShake.cs" t="Include" />
         <e p="CrumbledFloorBehaviour.cs" t="Include" />
         <e p="DragonBones" t="Include">
@@ -321,6 +322,7 @@
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
         </e>
+        <e p="NextLevelLoader.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">
             <e p="Editor" t="Include">
@@ -331,6 +333,7 @@
             </e>
           </e>
         </e>
+        <e p="SceneHandler.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="AnimationBehaviourScripts" t="Include">
             <e p="AttackOneBehaviour.cs" t="Include" />
@@ -364,6 +367,7 @@
             <e p="AfterImagePool.cs" t="Include" />
             <e p="Combat.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
+            <e p="TonguePool.cs" t="Include" />
             <e p="TongueScript.cs" t="Include" />
           </e>
           <e p="pulledBehaviour.cs" t="Include" />
@@ -383,6 +387,7 @@
           <e p="SnakeHead.cs" t="Include" />
           <e p="snakeHeadBehaviour.cs" t="Include" />
           <e p="snakeTailBehaviour.cs" t="Include" />
+          <e p="Sound.cs" t="Include" />
           <e p="TextBoxManager.cs" t="Include" />
         </e>
         <e p="SnakeBoss.cs" t="Include" />
