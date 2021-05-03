@@ -23,6 +23,7 @@ TagManager:
   - Spikes
   - StationaryShootingEnemy
   - Projectile
+  - GameCanvas
   layers:
   - Default
   - TransparentFX

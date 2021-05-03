@@ -28,7 +28,7 @@ public class Combat : MonoBehaviour
     string slashStr;
     float damageTimer;
     private int attackMouseKeyCode;
-    public GameObject youDiedPanel;
+    private GameObject youDiedPanel;
     public Transform geezer;
 
     void Awake()
@@ -47,6 +47,7 @@ public class Combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        youDiedPanel = GameObject.FindWithTag("GameCanvas").transform.Find("DeathPanel").gameObject;
         UpdateAttackButtonMapping();    // Set attack mouse key codes to the appropriate one according to settings
     }
 

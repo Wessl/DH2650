@@ -18,7 +18,8 @@ public class Enemy : MonoBehaviour
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
     public Transform deathPSInstancePoint;
-    public Transform target, attackPoint;
+    public Transform attackPoint;
+    private Transform target;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
     public float maxHealth, weight, attackRange, attackDamage, stopDistance;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        target = GameObject.FindWithTag("Player").GetComponent<Transform>();
         instance = this;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
