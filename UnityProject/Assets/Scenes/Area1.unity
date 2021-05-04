@@ -35926,6 +35926,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2808787651616290942, guid: e90bbd8e62f9081488e34a3c2eacc8fa, type: 3}
+      propertyPath: hitDelay
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2808787651616290942, guid: e90bbd8e62f9081488e34a3c2eacc8fa, type: 3}
       propertyPath: attackRange
       value: 1
       objectReference: {fileID: 0}
