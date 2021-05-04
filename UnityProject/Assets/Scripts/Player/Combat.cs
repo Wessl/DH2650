@@ -110,7 +110,7 @@ public class Combat : MonoBehaviour
 
     void ExecuteAttack()
     {
-        float distance = Vector2.Distance(attackPoint.position, attackOrigin);
+        float distance = attackPoint.position.x - attackOrigin.x;
         float damage = 0;
         Vector2 point = new Vector2(0, 0);
         float radius = 0;
