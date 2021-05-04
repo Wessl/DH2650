@@ -11,7 +11,7 @@ using Pathfinding;
 public class Enemy : MonoBehaviour
 {
     public static Enemy instance;
-    private Animator animator;
+    public Animator animator;
     private Rigidbody2D rb;
     private Material spriteMat;
     public float moveSpeed, lerp, jumpSpeed, jumpTimeDelay;
@@ -28,13 +28,13 @@ public class Enemy : MonoBehaviour
     public LayerMask playerLayer;
 
     public float nextWaypointDist = 3;
-    public float xMovement, groundCheckRadius, flyingLerp, engagementRange;
+    public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay;
     public LayerMask groundLayers;
-    public bool jump;
+    public bool jump, inRange;
     public Transform groundCheck;
     public bool grounded, engaged;
     public LayerMask playerAndGround;
-
+    private float attackTimer, speed;
 
     Path path;
     int currentWaypoint;
@@ -45,8 +45,9 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         target = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        instance = this;
-        animator = GetComponent<Animator>();
+        instance = this; 
+        if(animator == null)
+            animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteMat = GetComponentInChildren<SpriteRenderer>().material;
         rb.freezeRotation = true;
@@ -75,6 +76,32 @@ public class Enemy : MonoBehaviour
             rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0,0), Time.deltaTime * flyingLerp);
             engaged = false;
         }
+
+        // If enemy is in melee range and attack isn't on cooldown, do an attack
+        if(inRange && attackTimer <= 0)
+        {
+            attackTimer = attackCooldown;
+            animator.SetTrigger("attack");
+        } else if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+    }
+
+    // Called from animation behaviour state script
+    // Either do hit detection immediately or after a delay
+    public void HitDetection(bool delay)
+    {
+        if(delay)
+            StartCoroutine(HitDelay());
+        else
+            AttackHit();
+    }
+
+    IEnumerator HitDelay()
+    {
+        yield return new WaitForSeconds(hitDelay);
+        AttackHit();
     }
 
     void ScanForPlayer(float dist)
@@ -100,6 +127,14 @@ public class Enemy : MonoBehaviour
     void GroundMovement()
     {
         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(xMovement * moveSpeed, rb.velocity.y), Time.deltaTime * lerp);
+        speed = Mathf.Abs(rb.velocity.x);
+        animator.SetFloat("Speed", speed);
+
+        // Set the speed of the animation based on the speed of the enemy
+        if(speed > 0.5)
+            animator.speed = speed / 2;
+        else
+            animator.speed = 1;
         Jump();
     }
 
@@ -130,12 +165,23 @@ public class Enemy : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
     }
 
+    // Fix the enemy direction either based on movement or on player position if within melee range
     void FixDirection()
     {
-        if ((rb.velocity.x > 0 && transform.localScale.x < 0) ||
-                    (rb.velocity.x < 0 && transform.localScale.x > 0))
+        if (!inRange)
         {
-            transform.localScale *= new Vector2(-1, 1);
+            if ((rb.velocity.x > 0 && transform.localScale.x < 0) ||
+                        (rb.velocity.x < 0 && transform.localScale.x > 0))
+            {
+                transform.localScale *= new Vector2(-1, 1);
+            }
+        } else 
+        {
+            if ((transform.position.x < target.position.x && transform.localScale.x < 0) ||
+                (transform.position.x > target.position.x && transform.localScale.x > 0))
+            {
+                transform.localScale *= new Vector2(-1, 1);
+            }
         }
     }
 
@@ -148,7 +194,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Called from the animation behaviour state exit function
+    // Called from the HitDetection function
     public void AttackHit()
     {
         Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);

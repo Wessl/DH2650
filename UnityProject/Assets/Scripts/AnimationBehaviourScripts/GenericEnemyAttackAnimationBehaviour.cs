@@ -5,11 +5,12 @@ using UnityEngine;
 public class GenericEnemyAttackAnimationBehaviour : StateMachineBehaviour
 {
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    animator.ResetTrigger("attack");   
-    //    Debug.Log(stateInfo);
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        Transform trans = animator.transform;
+        if(trans.name.Equals("Animator"))
+            trans.parent.GetComponent<Enemy>().HitDetection(true);
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -21,7 +22,9 @@ public class GenericEnemyAttackAnimationBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("attack");
-        animator.transform.GetComponent<Enemy>().AttackHit();
+        Transform trans = animator.transform;
+        if (!trans.name.Equals("Animator"))
+            trans.GetComponent<Enemy>().HitDetection(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

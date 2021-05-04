@@ -10,22 +10,24 @@ public class EnemyAI : MonoBehaviour
     public Node closestNode;
     public Node targetNode;
 
-    public Transform target;
+    private Transform target;
 
     public List<Node> Path;
 
     public Enemy enemyMovement;
 
-    public float minDist, maxDist, jumpDist, engagementRange;
+    public float minDist, maxDist, jumpDist, engagementRange, stopDistance;
 
     public LayerMask UIMask;
 
     public bool engaged;
+    bool reached;
 
     public LayerMask playerAndGround;
 
     private void Awake()
     {
+        target = GameObject.FindWithTag("Player").GetComponent<Transform>();
         //FindAllNodes();
     }
     // Start is called before the first frame update
@@ -39,9 +41,25 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CompareTag("NewGroundEnemy") && engaged)
-            MoveTowardsPath();
-        float dist = (target.transform.position - transform.position).sqrMagnitude;
+        float dist = (target.position - transform.position).sqrMagnitude;
+
+        if (engaged)
+        {
+            // Stop at desired range from player
+            if (dist < stopDistance)
+            {
+                enemyMovement.xMovement = 0;
+                enemyMovement.inRange = true;
+                reached = true;
+            }
+            else
+            {
+                enemyMovement.inRange = false;
+                reached = false;
+            }
+            if (CompareTag("NewGroundEnemy") && !reached)
+                MoveTowardsPath();
+        }
         if (!engaged && dist <= engagementRange)
         {
             ScanForPlayer(dist);
