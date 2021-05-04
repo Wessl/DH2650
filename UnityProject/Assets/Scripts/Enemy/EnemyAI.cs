@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
     public Enemy enemyMovement;
 
     public float minDist, maxDist, jumpDist, engagementRange, stopDistance;
+    public float jumpStrength = 20;
 
     public LayerMask UIMask;
 
@@ -116,7 +117,8 @@ public class EnemyAI : MonoBehaviour
 
     void UpdatePathNew()
     {
-        if (!engaged)
+        // Don't update path while not engaged or in air
+        if (!engaged || !enemyMovement.grounded)
             return;
         /*
         if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
@@ -128,7 +130,6 @@ public class EnemyAI : MonoBehaviour
 
         targetNode = GetClosestNodeTo(target, true);            // Set the targetNode to the node closest to the target
         closestNode = GetClosestNodeTo(transform, false);       // Set the closestNode to the node closest to the seeker
-
         List<Node> unvisited = new List<Node>();
         HashSet<Node> visited = new HashSet<Node>();
         unvisited.Add(closestNode);     // Start the path-search with just the closest node as root and go from there
@@ -196,7 +197,6 @@ public class EnemyAI : MonoBehaviour
     // Traverse the path
     void MoveTowardsPath() {
         enemyMovement.xMovement = 0;
-        enemyMovement.jump = false;
         Node currentNode = null;
         if (Path.Count > 0)
         {
@@ -224,24 +224,27 @@ public class EnemyAI : MonoBehaviour
                 enemyMovement.xMovement = 1;
             }
 
-            // Do a jump depending on the vertical distance
-            if (yDiff > minDist && xMag>=1.515f)
+            if (enemyMovement.canJump)
             {
-                float jump = 10 + yDiff * 2.5f;
-                if (jump > 20)
-                    jump = 20;
-                enemyMovement.jumpSpeed = jump;
-            }
-            // Do a "horizontal" jump if the seeker is close enough to the edge and the the node isn't below the seeker
-            else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
-            {
-                float jump = nodeXMag * 3 + yDiff * 5;
-                if (jump > 20)
-                    jump = 20;
-                enemyMovement.jumpSpeed = jump;
+                // Do a jump depending on the vertical distance
+                if (yDiff > minDist && xMag >= 1.515f)
+                {
+                    float jump = jumpStrength/2 + yDiff * 2.5f;
+                    if (jump > jumpStrength)
+                        jump = jumpStrength;
+                    enemyMovement.jumpSpeed = jump;
+                }
+                // Do a "horizontal" jump if the seeker is close enough to the edge and the the node isn't below the seeker
+                else if (nodeXMag > jumpDist && yDiff >= -0.1f && xMag <= nodeXMag)
+                {
+                    float jump = nodeXMag * 3 + yDiff * 5;
+                    if (jump > jumpStrength)
+                        jump = jumpStrength;
+                    enemyMovement.jumpSpeed = jump;
+                }
             }
         }
-        else if(enemyMovement.grounded)     // If hoirzontal distance is small enough and seeker is grounded, get a new node
+        else if(enemyMovement.grounded)     // If horizontal distance is small enough and seeker is grounded, get a new node
         {
             if (Path.Count > 1)
             {

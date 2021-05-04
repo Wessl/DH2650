@@ -30,9 +30,8 @@ public class Enemy : MonoBehaviour
     public float nextWaypointDist = 3;
     public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay;
     public LayerMask groundLayers;
-    public bool jump, inRange;
+    public bool inRange, grounded, engaged, canJump;
     public Transform groundCheck;
-    public bool grounded, engaged;
     public LayerMask playerAndGround;
     private float attackTimer, speed;
 
@@ -119,9 +118,23 @@ public class Enemy : MonoBehaviour
         Collider2D ground = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
 
         if (ground != null)
+        {
+            if (!grounded)
+                StartCoroutine(CanJump());
             grounded = true;
+        }
         else
+        {
+            canJump = false;
             grounded = false;
+        }
+    }
+
+    // Enemy can jump when grounded after a small delay to prevent it from getting stuck in a jump-loop
+    IEnumerator CanJump()
+    {
+        yield return new WaitForSeconds(0.1f);
+        canJump = true;
     }
 
     void GroundMovement()
@@ -148,7 +161,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+                rb.velocity = new Vector2(rb.velocity.x/Mathf.Abs(rb.velocity.x) * jumpSpeed/3, jumpSpeed);
             }
 
             if (animator != null)

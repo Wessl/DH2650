@@ -31,7 +31,7 @@ public class Larva: MonoBehaviour
         upperLeft = upperRight - new Vector2(x+width*2, 0);
         bottomLeft = upperLeft - new Vector2(0, y + width*2);
         bottomRight = bottomLeft + new Vector2(x+width*2, 0);
-
+        Physics2D.IgnoreLayerCollision(9, 9);
         transform.position = upperRight;
         animator = GetComponent<Animator>();
         spriteMat = GetComponentInChildren<SpriteRenderer>().material;
