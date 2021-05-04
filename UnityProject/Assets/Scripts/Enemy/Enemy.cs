@@ -226,10 +226,11 @@ public class Enemy : MonoBehaviour
     // Flash sprite white to indicate damage being taken
     IEnumerator FlashSprite()
     {
+        Color color = spriteMat.GetColor("_Color");
         spriteMat.SetColor("_Color", new Color(1,0.55f,0.55f,0.88f));   // Arbitrary values
         yield return new WaitForSeconds(0.07f);                                          // Arbitrary wait time, roughly four frames @60 fps
         // Reset to base value
-        spriteMat.SetColor("_Color", new Color(1,1,1,0));               // Alpha 0 = default sprite color
+        spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
     }
 
 
