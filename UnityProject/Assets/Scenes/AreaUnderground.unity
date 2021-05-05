@@ -14307,13 +14307,14 @@ MonoBehaviour:
   - {fileID: 0}
   closestNode: {fileID: 511384509}
   targetNode: {fileID: 511384509}
-  target: {fileID: 0}
   Path: []
   enemyMovement: {fileID: 1967890305}
   minDist: 1.5
   maxDist: 20
   jumpDist: 10
   engagementRange: 0
+  stopDistance: 0
+  jumpStrength: 20
   UIMask:
     serializedVersion: 2
     m_Bits: 32
@@ -14333,6 +14334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   moveSpeed: 10
   lerp: 5
   jumpSpeed: 20
@@ -14356,13 +14358,16 @@ MonoBehaviour:
   groundCheckRadius: 0.49
   flyingLerp: 0
   engagementRange: 0
+  attackCooldown: 0
+  hitDelay: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 8320
-  jump: 0
-  groundCheck: {fileID: 811170877}
+  inRange: 0
   grounded: 1
   engaged: 0
+  canJump: 0
+  groundCheck: {fileID: 811170877}
   playerAndGround:
     serializedVersion: 2
     m_Bits: 0

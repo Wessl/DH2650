@@ -11,6 +11,7 @@ public class GameMenu : MonoBehaviour
     public GameObject optionsPanel;
     public Text actualLeftMouseAction;
     public Text actualRightMouseAction;
+    public Slider sfxVolumeSlider;
     void Start()
     {
         // Make sure some playerprefs exist
@@ -29,6 +30,8 @@ public class GameMenu : MonoBehaviour
             actualLeftMouseAction.text = "Attack";
             actualRightMouseAction.text = "Tongue";
         }
+
+        sfxVolumeSlider.value = AudioListener.volume;
     }
 
     private void Update()
@@ -101,7 +104,10 @@ public class GameMenu : MonoBehaviour
         // Actually update the player scripts so the correct buttons are used
         Combat.instance.UpdateAttackButtonMapping();
         PlayerMovement.instance.UpdateTongueButtonMapping();
-        
-        
+    }
+
+    public void OnSFXVolSliderChange()
+    {
+        AudioListener.volume = sfxVolumeSlider.value;
     }
 }
