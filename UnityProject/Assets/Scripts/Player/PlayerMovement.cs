@@ -274,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RetractTongue()
     {
-        AfterImagePool.Instance.AddToPool(tongue);
+        TonguePool.Instance.AddToPool(tongue);
         tongue = null;
         if (pulling && target != null)
             target.GetComponent<Animator>().SetBool("Pulled", false);
