@@ -7,7 +7,7 @@ public class TonguePool : MonoBehaviour
     [SerializeField]
     private GameObject tonguePrefab;
 
-    private Queue<GameObject> availableObjects = new Queue<GameObject>();
+    public Queue<GameObject> availableObjects = new Queue<GameObject>();
 
     public static TonguePool Instance { get; private set; }
     // Start is called before the first frame update

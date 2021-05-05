@@ -274,6 +274,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RetractTongue()
     {
+        TongueScript.Instance.Reset();
         TonguePool.Instance.AddToPool(tongue);
         tongue = null;
         if (pulling && target != null)

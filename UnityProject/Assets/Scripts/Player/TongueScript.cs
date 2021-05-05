@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TongueScript : MonoBehaviour
 {
-
+    public static TongueScript Instance;
     PlayerMovement playerMV;
     Rigidbody2D rb;
     public float maxLength, minLength;
@@ -24,10 +24,10 @@ public class TongueScript : MonoBehaviour
         SR = GetComponent<SpriteRenderer>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         mouth = player.transform.Find("TonguePoint").transform;
-
         transform.position = mouth.position;
         tongueCenter = transform.GetChild(0).gameObject;
         rb = GetComponent<Rigidbody2D>();
+        Instance = this;
         playerMV = PlayerMovement.instance;
     }
     // Start is called before the first frame update
@@ -38,14 +38,12 @@ public class TongueScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dist = Vector2.Distance(playerMV.getMouthPos(), rb.position);
-        
+        dist = Vector2.Distance(playerMV.getMouthPos(), transform.position);
         // Draw line between tongue endpoint and player - maybe dumb?
         Stretch(tongueCenter, playerMV.getMouthPos(), rb.position);
         
         if (dist > maxLength)   // the tongue isn't that long, time to pull back
         {
-            print("too long");
             playerMV.RetractTongue();
         }
         
@@ -54,7 +52,9 @@ public class TongueScript : MonoBehaviour
     private void FixedUpdate()
     {
         if (hit)
+        {
             rb.position = new Vector2(target.transform.position.x, target.transform.position.y) + relativePos;    // updates tonguetip to stick on the position it hit
+        }
     }
 
     public void Target(GameObject hitTarget, Vector2 hitPos)
@@ -83,11 +83,19 @@ public class TongueScript : MonoBehaviour
         Vector3 direction = finalPosition - initialPosition;
         direction = Vector3.Normalize(direction);
         tongue.transform.up = direction;
-        Vector3 scale = new Vector3(0.3f, 1, 1);
-        scale.y = Vector3.Distance(initialPosition, finalPosition) / spriteSize;
+        Vector3 scale = new Vector3(0.3f, 1, 1)
+        {
+            y = Vector3.Distance(initialPosition, finalPosition) / spriteSize
+        };
         tongue.transform.localScale = scale*5;
     }
     
+    public void Reset()
+    {
+        tongueCenter.transform.localScale = new Vector3(1, 1, 1);
+        tongueCenter.transform.localPosition= new Vector3(0, 0, 0);
+        hit = false;
+    }
     // When this is destroyed, remove the center of the tongue as well
     void OnDestroy()
     {
