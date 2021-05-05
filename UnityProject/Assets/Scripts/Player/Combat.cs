@@ -158,6 +158,7 @@ public class Combat : MonoBehaviour
                 LowGeezer(true);
                 break;
             case "rotatingslash":
+                AudioManager.Instance.Play("Sword Swing Air");
                 damage = attackDamage;
                 point = attackPoint.position;
                 radius = slash2radius;

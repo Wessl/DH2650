@@ -188,7 +188,7 @@ public class Enemy : MonoBehaviour
             {
                 transform.localScale *= new Vector2(-1, 1);
             }
-        } else 
+        } else if (!(attackTimer > attackCooldown- hitDelay*2))
         {
             if ((transform.position.x < target.position.x && transform.localScale.x < 0) ||
                 (transform.position.x > target.position.x && transform.localScale.x > 0))
