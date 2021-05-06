@@ -13,7 +13,9 @@ public class Larva: MonoBehaviour
     public static Enemy instance;
     private Animator animator;
     private Material spriteMat;
-    public Transform attackPoint, platform;
+    public Transform attackPoint;
+    private BoxCollider2D boxCollider;
+    public Transform platform;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float attackDamage, weight, speed;
     public LayerMask playerLayer;
@@ -24,8 +26,9 @@ public class Larva: MonoBehaviour
 
     void Start()
     {
-        float x = platform.localScale.x;
-        float y = platform.localScale.y;
+        boxCollider = platform.GetComponent<BoxCollider2D>();
+        float x = platform.localScale.x * boxCollider.size.x;
+        float y = platform.localScale.y * boxCollider.size.y;
         float width = 0.15f;
         upperRight = (Vector2)platform.position + new Vector2(x / 2 + width, y / 2 + width);
         upperLeft = upperRight - new Vector2(x+width*2, 0);
