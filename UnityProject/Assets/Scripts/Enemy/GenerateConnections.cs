@@ -71,7 +71,9 @@ public class GenerateConnections : MonoBehaviour
     {
         foreach(var obj in platforms)
         {
-            float width = obj.transform.localScale.x;
+            Vector2 size = obj.GetComponent<BoxCollider2D>().size;
+            Vector2 local = obj.transform.localScale;
+            float width = size.x * local.x;
             if (width < 2)
                 continue;
             Node lastNode = null; ;
@@ -83,7 +85,7 @@ public class GenerateConnections : MonoBehaviour
                 node.GetComponent<CircleCollider2D>().radius = 0.1f;
                 node.layer = 5;
                 node.tag = "Node";
-                node.transform.localPosition = new Vector2(-0.5f+(1.0f + i * 2 )/ width, 1);
+                node.transform.localPosition = new Vector2(-width/2+(1.0f + i * 2 ), size.y/2 + 0.5f);
                 Node n = node.GetComponent<Node>();
                 if (i>0)
                 {

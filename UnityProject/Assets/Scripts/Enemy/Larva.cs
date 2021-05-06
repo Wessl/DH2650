@@ -30,7 +30,7 @@ public class Larva: MonoBehaviour
         float x = platform.localScale.x * boxCollider.size.x;
         float y = platform.localScale.y * boxCollider.size.y;
         float width = 0.15f;
-        upperRight = (Vector2)platform.position + new Vector2(x / 2 + width, y / 2 + width);
+        upperRight = (Vector2)platform.position + boxCollider.offset * platform.localScale.x + new Vector2(x / 2 + width, y / 2 + width);
         upperLeft = upperRight - new Vector2(x+width*2, 0);
         bottomLeft = upperLeft - new Vector2(0, y + width*2);
         bottomRight = bottomLeft + new Vector2(x+width*2, 0);
