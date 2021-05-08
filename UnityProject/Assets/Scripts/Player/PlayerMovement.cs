@@ -28,15 +28,15 @@ public class PlayerMovement : MonoBehaviour
     CircleCollider2D tongueCollider;
     Vector2 hitPos, targetPos, tongueRelPos;
     float stickiness = 1;
-    public LayerMask playerMask;
+    public LayerMask playerMask, enemyMask;
     float tongueSize;
     public float airLerp, groundLerp, jumpMemory;
-    private int tongueMouseKeyCode;
-    public float dashTime, dashSpeed, dashCooldown, imageDistance;
-    float dashTimer;
+    private int tongueMouseKeyCode, attackMouseKeyCode;
+    public float dashTime, dashSpeed, dashCooldown, imageDistance, pulledSlash;
+    float dashTimer, bulletCharges;
     Vector2 lastImagePos;
     bool dashUnlocked, dashing, dashed;
-    Vector2 dashDirection;
+    Vector2 dashDirection, pullDirection;
     public GameObject achievementPanel;
 
     private void Awake()
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bulletCharges = 1;
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
@@ -83,6 +84,14 @@ public class PlayerMovement : MonoBehaviour
             jumpMemory -= Time.deltaTime;
         else if(jump)
             jump = false;
+        if(gettingPulled && tongue == null)
+        {
+            if ((pullDirection.normalized / rb.velocity.normalized).sqrMagnitude > 4)
+            {
+                ResetRotation();
+                GetPulled(false);
+            }
+        }
     }
 
 
@@ -104,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
             jumpMemory = 0.1f;
         }
 
-        if (Input.GetMouseButtonDown(tongueMouseKeyCode) && !animator.GetBool("LockedMovement"))
+        if (Input.GetMouseButtonDown(tongueMouseKeyCode) && !animator.GetBool("LockedMovement") && !TimeController.Instance.slowedTime)
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if (tongue == null &&                                                               // can only shoot if not already shooting
@@ -119,13 +128,26 @@ public class PlayerMovement : MonoBehaviour
         {
             RetractTongue();
         }
-        
+
+        BulletTime();
         Dash();
     }
 
     void FixedUpdate()
     {
-        if (pulling || gettingPulled)         // keep on pulling
+        if(pulledSlash > 0)
+        {
+            pulledSlash -= Time.deltaTime;
+            rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0,0), Time.deltaTime * 10);
+            if(rb.velocity.magnitude > 20)
+                AfterImagePool.Instance.GetFromPool(isFacingRight);
+            return;
+        } else if (pulledSlash > -99)
+        {
+            ResetRotation();
+            pulledSlash = -99;
+        }
+        if (tongue && (pulling || gettingPulled))         // keep on pulling
             Pull();
         if (jump)
         {
@@ -134,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
             else if (touchingWall || backTouchingWall)
                 WallJump();
         }
-        if (!animator.GetBool("LockedMovement") && !gettingPulled)
+        if (!animator.GetBool("LockedMovement") && !(gettingPulled && tongue))
         {
 
             if (grounded)  // snappy movement if player is grounded 
@@ -170,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
             if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
             {
                 rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
-                animator.speed = rb.velocity.x / 10;
+                animator.speed = Mathf.Abs(rb.velocity.x) / 10;
                 stickTimer -= Time.deltaTime;
             }
             else
@@ -180,6 +202,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void BulletTime()
+    {
+        if (!TimeController.Instance.slowedTime)
+        {
+            if (bulletCharges > 0 && Input.GetKeyDown(KeyCode.LeftControl)) // TODO: check ki
+            {
+                TimeController.Instance.SlowdownTime();
+            }
+        }
+        else if (!TimeController.Instance.bulletSlashing)
+        {
+            Vector3 path = Vector2.ClampMagnitude(new Vector3(worldPos.x, worldPos.y, 0) - transform.position, 20);
+            float distance = path.magnitude;
+            Vector3 direction = path.normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, ceilingLayers);
+            if (hit)
+            {
+                float groundDistance = Vector2.Distance(hit.point, transform.position);
+                path = Vector2.ClampMagnitude(path, groundDistance);
+                distance = groundDistance;
+            }
+            hit = Physics2D.Raycast(transform.position, direction, distance, enemyMask);
+            if (hit)
+                line.SetColors(Color.red, Color.red);
+            else
+                line.SetColors(Color.white, Color.white);
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, transform.position + path);
+
+            if (Input.GetMouseButtonDown(attackMouseKeyCode))
+            {
+                Combat.instance.CheckBulletSlash(line.GetPosition(0), direction, distance);
+            }
+        }
+    }
+
+    public void ResetLine()
+    {
+        line.SetWidth(0.1f, 0.1f);
+        line.SetPosition(0, new Vector3(0, 0, 0));
+        line.SetPosition(1, new Vector3(0, 0, 0));
+    }
     void Dash()
     {
         if (dashUnlocked)
@@ -251,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
         }
         targetPos = target.transform.position;
         float dist = Vector2.Distance(getMouthPos(), targetPos + tongueRelPos);
-        Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
+        pullDirection = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
         if (dist < 1.6 )   // the tongue has almost returned back to the mouth
         {
             RetractTongue();
@@ -259,17 +323,17 @@ public class PlayerMovement : MonoBehaviour
         else if (gettingPulled)
         {
             tonguePoint.localPosition = new Vector2(0.2f, 0.96f);
-            float rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            if (direction.x < 0)
+            float rot = Mathf.Atan2(pullDirection.y, pullDirection.x) * Mathf.Rad2Deg;
+            if (pullDirection.x < 0)
             {
                 transform.localRotation = Quaternion.Euler(0, 180, -rot + 90);
             } else
                 transform.localRotation = Quaternion.Euler(0, 0, rot-90);
-            rb.velocity = direction * pullSpeed/1.5f;
+            rb.velocity = pullDirection * pullSpeed/1.5f;
         }
         else if (pulling)
         {
-            targetRB.velocity = -direction * pullSpeed;
+            targetRB.velocity = -pullDirection * pullSpeed;
         }
     }
     public void RetractTongue()
@@ -280,11 +344,6 @@ public class PlayerMovement : MonoBehaviour
         if (pulling && target != null)
             target.GetComponent<Animator>().SetBool("Pulled", false);
         tonguePoint.localPosition = new Vector2(0.3f, 0.76f);
-        if (isFacingRight == 1)
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
-        else
-            transform.localRotation = Quaternion.Euler(0, -180, 0);
-        GetPulled(false);
         pulling = false;
     }
 
@@ -296,12 +355,9 @@ public class PlayerMovement : MonoBehaviour
         target = hitTarget;
         targetPos = target.transform.position;
         tongueRelPos = hitPos - targetPos;
-        tongue.GetComponent<TongueScript>().Target(target, pos);
         switch(tag)
         {
-            case "Enemy":
-            case "FlyingEnemy":
-            case "GroundEnemy":
+            case "OldStuff":
                 targetRB = target.GetComponent<Rigidbody2D>();
                 if (target.GetComponent<Enemy>().weight < weight)
                 {
@@ -314,19 +370,39 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
             case "StationaryShootingEnemy":
+                tongue.GetComponent<TongueScript>().Target(target, pos);
                 targetRB = target.GetComponent<Rigidbody2D>();
                 pulling = true;
                 target.GetComponentInParent<ShooterBoye>().Unstuck();
                 break;
             case "Ground":
-            case "SnakeBoss":
             case "Platform":
             case "Ceiling":
             case "GrapplePoint":
-            case "Larva":
+                tongue.GetComponent<TongueScript>().Target(target, pos);
                 GetPulled(true);
                 break;
-            case "Boss":
+            case "Enemy":
+            case "FlyingEnemy":
+            case "GroundEnemy":
+            case "NewGroundEnemy":
+                targetRB = target.GetComponent<Rigidbody2D>();
+                tongue.GetComponent<TongueScript>().Target(target, pos);
+                if (target.GetComponent<Enemy>().weight < weight)
+                {
+                    target.GetComponent<Animator>().SetBool("Pulled", true);
+                    pulling = true;
+                }
+                else
+                {
+                    GetPulled(true);
+                }
+                break;
+            case "SnakeBoss":
+            case "Larva":
+            case "WaspQueen":
+                //Combat.instance.PulledSlash(target, tag, hitPos);
+                break;
             case "Nongrappable":
                 break;
             default:
@@ -347,6 +423,8 @@ public class PlayerMovement : MonoBehaviour
 
     void ShootTongue()
     {
+        ResetRotation();
+        GetPulled(false);
         tongue = TonguePool.Instance.GetFromPool();
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
 
@@ -435,6 +513,8 @@ public class PlayerMovement : MonoBehaviour
         else if (isFacingRight==-1 && mx > 0)
             Flip();
         */
+        if (pulledSlash > 0)
+            return;
         Vector2 direction = worldPos - rb.position;
         if (direction.x > 0 && isFacingRight == -1)
             Flip();
@@ -467,11 +547,21 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerPrefs.GetInt("LeftMouseIsTongue") == 1)
         {
             tongueMouseKeyCode = 0; // If mouse left click is tongue, then set tongue to be 0, i.e. left mouse button
+            attackMouseKeyCode = 1;
         }
         else
         {
             tongueMouseKeyCode = 1; // If left mouse is not tongue, then right mouse must be tongue. 
+            attackMouseKeyCode = 0;
         }
+    }
+
+    void ResetRotation()
+    {
+        if (isFacingRight == 1)
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        else
+            transform.localRotation = Quaternion.Euler(0, -180, 0);
     }
 
     private void OnCollisionStay2D(Collision2D collision)

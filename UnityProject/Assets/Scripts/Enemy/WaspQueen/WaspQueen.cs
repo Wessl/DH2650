@@ -96,7 +96,6 @@ public class WaspQueen : MonoBehaviour
                 targetDirection = (target - (Vector2)transform.position).normalized;
                 rot = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
                 float localZ = transform.localRotation.z;
-                print(Mathf.Abs(localZ - (rot + 90)));
                 transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 90), Time.deltaTime * 3 * ( 10 + Mathf.Abs(localZ-(rot+90))));
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, returnPoint.position.y), step / 4);
             }

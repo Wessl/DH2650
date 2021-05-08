@@ -8,6 +8,7 @@ public class Combat : MonoBehaviour
 {
     public static Combat instance;
     public Animator animator;
+    public Animator hitAnimation;
     public LayerMask enemyLayer;
     bool attacking, canAttack;
     Rigidbody2D rb;
@@ -18,15 +19,17 @@ public class Combat : MonoBehaviour
     [SerializeField]
     float slash1radius, slash2radius;
     public LayerMask rayMask;
-    public float attackDamage, maxHealth;
+    public float attackDamage, maxHealth, startingKi, pulledSlashCooldown, bulletDamage;
     [SerializeField]
-    float health;
+    float health, ki;
     Animation slashAnimation;
-    float attackMove;
+    float attackMove, pulledSlashTimer;
     int attacked;
     Vector2 attackOrigin;
+    Vector3 bulletDirection;
     string slashStr;
-    float damageTimer;
+    float damageTimer, bulletDistance;
+    RaycastHit2D[] bulletHits;
     private int attackMouseKeyCode;
     private GameObject youDiedPanel;
     public Transform geezer;
@@ -34,6 +37,7 @@ public class Combat : MonoBehaviour
     void Awake()
     {
         health = maxHealth;
+        ki = startingKi;
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         rayMask = ~(1 << LayerMask.NameToLayer("Enemy"));
@@ -56,6 +60,8 @@ public class Combat : MonoBehaviour
     {
         Attack();
         damageTimer += Time.deltaTime;
+        if (pulledSlashTimer > 0)
+            pulledSlashTimer -= Time.deltaTime;
         if (transform.position.y < -20)
             Die();
     }
@@ -68,7 +74,7 @@ public class Combat : MonoBehaviour
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(attackMouseKeyCode))
+        if (Input.GetMouseButtonDown(attackMouseKeyCode) && !TimeController.Instance.slowedTime)
         {
             if (PlayerMovement.instance.grounded)
             {
@@ -167,7 +173,7 @@ public class Combat : MonoBehaviour
                 print("Not a valid slash name");
                 break;
         }
-        Collider2D[] hit = null;
+        Collider2D[] hit;
         // raycast to start point of attack
         if (slashStr.Equals("rotatingslash"))
             hit = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
@@ -179,45 +185,111 @@ public class Combat : MonoBehaviour
             print("enemy hit");
             StartCoroutine(HitSleep(0.02f));
             string tag = target.tag;
-            Enemy enemy;
-            switch (tag)
-            {
-                case "GroundEnemy":
-                case "FlyingEnemy":
-                    enemy = target.GetComponent<Enemy>();
-                    if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
-                        damage *= 2;
-                    enemy.TakeDamage(damage);
-                    break;
-                case "SnakeBoss":
-                    if(target.name.Equals("SnakeBoss"))
-                        target.GetComponent<SnakeBoss>().TakeDamage(damage);
-                    else
-                       GameObject.Find("SnakeBoss").GetComponent<SnakeBoss>().TakeDamage(damage);
-                    break;
-                case "Larva":
-                    target.GetComponent<Larva>().TakeDamage();
-                    break;
-                case "NewGroundEnemy":
-                    target.GetComponent<Enemy>().TakeDamage(damage);
-                    break;
-                case "WaspQueen":
-                    print("waspqueen hit");
-                    target.GetComponent<WaspQueen>().TakeDamage(damage);
-                    break;
-                case "StationaryShootingEnemy":
-                    Debug.Log("enemy hit is " + target.name);
-                    target.GetComponentInParent<ShooterBoye>().TakeDamage(damage);
-                    break;
-                case "Projectile":
-                    Debug.Log("deflected projectile!");
-                    target.GetComponent<Projectile>().Deflect();
-                    break;
-                default:
-                    print("Hit a new tag??? " + tag);
-                    break;
+            Damage(target.gameObject, tag, damage);
+        }
+    }
 
-            }
+    public void ReduceKi(float used)
+    {
+        ki = Mathf.Max(ki -= used, 0);
+    }
+
+    private void Damage(GameObject target, string tag, float damage)
+    {
+        switch (tag)
+        {
+            case "GroundEnemy":
+            case "FlyingEnemy":
+                Enemy enemy = target.GetComponent<Enemy>();
+                if (enemy.GetComponent<Animator>().GetBool("PulledEffect"))
+                    damage *= 2;
+                enemy.TakeDamage(damage);
+                break;
+            case "SnakeBoss":
+                if (target.name.Equals("SnakeBoss"))
+                    target.GetComponent<SnakeBoss>().TakeDamage(damage);
+                else
+                    GameObject.Find("SnakeBoss").GetComponent<SnakeBoss>().TakeDamage(damage);
+                break;
+            case "Larva":
+                target.GetComponent<Larva>().TakeDamage();
+                break;
+            case "NewGroundEnemy":
+                target.GetComponent<Enemy>().TakeDamage(damage);
+                break;
+            case "WaspQueen":
+                print("waspqueen hit");
+                target.GetComponent<WaspQueen>().TakeDamage(damage);
+                break;
+            case "StationaryShootingEnemy":
+                Debug.Log("enemy hit is " + target.name);
+                target.GetComponentInParent<ShooterBoye>().TakeDamage(damage);
+                break;
+            case "Projectile":
+                Debug.Log("deflected projectile!");
+                target.GetComponent<Projectile>().Deflect();
+                break;
+            default:
+                print("Hit a new tag??? " + tag);
+                break;
+
+        }
+    }
+    /*
+    public void PulledSlash(GameObject target, string tag, Vector2 position)
+    {
+        if (pulledSlashTimer > 0)
+            return;
+        Vector2 origin = transform.position;
+        Vector2 direction = position - origin;
+        transform.position = position;
+        rb.velocity = direction.normalized * 50;
+        PlayerMovement.instance.RetractTongue();
+        Damage(target, tag, 50);
+        animator.Play("Pulled slash");
+        slash.GetComponent<Animation>().Play("runningslash");
+        float dist = direction.magnitude;
+        direction = direction.normalized;
+        float rot = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (direction.x < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 180-rot);
+        }
+        else
+            transform.localRotation = Quaternion.Euler(0, 0, rot);
+        for (int i=0;i<dist;i++)
+        {
+            var afterImage = AfterImagePool.Instance.GetFromPool((int)Mathf.Sign(direction.x));
+            afterImage.GetComponent<AfterImage>().PulledInit(0.8f*(i+1), 0.1f, position - direction * i);
+        }
+        PlayerMovement.instance.pulledSlash = 0.5f;
+        pulledSlashTimer = pulledSlashCooldown;
+    }*/
+
+    public void CheckBulletSlash(Vector2 origin, Vector3 direction, float distance)
+    {
+        bulletHits = Physics2D.RaycastAll(origin,direction,distance,enemyLayer);
+        bulletDirection = direction;
+        bulletDistance = distance;
+        if (bulletHits.Length > 0)
+        {
+            animator.SetFloat("SlowdownFactor", 1 / TimeController.Instance.slowdownFactor);
+            TimeController.Instance.slowdownTimer = 5;
+            animator.SetTrigger("BulletTime");
+        }
+    }
+
+    public void BulletSlash()
+    {
+        transform.position += bulletDirection*bulletDistance;
+        rb.velocity = new Vector2(0, 0);
+        TimeController.Instance.StopSlowdown();
+        foreach (RaycastHit2D hit in bulletHits)
+        {
+            Collider2D target = hit.collider;
+            string tag = target.tag;
+            Damage(target.gameObject, tag, bulletDamage);
+            HitAnimatorPool.Instance.GetFromPool(hit.point);
         }
     }
 
@@ -228,6 +300,11 @@ public class Combat : MonoBehaviour
         else
             geezer.localPosition = new Vector2(-0.1f, 1.1f);
             
+    }
+
+    public void HideGeezer(bool hide)
+    {
+        geezer.GetComponent<SpriteRenderer>().enabled = !hide;
     }
 
     public void AttackMovement()

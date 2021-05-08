@@ -15,7 +15,10 @@ public class Node : MonoBehaviour
     {
         foreach (var n in connectedTo)
         {
-            Gizmos.DrawLine(transform.position, n.transform.position);
+            if (n != null)
+                Gizmos.DrawLine(transform.position, n.transform.position);
+            else
+                Debug.LogWarning("Faulty node in " + gameObject.transform.parent);
         }
     }
 

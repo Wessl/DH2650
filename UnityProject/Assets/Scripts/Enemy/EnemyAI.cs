@@ -76,6 +76,8 @@ public class EnemyAI : MonoBehaviour
     {
         Vector2 dir = (target.transform.position - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,Mathf.Sqrt(dist),playerAndGround);
+        if (!hit)
+            return;
         if (hit.collider.CompareTag("Player"))
         {
             engaged = true;
@@ -87,7 +89,7 @@ public class EnemyAI : MonoBehaviour
         allNodes = FindObjectsOfType<Node>().ToList();
     }
 
-    Node GetClosestNodeTo(Transform t, bool target)
+    Node GetClosestNodeTo(Transform t)
     {
         Collider2D[] hitCollider = Physics2D.OverlapCircleAll(t.position, maxDist, UIMask);
         
@@ -121,15 +123,15 @@ public class EnemyAI : MonoBehaviour
         if (!engaged || !enemyMovement.grounded)
             return;
         /*
-        if ((GetClosestNodeTo(target, true).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
-        if (GetClosestNodeTo(transform, false).Equals(closestNode) && !enemyMovement.grounded)        // Don't update the path if the seeker isn't grounded or not engaged
+        if ((GetClosestNodeTo(target).Equals(targetNode) && GetClosestNodeTo(transform, false).Equals(closestNode) && Path.Count > 0) || */
+        if (GetClosestNodeTo(transform).Equals(closestNode) && !enemyMovement.grounded)        // Don't update the path if the seeker isn't grounded or not engaged
         {
             return;
         }
         Path.Clear();
 
-        targetNode = GetClosestNodeTo(target, true);            // Set the targetNode to the node closest to the target
-        closestNode = GetClosestNodeTo(transform, false);       // Set the closestNode to the node closest to the seeker
+        targetNode = GetClosestNodeTo(target);            // Set the targetNode to the node closest to the target
+        closestNode = GetClosestNodeTo(transform);       // Set the closestNode to the node closest to the seeker
         List<Node> unvisited = new List<Node>();
         HashSet<Node> visited = new HashSet<Node>();
         unvisited.Add(closestNode);     // Start the path-search with just the closest node as root and go from there

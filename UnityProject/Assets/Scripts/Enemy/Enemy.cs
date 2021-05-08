@@ -161,7 +161,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                rb.velocity = new Vector2(rb.velocity.x/Mathf.Abs(rb.velocity.x) * jumpSpeed/3, jumpSpeed);
+                rb.velocity = new Vector2(Math.Sign(rb.velocity.x) * jumpSpeed/3, jumpSpeed);
             }
 
             if (animator != null)

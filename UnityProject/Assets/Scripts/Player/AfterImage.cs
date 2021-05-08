@@ -18,6 +18,8 @@ public class AfterImage : MonoBehaviour
     private SpriteRenderer SR;
     private SpriteRenderer playerSR;
 
+    public Sprite slash;
+
     private Color color;
     void OnEnable()
     {
@@ -29,6 +31,14 @@ public class AfterImage : MonoBehaviour
         SR.sprite = playerSR.sprite;
         transform.position = player.position;
         timeActivated = Time.time;
+    }
+
+    public void PulledInit(float alpha, float life, Vector2 pos)
+    {
+        alphaDecay = alpha;
+        activeTime = life;
+        transform.position = pos;
+        SR.sprite = slash;
     }
 
     // Update is called once per frame

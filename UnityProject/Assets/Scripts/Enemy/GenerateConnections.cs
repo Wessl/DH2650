@@ -73,11 +73,11 @@ public class GenerateConnections : MonoBehaviour
         {
             Vector2 size = obj.GetComponent<BoxCollider2D>().size;
             Vector2 local = obj.transform.localScale;
-            float width = size.x * local.x;
+            float width = size.x;
             if (width < 2)
                 continue;
             Node lastNode = null; ;
-            for (int i = 0; i < width / 2; i++) {
+            for (int i = 0; i < (width / 2)*local.x; i++) {
                 GameObject node = new GameObject("Node" + i);
                 node.transform.parent = obj.transform;
                 node.AddComponent<Node>();
@@ -85,7 +85,7 @@ public class GenerateConnections : MonoBehaviour
                 node.GetComponent<CircleCollider2D>().radius = 0.1f;
                 node.layer = 5;
                 node.tag = "Node";
-                node.transform.localPosition = new Vector2(-width/2+(1.0f + i * 2 ), size.y/2 + 0.5f);
+                node.transform.localPosition = new Vector2(-width/2 + (1 + i * 2)/local.x, size.y/2 + 0.5f);
                 Node n = node.GetComponent<Node>();
                 if (i>0)
                 {

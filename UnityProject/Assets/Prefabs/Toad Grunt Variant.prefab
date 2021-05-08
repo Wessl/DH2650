@@ -130,12 +130,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 368726897, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
+      propertyPath: weight
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 368726897, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1464940232}
     - target: {fileID: 368726897, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: hitDelay
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 368726897, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 368726897, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: moveSpeed
@@ -187,11 +195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1117844061703636960, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 365.27
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1117844061703636960, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 31.56
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1117844061703636960, guid: fbbaf8c547b629248b7a82599b263fb3, type: 3}
       propertyPath: m_LocalPosition.z
