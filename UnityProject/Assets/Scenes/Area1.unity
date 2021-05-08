@@ -464,6 +464,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
+      propertyPath: bulletDamage
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537445189248313658, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: hitAnimation
       value: 
       objectReference: {fileID: 0}
@@ -485,11 +489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 612.49
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 177.5
+      value: 177.4
       objectReference: {fileID: 0}
     - target: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9769,7 +9773,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393427850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 927883311}
@@ -12634,7 +12638,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 578.19, y: 177.79391, z: -9.664757}
+  m_LocalPosition: {x: 515.7, y: 177.69391, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871241011}
@@ -24627,7 +24631,7 @@ MonoBehaviour:
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneHeight: 0.5
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -42467,7 +42471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942701864}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 578.19, y: 177.79391, z: -9.664757}
+  m_LocalPosition: {x: 515.7, y: 177.69391, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1082669470}
@@ -46410,7 +46414,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 7b45ced969af7d3418b0cf448dd7f7de, type: 3}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
       propertyPath: sounds.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
       propertyPath: sounds.Array.data[2].clip
@@ -46453,6 +46457,14 @@ PrefabInstance:
       value: Sword Impact
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
+      propertyPath: sounds.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 70e220636ae2a17498a0dfdaa82278a6, type: 3}
+    - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
+      propertyPath: sounds.Array.data[6].name
+      value: Bullet Time Init
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
       propertyPath: sounds.Array.data[3].pitch
       value: 1
       objectReference: {fileID: 0}
@@ -46462,6 +46474,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
       propertyPath: sounds.Array.data[5].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
+      propertyPath: sounds.Array.data[6].pitch
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
@@ -46478,6 +46494,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
       propertyPath: sounds.Array.data[5].volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622751505793504774, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}
+      propertyPath: sounds.Array.data[6].volume
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4622751505793504775, guid: c7d6e24f4a20dd4469fae6385a70b948, type: 3}

@@ -27,7 +27,7 @@ public class WaspQueen : MonoBehaviour
     {
         instance = this;
         health = maxHealth;
-        floorLevel = floor.position.y + caps.size.y/2 + 1;
+        floorLevel = floor.position.y + caps.size.y/2 + 2;
         stuckTimer = 6;
         attackTimer = 6;
         gameObject.SetActive(false);

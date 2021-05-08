@@ -235,6 +235,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 Combat.instance.CheckBulletSlash(line.GetPosition(0), direction, distance);
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                TimeController.Instance.StopSlowdown(false);
         }
     }
 
@@ -513,7 +516,7 @@ public class PlayerMovement : MonoBehaviour
         else if (isFacingRight==-1 && mx > 0)
             Flip();
         */
-        if (pulledSlash > 0)
+        if (pulledSlash > 0 || TimeController.Instance.bulletSlashing)
             return;
         Vector2 direction = worldPos - rb.position;
         if (direction.x > 0 && isFacingRight == -1)

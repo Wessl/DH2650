@@ -59,7 +59,8 @@ public class Combat : MonoBehaviour
     void Update()
     {
         Attack();
-        damageTimer += Time.deltaTime;
+        if(damageTimer<2)
+            damageTimer += Time.deltaTime;
         if (pulledSlashTimer > 0)
             pulledSlashTimer -= Time.deltaTime;
         if (transform.position.y < -20)
@@ -173,16 +174,17 @@ public class Combat : MonoBehaviour
                 print("Not a valid slash name");
                 break;
         }
-        Collider2D[] hit;
+        Collider2D[] hits;
         // raycast to start point of attack
         if (slashStr.Equals("rotatingslash"))
-            hit = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
+            hits = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
         else
-            hit = Physics2D.OverlapCapsuleAll(point, size, CapsuleDirection2D.Horizontal, 0, enemyLayer);
+            hits = Physics2D.OverlapCapsuleAll(point, size, CapsuleDirection2D.Horizontal, 0, enemyLayer);
         //RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(point, radius, direction, distance, enemyLayer);
-        foreach (Collider2D target in hit)
+        foreach (Collider2D target in hits)
         {
             print("enemy hit");
+            AudioManager.Instance.Play("Sword Impact");
             StartCoroutine(HitSleep(0.02f));
             string tag = target.tag;
             Damage(target.gameObject, tag, damage);
@@ -276,6 +278,7 @@ public class Combat : MonoBehaviour
             animator.SetFloat("SlowdownFactor", 1 / TimeController.Instance.slowdownFactor);
             TimeController.Instance.slowdownTimer = 5;
             animator.SetTrigger("BulletTime");
+            AudioManager.Instance.Play("Bullet Time Init");
         }
     }
 
@@ -283,9 +286,10 @@ public class Combat : MonoBehaviour
     {
         transform.position += bulletDirection*bulletDistance;
         rb.velocity = new Vector2(0, 0);
-        TimeController.Instance.StopSlowdown();
+        TimeController.Instance.StopSlowdown(true);
         foreach (RaycastHit2D hit in bulletHits)
         {
+            AudioManager.Instance.Play("Bullet Hit");
             Collider2D target = hit.collider;
             string tag = target.tag;
             Damage(target.gameObject, tag, bulletDamage);

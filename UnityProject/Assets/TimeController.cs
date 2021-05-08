@@ -6,7 +6,7 @@ public class TimeController : MonoBehaviour
 {
     public static TimeController Instance;
     public float slowdownFactor = 0.05f;
-    public float slowdownLength = 3;
+    public float slowdownLength = 5;
     public float slowdownTimer;
     public bool slowedTime, bulletSlashing;
 
@@ -39,18 +39,19 @@ public class TimeController : MonoBehaviour
         }
     }
 
-    public void StopSlowdown()
+    public void StopSlowdown(bool attacked)
     {
-        bulletSlashing = true;
-        slowdownTimer = -50;
+        bulletSlashing = attacked;
+        if (attacked)
+            slowdownTimer = -50;
+        else
+            slowdownTimer = 0;
     }
 
     IEnumerator FlashLine()
     {
         PlayerMovement.instance.line.SetColors(Color.white, Color.white);
         PlayerMovement.instance.line.SetWidth(2, 2);
-        print(PlayerMovement.instance.line.GetPosition(0));
-        print(PlayerMovement.instance.line.GetPosition(1));
         yield return new WaitForSeconds(0.2f);
         PlayerMovement.instance.ResetLine();
         bulletSlashing = false;
