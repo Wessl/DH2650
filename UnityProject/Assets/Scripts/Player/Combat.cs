@@ -19,7 +19,7 @@ public class Combat : MonoBehaviour
     [SerializeField]
     float slash1radius, slash2radius;
     public LayerMask rayMask;
-    public float attackDamage, maxHealth, startingKi, pulledSlashCooldown, bulletDamage;
+    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage;
     [SerializeField]
     float health, ki;
     Animation slashAnimation;
@@ -33,11 +33,16 @@ public class Combat : MonoBehaviour
     private int attackMouseKeyCode;
     private GameObject youDiedPanel;
     public Transform geezer;
+    private BarScript kiBar, healthBar;
 
     void Awake()
     {
+        kiBar = GameObject.FindWithTag("KiBar").GetComponent<BarScript>();
+        healthBar = GameObject.FindWithTag("HealthBar").GetComponent<BarScript>();
         health = maxHealth;
-        ki = startingKi;
+        healthBar.UpdateBar(health / maxHealth);
+        ki = maxKi;
+        kiBar.UpdateBar(ki / maxKi);
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         rayMask = ~(1 << LayerMask.NameToLayer("Enemy"));
@@ -194,6 +199,7 @@ public class Combat : MonoBehaviour
     public void ReduceKi(float used)
     {
         ki = Mathf.Max(ki -= used, 0);
+        kiBar.UpdateBar(ki / maxKi);
     }
 
     private void Damage(GameObject target, string tag, float damage)
@@ -334,11 +340,12 @@ public class Combat : MonoBehaviour
             return;
         animator.SetTrigger("Hurt");
         health -= damage;
+        healthBar.UpdateBar(health / maxHealth);
         damageTimer = 0;
         HitSleep(0.02f);
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED");
-        if (health < 0)
+        if (health <= 0)
             Die();
     }
 

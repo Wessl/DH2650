@@ -24,6 +24,8 @@ TagManager:
   - StationaryShootingEnemy
   - Projectile
   - GameCanvas
+  - KiBar
+  - HealthBar
   layers:
   - Default
   - TransparentFX
