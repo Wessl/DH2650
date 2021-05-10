@@ -26,12 +26,15 @@ public class ProjectileDamageComponent : MonoBehaviour
         } else if (other.CompareTag("StationaryShootingEnemy") && canDamageShooter)
         {
             other.GetComponentInParent<ShooterBoye>().TakeDamage(damageToDeal);
+        } else if (other.CompareTag("StationaryShootingBoss") && canDamageShooter)
+        {
+            other.GetComponent<ShooterBoss>().TakeDamage(damageToDeal);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("StationaryShootingEnemy"))
+        if (other.CompareTag("StationaryShootingEnemy") || other.CompareTag("StationaryShootingBoss"))
         {
             // We have left our shooter. Activate ability to take damage from our own projectile.
             canDamageShooter = true;
