@@ -330,7 +330,8 @@ public class WaspQueen : MonoBehaviour
 
     void Die()
     {
-        material.color = Color.white;
+        WaspQueenCamera.Instance.ResetCamera();
+        material.shader = defaultShader;
         Instantiate(bloodSplat, transform.position, Quaternion.identity);
         Instantiate(boneSplat, transform.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
