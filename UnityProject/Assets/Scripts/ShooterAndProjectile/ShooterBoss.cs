@@ -38,23 +38,24 @@ public class ShooterBoss : MonoBehaviour
         playerIsInRange = false;
         collider = GetComponent<CapsuleCollider2D>();
         alive = true;
-        animator = GetComponent<Animator>();
+        animator = GetComponentInParent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         timePassedSinceLastFindAttempt += Time.deltaTime;
-        if (timePassedSinceLastFindAttempt > detectionDelay && alive)
+        if (timePassedSinceLastFindAttempt > detectionDelay && alive && !isBusy)
         {
             FindPlayer();
             timePassedSinceLastFindAttempt = 0;
         }
 
-        if (playerIsInRange && !isBusy)
+        if (playerIsInRange && !isBusy && alive)
         {
             FaceAndAttack();
         }
+        Debug.Log(transform.position);
     }
     
     private void FindPlayer()
@@ -62,7 +63,6 @@ public class ShooterBoss : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, playerLayer);
         foreach (var hit in hits)
         {
-            Debug.Log("yo mama");
             if (hit.transform.CompareTag("Player"))
             {
                 playerTransform = hit.transform;
@@ -113,22 +113,29 @@ public class ShooterBoss : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        playerIsInRange = false;
-        health -= damage;
-        if (health <= 0)
+        if (!isBusy)
         {
-            Die();
+            Debug.Log("I've been hit!");
+            playerIsInRange = false;
+            health -= damage;
+            if (health <= 0)
+            {
+                Die();
+            }
+            animator.SetTrigger("pullback");
+            isBusy = true;
+            StartCoroutine(MovePositions());
         }
-        animator.SetTrigger("pullback");
-        isBusy = true;
-        StartCoroutine(MovePositions());
+        
     }
 
     IEnumerator MovePositions()
     {
+        Debug.Log("positions before moving: " + transform.position);
         yield return new WaitForSeconds(1f);
-        positionIndex += 1;
-        transform.position = existPositions[positionIndex % existPositions.Length].position;
+        positionIndex++;
+        transform.parent.position = existPositions[positionIndex % (existPositions.Length)].position;
+        Debug.Log("positions before moving: " + transform.position);
         animator.SetTrigger("moveout");
         isBusy = false;
     }

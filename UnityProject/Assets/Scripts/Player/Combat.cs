@@ -256,7 +256,6 @@ public class Combat : MonoBehaviour
                 target.GetComponentInParent<ShooterBoye>().TakeDamage(damage);
                 break;
             case "Projectile":
-                Debug.Log("deflected projectile!");
                 target.GetComponent<Projectile>().Deflect();
                 break;
             case "PickUp":

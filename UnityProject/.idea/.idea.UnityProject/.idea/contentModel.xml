@@ -320,6 +320,7 @@
             </e>
           </e>
         </e>
+        <e p="DrawWaspRoute.cs" t="Include" />
         <e p="GenericEnemyJump.cs" t="Include" />
         <e p="HitAnimatorPool.cs" t="Include" />
         <e p="HitMarkerBehaviour.cs" t="Include" />
@@ -327,6 +328,7 @@
           <e p="ColorizedSpriteShader.shader" t="Include" />
         </e>
         <e p="NextLevelLoader.cs" t="Include" />
+        <e p="PickUp.cs" t="Include" />
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">
             <e p="Editor" t="Include">
@@ -397,6 +399,7 @@
           <e p="TextBoxManager.cs" t="Include" />
         </e>
         <e p="ShooterBossBehaviour.cs" t="Include" />
+        <e p="SnackPool.cs" t="Include" />
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SpriteShift.cs" t="Include" />
         <e p="Text" t="Include">
@@ -406,7 +409,6 @@
         </e>
         <e p="TextTrigger.cs" t="Include" />
         <e p="TimeController.cs" t="Include" />
-        <e p="WaspQueenFodder.cs" t="Include" />
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
       <e p="AstarPathfindingProjectEditor.csproj" t="IncludeRecursive" />

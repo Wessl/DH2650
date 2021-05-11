@@ -21,7 +21,6 @@ public class ProjectileDamageComponent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("touching player");
             other.GetComponent<Combat>().TakeDamage(damageToDeal);
         } else if (other.CompareTag("StationaryShootingEnemy") && canDamageShooter)
         {

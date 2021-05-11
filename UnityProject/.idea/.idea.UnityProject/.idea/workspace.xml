@@ -4,9 +4,14 @@
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/ShooterBoss.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/ShooterBoss.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/shooterBoss_pullback.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/shooterBoss_pullback.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/shooterboss_moveout.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/shooterboss_moveout.anim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Combat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Combat.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/shooterBoye/shooterboss.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/shooterBoye/shooterboss.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,11 +74,11 @@
       <option value="$PROJECT_DIR$/Assets/ShooterBoye.cs" />
       <option value="$PROJECT_DIR$/Assets/Projectile.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Combat.cs" />
       <option value="$PROJECT_DIR$/Assets/NextLevelLoader.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossCamera.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/ShooterBossBehaviour.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Combat.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
     </changedPaths>
   </component>
@@ -150,6 +155,7 @@
       <workItem from="1620059751692" duration="3209000" />
       <workItem from="1620580758040" duration="264000" />
       <workItem from="1620649042584" duration="7963000" />
+      <workItem from="1620742816228" duration="2636000" />
     </task>
     <servers />
   </component>
