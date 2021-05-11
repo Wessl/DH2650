@@ -28,13 +28,12 @@ public class TimeController : MonoBehaviour
             Time.fixedDeltaTime = .02f;
             if (slowdownTimer == -50)
             {
-                Combat.instance.ReduceKi(100);
+                Combat.instance.UpdateKi(-25);
                 StartCoroutine(FlashLine());
             }
             else
             {
-                PlayerMovement.instance.ResetLine();
-                Combat.instance.ReduceKi(50);
+                Combat.instance.ResetLine();
             }
         }
     }
@@ -50,14 +49,15 @@ public class TimeController : MonoBehaviour
 
     IEnumerator FlashLine()
     {
-        PlayerMovement.instance.line.SetColors(Color.white, Color.white);
-        PlayerMovement.instance.line.SetWidth(2, 2);
+        Combat.instance.line.SetColors(Color.white, Color.white);
+        Combat.instance.line.SetWidth(2, 2);
         yield return new WaitForSeconds(0.2f);
-        PlayerMovement.instance.ResetLine();
+        Combat.instance.ResetLine();
         bulletSlashing = false;
     }
     public void SlowdownTime()
     {
+        Combat.instance.UpdateKi(-25);
         Time.timeScale = slowdownFactor;
         Time.fixedDeltaTime = slowdownFactor * .02f;
         slowdownTimer = slowdownLength;

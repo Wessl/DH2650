@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject tongueInit;
     GameObject tongue, target;
-    public LineRenderer line;
 
     public float weight;
     public int isFacingRight = 1;
@@ -31,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask playerMask, enemyMask;
     float tongueSize;
     public float airLerp, groundLerp, jumpMemory;
-    private int tongueMouseKeyCode, attackMouseKeyCode;
+    private int tongueMouseKeyCode;
     public float dashTime, dashSpeed, dashCooldown, imageDistance, pulledSlash;
-    float dashTimer, bulletCharges;
+    float dashTimer;
     Vector2 lastImagePos;
     bool dashUnlocked, dashing, dashed;
     Vector2 dashDirection, pullDirection;
@@ -47,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bulletCharges = 1;
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
@@ -129,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
             RetractTongue();
         }
 
-        BulletTime();
         Dash();
     }
 
@@ -192,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
             if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
             {
                 rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
-                animator.speed = Mathf.Abs(rb.velocity.x) / 10;
+                animator.SetFloat("ClimbSpeed", Mathf.Abs(rb.velocity.x) / 10);
                 stickTimer -= Time.deltaTime;
             }
             else
@@ -202,51 +199,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void BulletTime()
-    {
-        if (!TimeController.Instance.slowedTime)
-        {
-            if (bulletCharges > 0 && Input.GetKeyDown(KeyCode.LeftControl)) // TODO: check ki
-            {
-                TimeController.Instance.SlowdownTime();
-            }
-        }
-        else if (!TimeController.Instance.bulletSlashing)
-        {
-            Vector3 path = Vector2.ClampMagnitude(new Vector3(worldPos.x, worldPos.y, 0) - transform.position, 20);
-            float distance = path.magnitude;
-            Vector3 direction = path.normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, ceilingLayers);
-            if (hit)
-            {
-                float groundDistance = Vector2.Distance(hit.point, transform.position);
-                path = Vector2.ClampMagnitude(path, groundDistance);
-                distance = groundDistance;
-            }
-            hit = Physics2D.Raycast(transform.position, direction, distance, enemyMask);
-            if (hit)
-                line.SetColors(Color.red, Color.red);
-            else
-                line.SetColors(Color.white, Color.white);
-            line.SetPosition(0, transform.position);
-            line.SetPosition(1, transform.position + path);
-
-            if (Input.GetMouseButtonDown(attackMouseKeyCode))
-            {
-                Combat.instance.CheckBulletSlash(line.GetPosition(0), direction, distance);
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftControl))
-                TimeController.Instance.StopSlowdown(false);
-        }
-    }
-
-    public void ResetLine()
-    {
-        line.SetWidth(0.1f, 0.1f);
-        line.SetPosition(0, new Vector3(0, 0, 0));
-        line.SetPosition(1, new Vector3(0, 0, 0));
-    }
     void Dash()
     {
         if (dashUnlocked)
@@ -255,6 +207,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dashTimer > -dashCooldown)
             {
+                if (dashTimer > -0.5f && rb.velocity.sqrMagnitude > 400)
+                {
+                    if (((Vector2)transform.position - lastImagePos).sqrMagnitude > imageDistance)
+                    {
+                        AfterImagePool.Instance.GetFromPool(isFacingRight);
+                        lastImagePos = transform.position;
+                    }
+                }
                 dashTimer -= Time.deltaTime;
                 return;
             }
@@ -336,7 +296,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (pulling)
         {
-            targetRB.velocity = -pullDirection * pullSpeed;
+            if (targetRB != null)
+                targetRB.velocity = -pullDirection * pullSpeed;
+            else
+                target.transform.position = Vector2.MoveTowards(target.transform.position, getMouthPos(), Time.deltaTime * pullSpeed);
         }
     }
     public void RetractTongue()
@@ -344,8 +307,10 @@ public class PlayerMovement : MonoBehaviour
         TongueScript.Instance.Reset();
         TonguePool.Instance.AddToPool(tongue);
         tongue = null;
-        if (pulling && target != null)
+        if (pulling && target != null && !target.CompareTag("PickUp"))
             target.GetComponent<Animator>().SetBool("Pulled", false);
+        targetRB = null;
+        target = null;
         tonguePoint.localPosition = new Vector2(0.3f, 0.76f);
         pulling = false;
     }
@@ -405,6 +370,11 @@ public class PlayerMovement : MonoBehaviour
             case "Larva":
             case "WaspQueen":
                 //Combat.instance.PulledSlash(target, tag, hitPos);
+                break;
+            case "PickUp":
+                targetRB = target.GetComponent<Rigidbody2D>();
+                targetRB.bodyType = RigidbodyType2D.Dynamic;
+                tongue.GetComponent<TongueScript>().Target(target, pos);
                 break;
             case "Nongrappable":
                 break;
@@ -496,12 +466,11 @@ public class PlayerMovement : MonoBehaviour
         if (ceilingTouch != null)
         {
             touchingCeiling = true;
-            animator.speed = Mathf.Abs(rb.velocity.x)/speed;
+            animator.SetFloat("ClimbSpeed", Mathf.Abs(rb.velocity.x)/speed);
         }
         else
         {
             stickTimer = stickiness;        // reset ceiling stick timer
-            animator.speed = 1;
             touchingCeiling = false;
         }
         animator.SetBool("TouchingCeiling", touchingCeiling);
@@ -550,12 +519,10 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerPrefs.GetInt("LeftMouseIsTongue") == 1)
         {
             tongueMouseKeyCode = 0; // If mouse left click is tongue, then set tongue to be 0, i.e. left mouse button
-            attackMouseKeyCode = 1;
         }
         else
         {
             tongueMouseKeyCode = 1; // If left mouse is not tongue, then right mouse must be tongue. 
-            attackMouseKeyCode = 0;
         }
     }
 

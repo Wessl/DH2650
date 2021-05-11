@@ -29,7 +29,7 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         target = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        //FindAllNodes();
+        FindAllNodes();
     }
     // Start is called before the first frame update
     void Start()

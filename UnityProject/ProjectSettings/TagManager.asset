@@ -26,6 +26,7 @@ TagManager:
   - GameCanvas
   - KiBar
   - HealthBar
+  - PickUp
   - StationaryShootingBoss
   layers:
   - Default
@@ -44,7 +45,7 @@ TagManager:
   - Platform
   - GrapplePoint
   - WaspQueen
-  - 
+  - PickUp
   - 
   - 
   - 

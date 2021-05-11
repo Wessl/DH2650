@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     public static Enemy instance;
     public Animator animator;
     private Rigidbody2D rb;
-    private Material spriteMat;
+    private Material spriteMat, whiteMat;
     public float moveSpeed, lerp, jumpSpeed, jumpTimeDelay;
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
@@ -28,12 +28,14 @@ public class Enemy : MonoBehaviour
     public LayerMask playerLayer;
 
     public float nextWaypointDist = 3;
+    public float flashDuration = 0.07f;
     public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay;
     public LayerMask groundLayers;
     public bool inRange, grounded, engaged, canJump;
     public Transform groundCheck;
     public LayerMask playerAndGround;
     private float attackTimer, speed;
+    private SpriteRenderer SR;
 
     Path path;
     int currentWaypoint;
@@ -48,7 +50,9 @@ public class Enemy : MonoBehaviour
         if(animator == null)
             animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        spriteMat = GetComponentInChildren<SpriteRenderer>().material;
+        SR = GetComponentInChildren<SpriteRenderer>();
+        spriteMat = SR.material;
+        whiteMat = Resources.Load("WhiteMaterial", typeof(Material)) as Material;
         rb.freezeRotation = true;
         health = maxHealth;
         
@@ -239,11 +243,13 @@ public class Enemy : MonoBehaviour
     // Flash sprite white to indicate damage being taken
     IEnumerator FlashSprite()
     {
-        Color color = spriteMat.GetColor("_Color");
-        spriteMat.SetColor("_Color", new Color(1,0.55f,0.55f,0.88f));   // Arbitrary values
-        yield return new WaitForSeconds(0.07f);                                          // Arbitrary wait time, roughly four frames @60 fps
+        SR.material = whiteMat;
+        //Color color = spriteMat.GetColor("_Color");
+        //spriteMat.SetColor("_Color", new Color(1,0.55f,0.55f,0.88f));   // Arbitrary values
+        yield return new WaitForSeconds(flashDuration);                                          // Arbitrary wait time, roughly four frames @60 fps
         // Reset to base value
-        spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
+        SR.material = spriteMat;
+        //spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
     }
 
 
@@ -255,6 +261,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        Combat.instance.UpdateKi(maxHealth/20);
         // Initialize death particle system(s)
         Instantiate(bloodSplat, deathPSInstancePoint.position, Quaternion.identity);
         Instantiate(boneSplat, deathPSInstancePoint.position, Quaternion.identity);

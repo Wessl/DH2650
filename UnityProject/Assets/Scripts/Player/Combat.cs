@@ -9,7 +9,7 @@ public class Combat : MonoBehaviour
     public static Combat instance;
     public Animator animator;
     public Animator hitAnimation;
-    public LayerMask enemyLayer;
+    public LayerMask enemyLayer, groundLayer;
     bool attacking, canAttack;
     Rigidbody2D rb;
     [SerializeField]
@@ -18,12 +18,11 @@ public class Combat : MonoBehaviour
     Transform attackPoint;
     [SerializeField]
     float slash1radius, slash2radius;
-    public LayerMask rayMask;
     public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage;
     [SerializeField]
     float health, ki;
     Animation slashAnimation;
-    float attackMove, pulledSlashTimer;
+    float attackMove, pulledSlashTimer, airAttackTimer;
     int attacked;
     Vector2 attackOrigin;
     Vector3 bulletDirection;
@@ -34,9 +33,11 @@ public class Combat : MonoBehaviour
     private GameObject youDiedPanel;
     public Transform geezer;
     private BarScript kiBar, healthBar;
+    public LineRenderer line;
 
     void Awake()
     {
+        line.SetVertexCount(2);
         kiBar = GameObject.FindWithTag("KiBar").GetComponent<BarScript>();
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<BarScript>();
         health = maxHealth;
@@ -45,7 +46,6 @@ public class Combat : MonoBehaviour
         kiBar.UpdateBar(ki / maxKi);
         instance = this;
         rb = GetComponent<Rigidbody2D>();
-        rayMask = ~(1 << LayerMask.NameToLayer("Enemy"));
         slashAnimation = slash.GetComponent<Animation>();
         foreach (AnimationState anim in slashAnimation)
         {
@@ -64,12 +64,18 @@ public class Combat : MonoBehaviour
     void Update()
     {
         Attack();
-        if(damageTimer<2)
-            damageTimer += Time.deltaTime;
+        Heal();
+        if (damageTimer > 0)
+        {
+            damageTimer -= Time.deltaTime;
+        }
         if (pulledSlashTimer > 0)
             pulledSlashTimer -= Time.deltaTime;
         if (transform.position.y < -20)
             Die();
+        BulletTime();
+        if (airAttackTimer > 0)
+            airAttackTimer -= Time.deltaTime;
     }
 
 
@@ -77,7 +83,16 @@ public class Combat : MonoBehaviour
     {
         AttackMovement();
     }
-
+    private void Heal()
+    {
+        if (health == maxHealth)
+            return;
+        if(ki >= 25 && Input.GetKeyDown(KeyCode.F))
+        {
+            UpdateHealth(50);
+            UpdateKi(-25);
+        }
+    }
     public void Attack()
     {
         if (Input.GetMouseButtonDown(attackMouseKeyCode) && !TimeController.Instance.slowedTime)
@@ -86,8 +101,9 @@ public class Combat : MonoBehaviour
             {
                 attacking = true;
                 canAttack = false;
-            } else if (!PlayerMovement.instance.touchingCeiling)
+            } else if (!PlayerMovement.instance.touchingCeiling && airAttackTimer <= 0)
             {
+                airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
                 slashStr = "rotatingslash";
                 ExecuteAttack();
@@ -196,10 +212,16 @@ public class Combat : MonoBehaviour
         }
     }
 
-    public void ReduceKi(float used)
+    public void UpdateKi(float value)
     {
-        ki = Mathf.Max(ki -= used, 0);
+        ki = Mathf.Clamp(ki + value, 0, maxKi);
         kiBar.UpdateBar(ki / maxKi);
+    }
+
+    public void UpdateHealth(float value)
+    {
+        health = Mathf.Clamp(health + value, 0, maxHealth);
+        healthBar.UpdateBar(health / maxHealth);
     }
 
     private void Damage(GameObject target, string tag, float damage)
@@ -236,6 +258,9 @@ public class Combat : MonoBehaviour
             case "Projectile":
                 Debug.Log("deflected projectile!");
                 target.GetComponent<Projectile>().Deflect();
+                break;
+            case "PickUp":
+                target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
                 break;
             default:
                 print("Hit a new tag??? " + tag);
@@ -274,6 +299,46 @@ public class Combat : MonoBehaviour
         pulledSlashTimer = pulledSlashCooldown;
     }*/
 
+    void BulletTime()
+    {
+        if (!TimeController.Instance.slowedTime)
+        {
+            if (ki >= 50 && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                TimeController.Instance.SlowdownTime();
+            }
+        }
+        else if (!TimeController.Instance.bulletSlashing)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 path = Vector2.ClampMagnitude(mousePos - transform.position, 20);
+            float distance = path.magnitude;
+            Vector3 direction = path.normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, groundLayer);
+            if (hit)
+            {
+                float groundDistance = Vector2.Distance(hit.point, transform.position);
+                path = Vector2.ClampMagnitude(path, groundDistance);
+                distance = groundDistance;
+            }
+            hit = Physics2D.Raycast(transform.position, direction, distance, enemyLayer);
+            if (hit)
+                line.SetColors(Color.red, Color.red);
+            else
+                line.SetColors(Color.white, Color.white);
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, transform.position + path);
+
+            if (Input.GetMouseButtonDown(attackMouseKeyCode))
+            {
+                CheckBulletSlash(line.GetPosition(0), direction, distance);
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                TimeController.Instance.StopSlowdown(false);
+        }
+    }
+
     public void CheckBulletSlash(Vector2 origin, Vector3 direction, float distance)
     {
         bulletHits = Physics2D.RaycastAll(origin,direction,distance,enemyLayer);
@@ -283,7 +348,7 @@ public class Combat : MonoBehaviour
         {
             animator.SetFloat("SlowdownFactor", 1 / TimeController.Instance.slowdownFactor);
             TimeController.Instance.slowdownTimer = 5;
-            animator.SetTrigger("BulletTime");
+            animator.Play("Bullet Time");
             AudioManager.Instance.Play("Bullet Time Init");
         }
     }
@@ -292,6 +357,7 @@ public class Combat : MonoBehaviour
     {
         transform.position += bulletDirection*bulletDistance;
         rb.velocity = new Vector2(0, 0);
+        damageTimer = 0.01f;
         TimeController.Instance.StopSlowdown(true);
         foreach (RaycastHit2D hit in bulletHits)
         {
@@ -301,6 +367,13 @@ public class Combat : MonoBehaviour
             Damage(target.gameObject, tag, bulletDamage);
             HitAnimatorPool.Instance.GetFromPool(hit.point);
         }
+    }
+
+    public void ResetLine()
+    {
+        line.SetWidth(0.1f, 0.1f);
+        line.SetPosition(0, new Vector3(0, 0, 0));
+        line.SetPosition(1, new Vector3(0, 0, 0));
     }
 
     public void LowGeezer(bool low)
@@ -324,6 +397,7 @@ public class Combat : MonoBehaviour
             // add very fast movement for one frame
             rb.velocity += new Vector2(attackMove, 0);
             attacked--;
+            damageTimer = 0.025f;
         }
         else if (attacked > 0)
         {
@@ -336,15 +410,14 @@ public class Combat : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (damageTimer < 2)
+        if (damageTimer > 0)
             return;
         animator.SetTrigger("Hurt");
-        health -= damage;
-        healthBar.UpdateBar(health / maxHealth);
-        damageTimer = 0;
+        UpdateHealth(-damage);
+        damageTimer = 2;
         HitSleep(0.02f);
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
-        print("DAMAGED");
+        print("DAMAGED: " + damage);
         if (health <= 0)
             Die();
     }

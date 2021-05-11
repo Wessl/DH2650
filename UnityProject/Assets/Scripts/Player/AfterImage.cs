@@ -27,7 +27,7 @@ public class AfterImage : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerSR = player.GetComponent<SpriteRenderer>();
 
-        alpha = alphaSet;
+        //alpha = alphaSet;
         SR.sprite = playerSR.sprite;
         transform.position = player.position;
         timeActivated = Time.time;
@@ -44,10 +44,11 @@ public class AfterImage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         alpha -= alphaDecay * Time.deltaTime;
         color = new Color(1, 1, 1, alpha);
         SR.color = color;
-
+        */
         if(Time.time >= (timeActivated + activeTime))
         {
             AfterImagePool.Instance.AddToPool(gameObject);

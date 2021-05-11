@@ -5,42 +5,53 @@ using UnityEngine;
 public class WaspQueen : MonoBehaviour
 {
     public static WaspQueen instance;
-    public Transform player, returnPoint, leftBounds, rightBounds, attackPoint;
+    public Transform player, returnPoint, leftBounds, rightBounds, attackPoint, crownPoint, stinger;
     public Rigidbody2D playerRB;
-    public float moveSpeed, attackSpeed, attackCooldown, stuckTime, attackCountdown, attackRadius, attackDamage, maxHealth, velocityMult;
+    public float moveSpeed, attackSpeed, attackCooldown, stuckTime, attackCountdown, attackRadius, attackDamage, sideAttackDamage, maxHealth, velocityMult, temporaryBoost;
     public LayerMask playerLayer;
     public bool active, floorDestroyed;
     public Animator floorAnimator;
-    bool attacking, shortAttacking, goingLeft, countingDown, movingBack, stuck;
-    public Transform floor;
+    bool attacking, shortAttacking, sideAttacking, goingLeft, countingDown, movingBack, stuck, followingRoute;
+    public Transform floor, heightMarker;
     public CapsuleCollider2D caps;
     [SerializeField]
     float floorLevel, attackTimer, stuckTimer, health;
-    Vector2 target, targetDirection;
+    Vector2 target, targetDirection; 
+    public Vector3 crownSize;
+    public float flashDuration = 0.08f;
     public DragonBones.UnityArmatureComponent armature;
     float rot;
+    int phase;  
     public Material material;
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
+    [SerializeField]
+    private Transform[] routes0, routes1, routes2, routes3;
+    private Transform[][] paths;
+    private Transform[] currentPath;
+    Vector3 phase2pos;
+    private int currentRoute = 0;
+    int pathIndex;
+    private float tParam = 0;
+    private Shader whiteShader, defaultShader;
     // Start is called before the first frame update
     void Start()
     {
+        whiteShader = Shader.Find("GUI/Text Shader");
+        defaultShader = material.shader;
+        paths = new Transform[][] { routes0, routes1, routes2, routes3 };
         instance = this;
         health = maxHealth;
         floorLevel = floor.position.y + caps.size.y/2 + 2;
         stuckTimer = 6;
         attackTimer = 6;
+        armature.animation.Play("flying");
         gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (attackTimer > 0)
-        {
-            attackTimer -= Time.deltaTime;
-        } else
-            attackInit();
         if (stuckTimer > 0)
         {
 
@@ -68,6 +79,25 @@ public class WaspQueen : MonoBehaviour
         {
             goingLeft = true;
         }
+        if(followingRoute)
+        {
+            CheckSideCollision();
+        }
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+        else if (phase == 2)
+        {
+            phase2pos = transform.position;
+            sideAttacking = true;
+            phase = 3;
+        } else if (phase == 0)
+        {
+            AttackInit();
+        } 
+        
+
     }
 
     private void FixedUpdate()
@@ -82,9 +112,54 @@ public class WaspQueen : MonoBehaviour
             FloorAttack();
         else if (shortAttacking)
             ShortAttack();
+        else if(sideAttacking)
+        {
+            if (!followingRoute)
+            {
+                if (phase == 4)
+                {
+                    StartCoroutine(FollowBezier());
+                    return;
+                }
+                if (phase2pos.x < heightMarker.position.x)
+                {
+                    pathIndex = 0;
+                    goingLeft = true;
+                }
+                else
+                {
+                    pathIndex = 2;
+                    goingLeft = false;
+                }
+                currentPath = paths[pathIndex];
+                Vector3 startPos = currentPath[currentRoute].GetChild(0).position;
+                if (transform.position == startPos)
+                {
+                    if (player.position.y < heightMarker.position.y) 
+                        currentPath = paths[++pathIndex];
+
+                    if (pathIndex < 2)
+                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x - 20, returnPoint.position.y));
+                    else
+                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x + 20, returnPoint.position.y));
+                    phase = 4;
+                }
+                else
+                {
+                    targetDirection = (startPos - transform.position).normalized;
+                    rot = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+                    float localZ = transform.localRotation.z;
+                    transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 270),
+                        Time.deltaTime * moveSpeed * (10 + Mathf.Abs(localZ - (rot + 90))));
+
+                    transform.position = Vector2.MoveTowards(transform.position, startPos, Time.deltaTime * moveSpeed);
+                }
+            }
+        }
         else
             Move();
     }
+
 
     private void Move()
     {
@@ -101,18 +176,18 @@ public class WaspQueen : MonoBehaviour
             }
             else if (goingLeft)
             {
-                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, 15), Time.deltaTime * 50);
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, 15), Time.deltaTime * 20);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(leftBounds.position.x + 4, returnPoint.position.y), step);
             }
             else
             {
-                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, -15), Time.deltaTime * 50);
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, -15), Time.deltaTime * 20);
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(rightBounds.position.x - 1, returnPoint.position.y), step);
             }
         }
     }
 
-    void attackInit()
+    void AttackInit()
     {
         if (attacking || shortAttacking)
             return;
@@ -133,7 +208,7 @@ public class WaspQueen : MonoBehaviour
 
     void FloorAttack()
     {
-        float step = attackSpeed * Time.deltaTime;
+        float step = (attackSpeed + temporaryBoost) * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, target, step);
         CheckCollision();
         if ((Vector2)transform.position == target)
@@ -144,6 +219,9 @@ public class WaspQueen : MonoBehaviour
             Crumbling();
             CameraShake.instance.ShakeCamera(5,0.4f);
             attacking = false;
+            temporaryBoost = 0;
+            phase = 2;
+            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y));
         }
     }
 
@@ -159,18 +237,44 @@ public class WaspQueen : MonoBehaviour
             stuckTimer = stuckTime;
             CameraShake.instance.ShakeCamera(2.5f, 0.25f);
             shortAttacking = false;
+            temporaryBoost = 0;
+            phase = 2;
+            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y));
         }
     }
 
     void CheckCollision()
     {
-        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+        Collider2D hit = Physics2D.OverlapCircle(stinger.position, attackRadius / 3, playerLayer);        
         if (hit)
         {
             if (hit.CompareTag("Player"))
             {
-                Combat player = hit.GetComponent<Combat>();
-                player.TakeDamage(attackDamage);
+                Combat.instance.TakeDamage(attackDamage + temporaryBoost);
+            }
+        }
+        else
+        {
+            hit = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+
+            if (hit)
+            {
+                if (hit.CompareTag("Player"))
+                {
+                    Combat.instance.TakeDamage(attackDamage + temporaryBoost);
+                }
+            }
+        }
+    }
+
+    void CheckSideCollision()
+    {
+        Collider2D hit = Physics2D.OverlapCapsule(crownPoint.position, crownSize, CapsuleDirection2D.Horizontal, rot + 270, playerLayer);
+        if (hit)
+        {
+            if (hit.CompareTag("Player"))
+            {
+                Combat.instance.TakeDamage(attackDamage);
             }
         }
     }
@@ -190,6 +294,7 @@ public class WaspQueen : MonoBehaviour
     {
         yield return new WaitForSeconds(attackCountdown);
         print("attacking");
+        phase = 1;
         if (target.x > leftBounds.position.x && target.x < rightBounds.position.x && !floorDestroyed)
         {
             target.y -= playerRB.velocity.y * velocityMult;
@@ -197,7 +302,6 @@ public class WaspQueen : MonoBehaviour
             armature.animation.timeScale = 1f;
             armature.animation.Play("attack", 1);
         }
-
         else
         {
             target = (Vector2)player.position + playerRB.velocity * velocityMult - targetDirection;
@@ -219,9 +323,9 @@ public class WaspQueen : MonoBehaviour
     }
     IEnumerator Flash()
     {
-        material.color = Color.red;
-        yield return new WaitForSeconds(0.05f);
-        material.color = Color.white;
+        material.shader = whiteShader;
+        yield return new WaitForSeconds(flashDuration);
+        material.shader = defaultShader;
     }
 
     void Die()
@@ -238,8 +342,53 @@ public class WaspQueen : MonoBehaviour
         floorAnimator.SetTrigger("Crumbling");
     }
 
+    private IEnumerator FollowBezier()
+    {
+        followingRoute = true;
+        Transform route = currentPath[currentRoute];
+        Vector2 pos0 = route.GetChild(0).position;
+        Vector2 pos1 = route.GetChild(1).position;
+        Vector2 pos2 = route.GetChild(2).position;
+        Vector2 pos3 = route.GetChild(3).position;
+
+        while (tParam < 1)
+        {
+            float sideSpeed = moveSpeed / 20;
+            tParam += Time.deltaTime * sideSpeed;
+
+            Vector2 newPosition = Mathf.Pow(1 - tParam, 3) * pos0 +
+                3 * tParam * Mathf.Pow(1 - tParam, 2) * pos1 +
+                3 * (1 - tParam) * Mathf.Pow(tParam, 2) * pos2 +
+                Mathf.Pow(tParam, 3) * pos3;
+            yield return new WaitForEndOfFrame();
+
+            targetDirection = (newPosition - (Vector2)transform.position).normalized;
+            rot = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+            float localZ = transform.localRotation.z;
+            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(0, 0, rot + 270), 
+                Time.deltaTime * 20 * sideSpeed * (10 + Mathf.Abs(localZ - (rot + 90))));
+
+            transform.position = newPosition;
+        }
+
+        tParam = 0;
+        currentRoute++;
+
+        if (currentRoute >= currentPath.Length)
+        {
+            currentRoute = 0;
+            sideAttacking = false;
+            attackTimer = Random.Range(attackCooldown * 0.75f, attackCooldown * 0.75f + 5);
+            phase = 0;
+        }
+
+        followingRoute = false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+        Gizmos.DrawWireSphere(stinger.position, attackRadius/3);
+        Gizmos.DrawWireCube(crownPoint.position, crownSize);
     }
 }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WaspQueen_Data
   m_EditorClassIdentifier: 
   dataName: WaspQueen
-  dragonBonesJSON: {fileID: 4900000, guid: 81898f77558515044b6c099bbd6e686b, type: 3}
+  dragonBonesJSON: {fileID: 4900000, guid: 8cbe3596c2cf3ca40b6ce6665d7a74a3, type: 3}
   textureAtlas:
-  - textureAtlasJSON: {fileID: 4900000, guid: 91a47ebc611f7e6409a8f48b54c1b785, type: 3}
-    texture: {fileID: 2800000, guid: b5fa9d5436343384e8509dd095545bfc, type: 3}
-    material: {fileID: 2100000, guid: c88bd1fc0dfef2345b97c53bd061d2dd, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 19c9cf73029a8f7458b5b1e65051bb16, type: 3}
+    texture: {fileID: 2800000, guid: 69015a6bbc610f64b8c39200094bcf21, type: 3}
+    material: {fileID: 2100000, guid: d7c494224ade5d84d8512e855b7f67ce, type: 2}
     uiMaterial: {fileID: 0}

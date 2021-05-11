@@ -53,6 +53,11 @@ public class TongueScript : MonoBehaviour
     {
         if (hit)
         {
+            if(!target)
+            {
+                hit = false;
+                return;
+            }
             rb.position = new Vector2(target.transform.position.x, target.transform.position.y) + relativePos;    // updates tonguetip to stick on the position it hit
         }
     }

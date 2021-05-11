@@ -15,8 +15,7 @@ public class BarScript : MonoBehaviour
 
     public void UpdateBar(float currentPercent)
     {
-        if (currentPercent < 0.05f && currentPercent > 0)
-            currentPercent = 0.1f;
-        rect.localPosition = new Vector3(-width * (1 - currentPercent), 0, 0);
+        currentPercent = Mathf.Round(currentPercent * 50) / 50;
+        rect.localPosition = new Vector3(-width * (1-currentPercent), 0, 0);
     }
 }
