@@ -53,6 +53,6 @@ public class Projectile : MonoBehaviour
         // just remove the sprite and delay the destruction. Otherwise, if you grab it with tongue the same frame it touches you, tongue can get null ref exception
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         collider.enabled = false;
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 0.1f);
     }
 }

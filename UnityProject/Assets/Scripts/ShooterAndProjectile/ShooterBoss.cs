@@ -18,27 +18,33 @@ public class ShooterBoss : MonoBehaviour
     public float detectionDelay;
     private bool alive;
     private Rigidbody2D rb;
-    private CapsuleCollider2D collider;
+    private BoxCollider2D collider;
     public int shotsPerAttack;
     public float health;
     private Animator animator;
     public Transform[] existPositions;
     private int positionIndex;
     private bool isBusy;
+    public GameObject deathParticleSystem;
+    public Sprite deathSprite;
+    private SpriteRenderer spriteRenderer;
 
     
     // Start is called before the first frame update
     void Start()
     {
-        isBusy = false;
-        positionIndex = 0;
-        rb = GetComponent<Rigidbody2D>();
-        timePassedSinceLastFindAttempt = 0;
-        timeSinceLastShot = 1;
-        playerIsInRange = false;
-        collider = GetComponent<CapsuleCollider2D>();
         alive = true;
+        isBusy = false;
+        playerIsInRange = false;
+       
+        positionIndex = 0;
+        timeSinceLastShot = 1;
+        timePassedSinceLastFindAttempt = 0;
+        
+        rb = GetComponent<Rigidbody2D>();
+        collider = GetComponent<BoxCollider2D>();
         animator = GetComponentInParent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -55,7 +61,6 @@ public class ShooterBoss : MonoBehaviour
         {
             FaceAndAttack();
         }
-        Debug.Log(transform.position);
     }
     
     private void FindPlayer()
@@ -69,7 +74,6 @@ public class ShooterBoss : MonoBehaviour
                 playerIsInRange = true;
             }
         }
-
         if (hits.Length == 0)
         {
             playerIsInRange = false;
@@ -91,11 +95,12 @@ public class ShooterBoss : MonoBehaviour
         // Attack player
         if (timeSinceLastShot > shootDelay)
         {
-            for (int i = 0; i < shotsPerAttack; i++)
+            for (int i = -1; i < shotsPerAttack-1; i++)
             {
                 var proj = Instantiate(projectile, projectileInstantiationPoint.position, Quaternion.identity);
-                proj.GetComponent<Rigidbody2D>().velocity = targ.normalized * projectileSpeed;
-                proj.GetComponent<Rigidbody2D>().rotation = proj.GetComponent<Rigidbody2D>().rotation + i*5;
+                var projRB = proj.GetComponent<Rigidbody2D>(); 
+                projRB.velocity = targ.normalized * projectileSpeed + new Vector3(i*5,Mathf.Abs(i)*2,0);
+                projRB.rotation = proj.GetComponent<Rigidbody2D>().rotation;
                 proj.GetComponent<Projectile>().DamageToDeal = damagePerShot;
                 //StartCoroutine(DestroyProjectile(proj));
                 timeSinceLastShot = 0;
@@ -122,29 +127,42 @@ public class ShooterBoss : MonoBehaviour
             {
                 Die();
             }
-            animator.SetTrigger("pullback");
-            isBusy = true;
-            StartCoroutine(MovePositions());
+            else
+            {
+                animator.SetTrigger("pullback");
+                isBusy = true;
+                StartCoroutine(MovePositions());
+            }
+            
         }
         
     }
 
     IEnumerator MovePositions()
     {
+        collider.isTrigger = true;
         Debug.Log("positions before moving: " + transform.position);
         yield return new WaitForSeconds(1f);
         positionIndex++;
         transform.parent.position = existPositions[positionIndex % (existPositions.Length)].position;
+        Debug.Log(transform.parent.position);
         Debug.Log("positions before moving: " + transform.position);
         animator.SetTrigger("moveout");
+        yield return new WaitForSeconds(0.5f);
         isBusy = false;
+        collider.isTrigger = false;
     }
     
     void Die()
     {
+        animator.SetTrigger("death");
         playerIsInRange = false;
         alive = false;
-        //Instantiate(deathParticleSystem, body.transform.position, Quaternion.identity);
-        //Destroy(body);      // Don't need to destroy the foundation of the shooter boye, only body
+        collider.isTrigger = true;
+        //rb.gravityScale = 1f;
+        rb.bodyType = RigidbodyType2D.Static;
+        Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
+        spriteRenderer.sprite = deathSprite;
+        //Destroy(gameObject);      
     }
 }
