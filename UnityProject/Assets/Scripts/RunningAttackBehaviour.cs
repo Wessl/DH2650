@@ -9,7 +9,7 @@ public class RunningAttackBehaviour : StateMachineBehaviour
     {
         animator.SetBool("LockedMovement", true);
         animator.SetBool("LockedDirection", true);
-        Combat.instance.Attack("runningslash", 200);
+        Combat.instance.Attack("runningslash", 100);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

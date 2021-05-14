@@ -51,7 +51,7 @@ public class Combat : MonoBehaviour
         slashAnimation = slash.GetComponent<Animation>();
         foreach (AnimationState anim in slashAnimation)
         {
-            anim.speed = 0.5f;
+            anim.speed = 0.75f;
         }
     }
 
@@ -148,8 +148,9 @@ public class Combat : MonoBehaviour
         Vector2 direction = new Vector2(-PlayerMovement.instance.Orientation, 0);
         // play slash FX
         slash.GetComponent<Animation>().Play(slashStr);
-        Vector2 slash1origin = attackOrigin + new Vector2(0.3f, -0.3f);
-        Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f, -0.3f);
+        Vector2 slash1origin = attackOrigin + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
+        Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
+        float distance1 = slash1point.x - slash1origin.x;
 
         // assign damage and attackpoint
         switch (slashStr)
@@ -157,9 +158,9 @@ public class Combat : MonoBehaviour
             case "altslash1":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
-                point = slash1point - new Vector2(distance / 2, 0);
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "slash2":
@@ -167,24 +168,25 @@ public class Combat : MonoBehaviour
                 damage = attackDamage * 1.5f;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2radius;
-                size = new Vector2(distance + slash1radius * 2, slash2radius*2);
+                size = new Vector2(Mathf.Abs(distance) + slash1radius * 2, slash2radius*2);
                 LowGeezer(false);
                 break;
             case "slash1":
             case "normalslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage * 1.5f;
-                point = slash1point - new Vector2(distance / 2, 0);
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 break;
             case "idleslash":
             case "runningslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage * 1.5f;
-                point = slash1point - new Vector2(distance/2, 0);
+                print(distance);
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius*2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "rotatingslash":
