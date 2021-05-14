@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
+    public float boost;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +21,12 @@ public class PickUp : MonoBehaviour
     {
         if (collision.CompareTag("WaspQueen"))
         {
-            WaspQueen.instance.temporaryBoost += 25;
+            WaspQueen.instance.temporaryBoost += boost;
             SnackPool.Instance.AddToPool(gameObject);
         }
         else if (collision.CompareTag("Player"))
         {
-            Combat.instance.UpdateKi(25);
+            Combat.instance.UpdateKi(boost);
             SnackPool.Instance.AddToPool(gameObject);
         } else if (collision.CompareTag("Nongrappable"))
         {

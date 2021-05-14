@@ -114,10 +114,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(tongueMouseKeyCode) && !animator.GetBool("LockedMovement") && !TimeController.Instance.slowedTime)
         {
             grappleDirection = (worldPos - getMouthPos()).normalized;
-            if (tongue == null &&                                                               // can only shoot if not already shooting
-                ((grappleDirection.x + tonguePoint.localPosition.x >= 0 && isFacingRight > 0)
-                || (grappleDirection.x - tonguePoint.localPosition.x <= 0 && isFacingRight < 0)))     // limits tongueshooting to direction frog is facing (not really needed with mouse tracking but w/e)
-
+            if (tongue == null)
             {
                 ShootTongue();  // shoot that thang
             }
@@ -487,11 +484,25 @@ public class PlayerMovement : MonoBehaviour
         */
         if (pulledSlash > 0 || TimeController.Instance.bulletSlashing)
             return;
-        Vector2 direction = worldPos - rb.position;
-        if (direction.x > 0 && isFacingRight == -1)
-            Flip();
-        else if (direction.x < 0 && isFacingRight == 1)
-            Flip();
+
+        if (tongue)
+        {
+            Vector2 direction;
+            if (!pulling || !gettingPulled)
+                direction = worldPos - rb.position;
+            else
+                direction = targetPos;
+            if (direction.x > 0 && isFacingRight == -1)
+                Flip();
+            else if (direction.x < 0 && isFacingRight == 1)
+                Flip();
+        } else
+        {
+            if (mx > 0 && isFacingRight == -1)
+                Flip();
+            else if (mx < 0 && isFacingRight == 1)
+                Flip();
+        }
     }
     
     // Flip character to face other direction (HE'S AMBIDEXTROUS OK)

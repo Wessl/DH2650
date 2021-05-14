@@ -34,9 +34,11 @@ public class Combat : MonoBehaviour
     public Transform geezer;
     private BarScript kiBar, healthBar;
     public LineRenderer line;
+    private LayerMask bulletLayer;
 
     void Awake()
     {
+        bulletLayer = enemyLayer |= (1 << LayerMask.NameToLayer("PickUp"));
         line.SetVertexCount(2);
         kiBar = GameObject.FindWithTag("KiBar").GetComponent<BarScript>();
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<BarScript>();
@@ -320,7 +322,7 @@ public class Combat : MonoBehaviour
                 path = Vector2.ClampMagnitude(path, groundDistance);
                 distance = groundDistance;
             }
-            hit = Physics2D.Raycast(transform.position, direction, distance, enemyLayer);
+            hit = Physics2D.Raycast(transform.position, direction, distance, bulletLayer);
             if (hit)
                 line.SetColors(Color.red, Color.red);
             else
@@ -340,7 +342,7 @@ public class Combat : MonoBehaviour
 
     public void CheckBulletSlash(Vector2 origin, Vector3 direction, float distance)
     {
-        bulletHits = Physics2D.RaycastAll(origin,direction,distance,enemyLayer);
+        bulletHits = Physics2D.RaycastAll(origin, direction, distance, bulletLayer);
         bulletDirection = direction;
         bulletDistance = distance;
         if (bulletHits.Length > 0)
@@ -363,7 +365,13 @@ public class Combat : MonoBehaviour
             AudioManager.Instance.Play("Bullet Hit");
             Collider2D target = hit.collider;
             string tag = target.tag;
-            Damage(target.gameObject, tag, bulletDamage);
+            if (target.CompareTag("PickUp"))
+            {
+                UpdateKi(target.GetComponent<PickUp>().boost);
+                SnackPool.Instance.AddToPool(target.gameObject);
+            }
+            else
+                Damage(target.gameObject, tag, bulletDamage);
             HitAnimatorPool.Instance.GetFromPool(hit.point);
         }
     }
