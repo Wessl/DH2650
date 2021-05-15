@@ -319,13 +319,11 @@ public class Enemy : MonoBehaviour
                 Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
                 Vector2 movement = direction * moveSpeed;
                 float dist = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-                if (!animator.GetBool("PulledEffect"))
-                {
-                    if (tag.Equals("FlyingEnemy"))
-                        rb.velocity = Vector2.Lerp(rb.velocity, movement, Time.deltaTime * flyingLerp);
-                    else if (tag.Equals("GroundEnemy"))
-                        rb.velocity = new Vector2(movement.x, rb.velocity.y);
-                }
+                if (tag.Equals("FlyingEnemy"))
+                    rb.velocity = Vector2.Lerp(rb.velocity, movement, Time.deltaTime * flyingLerp);
+                else if (tag.Equals("GroundEnemy"))
+                    rb.velocity = new Vector2(movement.x, rb.velocity.y);
+                
                 if (dist < nextWaypointDist)
                 {
                     currentWaypoint++;

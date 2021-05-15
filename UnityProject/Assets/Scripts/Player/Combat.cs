@@ -18,7 +18,7 @@ public class Combat : MonoBehaviour
     Transform attackPoint;
     [SerializeField]
     float slash1radius, slash2radius;
-    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage;
+    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage, damagedCooldown;
     [SerializeField]
     float health, ki;
     Animation slashAnimation;
@@ -35,6 +35,7 @@ public class Combat : MonoBehaviour
     private BarScript kiBar, healthBar;
     public LineRenderer line;
     private LayerMask bulletLayer;
+    private SpriteRenderer SR;
 
     void Awake()
     {
@@ -49,6 +50,7 @@ public class Combat : MonoBehaviour
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         slashAnimation = slash.GetComponent<Animation>();
+        SR = GetComponent<SpriteRenderer>();
         foreach (AnimationState anim in slashAnimation)
         {
             anim.speed = 0.75f;
@@ -70,6 +72,13 @@ public class Combat : MonoBehaviour
         if (damageTimer > 0)
         {
             damageTimer -= Time.deltaTime;
+            if(damageTimer > 0.05)
+            {
+                FlashSprite();
+            } else
+            {
+                SR.color = Color.white;
+            }
         }
         if (pulledSlashTimer > 0)
             pulledSlashTimer -= Time.deltaTime;
@@ -103,8 +112,9 @@ public class Combat : MonoBehaviour
             {
                 attacking = true;
                 canAttack = false;
-            } else if (!PlayerMovement.instance.touchingCeiling && airAttackTimer <= 0)
+            } else if (airAttackTimer <= 0)
             {
+                PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
                 slashStr = "rotatingslash";
@@ -165,7 +175,7 @@ public class Combat : MonoBehaviour
                 break;
             case "slash2":
                 AudioManager.Instance.Play("Sword Swing 2");
-                damage = attackDamage * 1.5f;
+                damage = attackDamage;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2radius;
                 size = new Vector2(Mathf.Abs(distance) + slash1radius * 2, slash2radius*2);
@@ -174,7 +184,7 @@ public class Combat : MonoBehaviour
             case "slash1":
             case "normalslash":
                 AudioManager.Instance.Play("Sword Swing 1");
-                damage = attackDamage * 1.5f;
+                damage = attackDamage;
                 point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
                 size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
@@ -182,8 +192,7 @@ public class Combat : MonoBehaviour
             case "idleslash":
             case "runningslash":
                 AudioManager.Instance.Play("Sword Swing 1");
-                damage = attackDamage * 1.5f;
-                print(distance);
+                damage = attackDamage;
                 point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
                 size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
@@ -191,7 +200,7 @@ public class Combat : MonoBehaviour
                 break;
             case "rotatingslash":
                 AudioManager.Instance.Play("Sword Swing Air");
-                damage = attackDamage;
+                damage = attackDamage*1.2f;
                 point = attackPoint.position;
                 radius = slash2radius;
                 break;
@@ -422,8 +431,10 @@ public class Combat : MonoBehaviour
         if (damageTimer > 0)
             return;
         animator.SetTrigger("Hurt");
+        animator.SetBool("LockedMovement", false);
+        animator.SetBool("LockedDirection", false);
         UpdateHealth(-damage);
-        damageTimer = 2;
+        damageTimer = damagedCooldown;
         HitSleep(0.02f);
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED: " + damage);
@@ -469,6 +480,11 @@ public class Combat : MonoBehaviour
         }
         
         youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumberSuffix + " TIME";
+    }
+
+    void FlashSprite()
+    {
+        SR.color = Color.Lerp(Color.white, new Color(0.2f, 0.2f, 0.2f), Mathf.PingPong((damagedCooldown-damageTimer)*(2.75f), 1));
     }
 
     public void UpdateAttackButtonMapping()
