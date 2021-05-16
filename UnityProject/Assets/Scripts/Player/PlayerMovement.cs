@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayers, ceilingLayers;
     public float tongueSpeed = 50;
     public float pullSpeed = 40;
-    public bool touchingCeiling, touchingWall, grounded, backTouchingWall;
+    public bool touchingCeiling, touchingWall, grounded;
 
     public GameObject tongueInit;
     GameObject tongue, target;
@@ -63,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
     {
         IsGrounded();
         IsTouchingWall();
-        IsBackTouchingWall();
         IsTouchingCeiling();
         CheckInput();
         if(tongue != null && !pulling && !gettingPulled)
@@ -147,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (grounded)
                 Jump();
-            else if (touchingWall || backTouchingWall)
+            else if (touchingWall)
                 WallJump();
         }
         if (!animator.GetBool("LockedMovement") && !(gettingPulled && tongue))
@@ -172,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
-        if ((touchingWall || backTouchingWall) && !grounded)
+        if (touchingWall && !grounded)
         {   // frog can wall run for a short time with enough momentum, otherwise he slides down wall
             if (rb.velocity.y < -wallSlideSpeed && my >= 0)
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
@@ -419,7 +418,7 @@ public class PlayerMovement : MonoBehaviour
         else
             movement = new Vector2(isFacingRight * jumpForce, jumpForce);
 
-        //Flip(); //flips character after wall jump (not needed with mouse tracking)
+        Flip(); //flips character after wall jump
         rb.velocity = movement;
         jump = false;
     }
@@ -444,15 +443,7 @@ public class PlayerMovement : MonoBehaviour
             touchingWall = true;
         else
             touchingWall = false;
-    }
-
-    void IsBackTouchingWall()
-    {
-        Collider2D wallTouch = Physics2D.OverlapCapsule(backWallCheck.position, new Vector2(0.5f, 1.5f), CapsuleDirection2D.Vertical, 0, ceilingLayers);
-        if (wallTouch != null)
-            backTouchingWall = true;
-        else
-            backTouchingWall = false;
+        animator.SetBool("Climbing", touchingWall);
     }
 
 

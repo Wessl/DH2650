@@ -67,7 +67,7 @@ public class Combat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        AttackInput();
         Heal();
         if (damageTimer > 0)
         {
@@ -104,7 +104,7 @@ public class Combat : MonoBehaviour
             UpdateKi(-25);
         }
     }
-    public void Attack()
+    public void AttackInput()
     {
         if (Input.GetMouseButtonDown(attackMouseKeyCode) && !TimeController.Instance.slowedTime)
         {
@@ -112,7 +112,7 @@ public class Combat : MonoBehaviour
             {
                 attacking = true;
                 canAttack = false;
-            } else if (airAttackTimer <= 0)
+            } else if (airAttackTimer <= 0 && !PlayerMovement.instance.touchingWall)
             {
                 PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
