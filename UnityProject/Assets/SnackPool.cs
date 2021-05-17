@@ -33,7 +33,7 @@ public class SnackPool : MonoBehaviour
         availableObjects.Enqueue(instance);
     }
 
-    public GameObject GetFromPool(Vector3 position)
+    public GameObject GetFromPool(Vector3 position, float value)
     {
         if (availableObjects.Count == 0)
             GrowPool();
@@ -41,6 +41,7 @@ public class SnackPool : MonoBehaviour
         var instance = availableObjects.Dequeue();
         instance.SetActive(true);
         instance.transform.position = position;
+        instance.GetComponent<PickUp>().boost = value;
         return instance;
     }
     // Update is called once per frame

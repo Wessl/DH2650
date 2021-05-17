@@ -252,7 +252,6 @@ public class Enemy : MonoBehaviour
         //spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
     }
 
-
     public void FlipRotation()
     {
         // Rotate instantly:
@@ -272,7 +271,7 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-        if(CompareTag("GroundEnemy"))
+        if(CompareTag("GroundEnemy") || CompareTag("NewGroundEnemy"))
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 
@@ -319,13 +318,11 @@ public class Enemy : MonoBehaviour
                 Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
                 Vector2 movement = direction * moveSpeed;
                 float dist = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-                if (!animator.GetBool("PulledEffect"))
-                {
-                    if (tag.Equals("FlyingEnemy"))
-                        rb.velocity = Vector2.Lerp(rb.velocity, movement, Time.deltaTime * flyingLerp);
-                    else if (tag.Equals("GroundEnemy"))
-                        rb.velocity = new Vector2(movement.x, rb.velocity.y);
-                }
+                if (tag.Equals("FlyingEnemy"))
+                    rb.velocity = Vector2.Lerp(rb.velocity, movement, Time.deltaTime * flyingLerp);
+                else if (tag.Equals("GroundEnemy"))
+                    rb.velocity = new Vector2(movement.x, rb.velocity.y);
+                
                 if (dist < nextWaypointDist)
                 {
                     currentWaypoint++;

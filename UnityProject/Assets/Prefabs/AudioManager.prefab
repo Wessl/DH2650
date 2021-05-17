@@ -46,19 +46,49 @@ MonoBehaviour:
   sounds:
   - name: Sword Swing 1
     clip: {fileID: 8300000, guid: 7b45ced969af7d3418b0cf448dd7f7de, type: 3}
-    volume: 0.8
+    volume: 0.3
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Sword Swing 2
     clip: {fileID: 8300000, guid: f8b3c43b71fbf4743b4be9c1633ee38a, type: 3}
-    volume: 0.8
+    volume: 0.3
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Area 1 Theme
-    clip: {fileID: 8300000, guid: 9eb9cb31b59b13d40bd31f01f5caa209, type: 3}
-    volume: 0.3
+    clip: {fileID: 8300000, guid: 2a89589db8df5a24fbee7301d062290c, type: 3}
+    volume: 0.1
     pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: Sword Swing 3
+    clip: {fileID: 8300000, guid: 0385db739440f1843803bb08166d315e, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Sword Swing Air
+    clip: {fileID: 8300000, guid: 04fa17fb1ed0bd94590556ed3a27264b, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Sword Impact
+    clip: {fileID: 8300000, guid: bf6d9f5b232fdad4e8a81cfec6164176, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Bullet Time Init
+    clip: {fileID: 8300000, guid: 70e220636ae2a17498a0dfdaa82278a6, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Bullet Hit
+    clip: {fileID: 8300000, guid: 5b77f11c52932d3498022c48d6a75168, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
     source: {fileID: 0}

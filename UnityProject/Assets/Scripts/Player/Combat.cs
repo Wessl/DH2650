@@ -18,7 +18,7 @@ public class Combat : MonoBehaviour
     Transform attackPoint;
     [SerializeField]
     float slash1radius, slash2radius;
-    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage;
+    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage, damagedCooldown;
     [SerializeField]
     float health, ki;
     Animation slashAnimation;
@@ -34,9 +34,15 @@ public class Combat : MonoBehaviour
     public Transform geezer;
     private BarScript kiBar, healthBar;
     public LineRenderer line;
+    private LayerMask bulletLayer;
+    private SpriteRenderer SR;
+    private List<GameObject> currentHighlights, oldHighlights;
 
     void Awake()
     {
+        currentHighlights = new List<GameObject>();
+        oldHighlights = new List<GameObject>();
+        bulletLayer = enemyLayer |= (1 << LayerMask.NameToLayer("PickUp"));
         line.SetVertexCount(2);
         kiBar = GameObject.FindWithTag("KiBar").GetComponent<BarScript>();
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<BarScript>();
@@ -47,9 +53,10 @@ public class Combat : MonoBehaviour
         instance = this;
         rb = GetComponent<Rigidbody2D>();
         slashAnimation = slash.GetComponent<Animation>();
+        SR = GetComponent<SpriteRenderer>();
         foreach (AnimationState anim in slashAnimation)
         {
-            anim.speed = 0.5f;
+            anim.speed = 0.75f;
         }
     }
 
@@ -63,11 +70,18 @@ public class Combat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        AttackInput();
         Heal();
         if (damageTimer > 0)
         {
             damageTimer -= Time.deltaTime;
+            if(damageTimer > 0.05)
+            {
+                FlashSprite();
+            } else
+            {
+                SR.color = Color.white;
+            }
         }
         if (pulledSlashTimer > 0)
             pulledSlashTimer -= Time.deltaTime;
@@ -93,7 +107,7 @@ public class Combat : MonoBehaviour
             UpdateKi(-25);
         }
     }
-    public void Attack()
+    public void AttackInput()
     {
         if (Input.GetMouseButtonDown(attackMouseKeyCode) && !TimeController.Instance.slowedTime)
         {
@@ -101,8 +115,9 @@ public class Combat : MonoBehaviour
             {
                 attacking = true;
                 canAttack = false;
-            } else if (!PlayerMovement.instance.touchingCeiling && airAttackTimer <= 0)
+            } else if (airAttackTimer <= 0 && !PlayerMovement.instance.touchingWall)
             {
+                PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
                 slashStr = "rotatingslash";
@@ -145,9 +160,11 @@ public class Combat : MonoBehaviour
         Vector2 size = new Vector2(0, 0);
         Vector2 direction = new Vector2(-PlayerMovement.instance.Orientation, 0);
         // play slash FX
-        slash.GetComponent<Animation>().Play(slashStr);
-        Vector2 slash1origin = attackOrigin + new Vector2(0.3f, -0.3f);
-        Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f, -0.3f);
+        if(!slashStr.Equals("stab"))
+            slash.GetComponent<Animation>().Play(slashStr);
+        Vector2 slash1origin = attackOrigin + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
+        Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
+        float distance1 = slash1point.x - slash1origin.x;
 
         // assign damage and attackpoint
         switch (slashStr)
@@ -155,39 +172,39 @@ public class Combat : MonoBehaviour
             case "altslash1":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
-                point = slash1point - new Vector2(distance / 2, 0);
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "slash2":
                 AudioManager.Instance.Play("Sword Swing 2");
-                damage = attackDamage * 1.5f;
+                damage = attackDamage;
                 point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
                 radius = slash2radius;
-                size = new Vector2(distance + slash1radius * 2, slash2radius*2);
+                size = new Vector2(Mathf.Abs(distance) + slash1radius * 2, slash2radius*2);
                 LowGeezer(false);
                 break;
             case "slash1":
             case "normalslash":
                 AudioManager.Instance.Play("Sword Swing 1");
-                damage = attackDamage * 1.5f;
-                point = slash1point - new Vector2(distance / 2, 0);
+                damage = attackDamage;
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius * 2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 break;
             case "idleslash":
             case "runningslash":
                 AudioManager.Instance.Play("Sword Swing 1");
-                damage = attackDamage * 1.5f;
-                point = slash1point - new Vector2(distance/2, 0);
+                damage = attackDamage;
+                point = slash1point - new Vector2(distance1 / 2, 0);
                 radius = slash1radius;
-                size = new Vector2(distance + slash1radius*2, slash1radius*2);
+                size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "rotatingslash":
                 AudioManager.Instance.Play("Sword Swing Air");
-                damage = attackDamage;
+                damage = attackDamage*1.2f;
                 point = attackPoint.position;
                 radius = slash2radius;
                 break;
@@ -309,22 +326,36 @@ public class Combat : MonoBehaviour
         }
         else if (!TimeController.Instance.bulletSlashing)
         {
+            currentHighlights.Clear();
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 path = Vector2.ClampMagnitude(mousePos - transform.position, 20);
             float distance = path.magnitude;
             Vector3 direction = path.normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, groundLayer);
-            if (hit)
+            RaycastHit2D ground = Physics2D.Raycast(transform.position, direction, distance, groundLayer);
+            if (ground)
             {
-                float groundDistance = Vector2.Distance(hit.point, transform.position);
+                float groundDistance = Vector2.Distance(ground.point, transform.position);
                 path = Vector2.ClampMagnitude(path, groundDistance);
                 distance = groundDistance;
             }
-            hit = Physics2D.Raycast(transform.position, direction, distance, enemyLayer);
-            if (hit)
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, distance, bulletLayer);
+            if (hits.Length > 0)
+            {
                 line.SetColors(Color.red, Color.red);
+                foreach (RaycastHit2D hit in hits)
+                {
+                    GameObject target = hit.collider.gameObject;
+                    currentHighlights.Add(target);
+                    if (!oldHighlights.Contains(target))
+                        oldHighlights.Add(target);
+                    target.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0);
+                }
+            }
             else
                 line.SetColors(Color.white, Color.white);
+
+            ResetHighlights();
+
             line.SetPosition(0, transform.position);
             line.SetPosition(1, transform.position + path);
 
@@ -340,11 +371,13 @@ public class Combat : MonoBehaviour
 
     public void CheckBulletSlash(Vector2 origin, Vector3 direction, float distance)
     {
-        bulletHits = Physics2D.RaycastAll(origin,direction,distance,enemyLayer);
+        bulletHits = Physics2D.RaycastAll(origin, direction, distance, bulletLayer);
         bulletDirection = direction;
         bulletDistance = distance;
         if (bulletHits.Length > 0)
         {
+            if (Mathf.Sign(direction.x) != PlayerMovement.instance.Orientation)
+                PlayerMovement.instance.Flip();
             animator.SetFloat("SlowdownFactor", 1 / TimeController.Instance.slowdownFactor);
             TimeController.Instance.slowdownTimer = 5;
             animator.Play("Bullet Time");
@@ -360,10 +393,17 @@ public class Combat : MonoBehaviour
         TimeController.Instance.StopSlowdown(true);
         foreach (RaycastHit2D hit in bulletHits)
         {
+            hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
             AudioManager.Instance.Play("Bullet Hit");
             Collider2D target = hit.collider;
             string tag = target.tag;
-            Damage(target.gameObject, tag, bulletDamage);
+            if (target.CompareTag("PickUp"))
+            {
+                UpdateKi(target.GetComponent<PickUp>().boost);
+                SnackPool.Instance.AddToPool(target.gameObject);
+            }
+            else
+                Damage(target.gameObject, tag, bulletDamage);
             HitAnimatorPool.Instance.GetFromPool(hit.point);
         }
     }
@@ -373,6 +413,9 @@ public class Combat : MonoBehaviour
         line.SetWidth(0.1f, 0.1f);
         line.SetPosition(0, new Vector3(0, 0, 0));
         line.SetPosition(1, new Vector3(0, 0, 0));
+
+        currentHighlights.Clear();
+        ResetHighlights();
     }
 
     public void LowGeezer(bool low)
@@ -412,8 +455,10 @@ public class Combat : MonoBehaviour
         if (damageTimer > 0)
             return;
         animator.SetTrigger("Hurt");
+        animator.SetBool("LockedMovement", false);
+        animator.SetBool("LockedDirection", false);
         UpdateHealth(-damage);
-        damageTimer = 2;
+        damageTimer = damagedCooldown;
         HitSleep(0.02f);
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED: " + damage);
@@ -461,6 +506,11 @@ public class Combat : MonoBehaviour
         youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumberSuffix + " TIME";
     }
 
+    void FlashSprite()
+    {
+        SR.color = Color.Lerp(Color.white, new Color(0.2f, 0.2f, 0.2f), Mathf.PingPong((damagedCooldown-damageTimer)*(2.75f), 1));
+    }
+
     public void UpdateAttackButtonMapping()
     {
         if (PlayerPrefs.GetInt("LeftMouseIsTongue") == 1)
@@ -482,6 +532,19 @@ public class Combat : MonoBehaviour
             yield return 0;
         }
         Time.timeScale = 1;
+    }
+
+    public void ResetHighlights()
+    {
+        for (int i = 0; i < oldHighlights.Count; i++)
+        {
+            if (!currentHighlights.Contains(oldHighlights[i]) && oldHighlights[i])
+            {
+                oldHighlights[i].GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
+                oldHighlights.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
     private void OnDrawGizmos()
