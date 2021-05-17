@@ -36,9 +36,12 @@ public class Combat : MonoBehaviour
     public LineRenderer line;
     private LayerMask bulletLayer;
     private SpriteRenderer SR;
+    private List<GameObject> currentHighlights, oldHighlights;
 
     void Awake()
     {
+        currentHighlights = new List<GameObject>();
+        oldHighlights = new List<GameObject>();
         bulletLayer = enemyLayer |= (1 << LayerMask.NameToLayer("PickUp"));
         line.SetVertexCount(2);
         kiBar = GameObject.FindWithTag("KiBar").GetComponent<BarScript>();
@@ -157,7 +160,8 @@ public class Combat : MonoBehaviour
         Vector2 size = new Vector2(0, 0);
         Vector2 direction = new Vector2(-PlayerMovement.instance.Orientation, 0);
         // play slash FX
-        slash.GetComponent<Animation>().Play(slashStr);
+        if(!slashStr.Equals("stab"))
+            slash.GetComponent<Animation>().Play(slashStr);
         Vector2 slash1origin = attackOrigin + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
         Vector2 slash1point = (Vector2)attackPoint.position + new Vector2(0.3f * PlayerMovement.instance.Orientation, -0.3f);
         float distance1 = slash1point.x - slash1origin.x;
@@ -322,22 +326,36 @@ public class Combat : MonoBehaviour
         }
         else if (!TimeController.Instance.bulletSlashing)
         {
+            currentHighlights.Clear();
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 path = Vector2.ClampMagnitude(mousePos - transform.position, 20);
             float distance = path.magnitude;
             Vector3 direction = path.normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance, groundLayer);
-            if (hit)
+            RaycastHit2D ground = Physics2D.Raycast(transform.position, direction, distance, groundLayer);
+            if (ground)
             {
-                float groundDistance = Vector2.Distance(hit.point, transform.position);
+                float groundDistance = Vector2.Distance(ground.point, transform.position);
                 path = Vector2.ClampMagnitude(path, groundDistance);
                 distance = groundDistance;
             }
-            hit = Physics2D.Raycast(transform.position, direction, distance, bulletLayer);
-            if (hit)
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, distance, bulletLayer);
+            if (hits.Length > 0)
+            {
                 line.SetColors(Color.red, Color.red);
+                foreach (RaycastHit2D hit in hits)
+                {
+                    GameObject target = hit.collider.gameObject;
+                    currentHighlights.Add(target);
+                    if (!oldHighlights.Contains(target))
+                        oldHighlights.Add(target);
+                    target.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0);
+                }
+            }
             else
                 line.SetColors(Color.white, Color.white);
+
+            ResetHighlights();
+
             line.SetPosition(0, transform.position);
             line.SetPosition(1, transform.position + path);
 
@@ -358,6 +376,8 @@ public class Combat : MonoBehaviour
         bulletDistance = distance;
         if (bulletHits.Length > 0)
         {
+            if (Mathf.Sign(direction.x) != PlayerMovement.instance.Orientation)
+                PlayerMovement.instance.Flip();
             animator.SetFloat("SlowdownFactor", 1 / TimeController.Instance.slowdownFactor);
             TimeController.Instance.slowdownTimer = 5;
             animator.Play("Bullet Time");
@@ -373,6 +393,7 @@ public class Combat : MonoBehaviour
         TimeController.Instance.StopSlowdown(true);
         foreach (RaycastHit2D hit in bulletHits)
         {
+            hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
             AudioManager.Instance.Play("Bullet Hit");
             Collider2D target = hit.collider;
             string tag = target.tag;
@@ -392,6 +413,9 @@ public class Combat : MonoBehaviour
         line.SetWidth(0.1f, 0.1f);
         line.SetPosition(0, new Vector3(0, 0, 0));
         line.SetPosition(1, new Vector3(0, 0, 0));
+
+        currentHighlights.Clear();
+        ResetHighlights();
     }
 
     public void LowGeezer(bool low)
@@ -508,6 +532,19 @@ public class Combat : MonoBehaviour
             yield return 0;
         }
         Time.timeScale = 1;
+    }
+
+    public void ResetHighlights()
+    {
+        for (int i = 0; i < oldHighlights.Count; i++)
+        {
+            if (!currentHighlights.Contains(oldHighlights[i]) && oldHighlights[i])
+            {
+                oldHighlights[i].GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
+                oldHighlights.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
     private void OnDrawGizmos()

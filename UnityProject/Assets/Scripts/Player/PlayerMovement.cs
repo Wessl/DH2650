@@ -487,7 +487,7 @@ public class PlayerMovement : MonoBehaviour
                 Flip();
             else if (direction.x < 0 && isFacingRight == 1)
                 Flip();
-        } else
+        } else if (!(touchingWall && my >= 0))
         {
             if (mx > 0 && isFacingRight == -1)
                 Flip();
@@ -497,7 +497,7 @@ public class PlayerMovement : MonoBehaviour
     }
     
     // Flip character to face other direction (HE'S AMBIDEXTROUS OK)
-    void Flip()
+    public void Flip()
     {
         isFacingRight = -isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);

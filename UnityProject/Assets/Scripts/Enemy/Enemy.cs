@@ -252,7 +252,6 @@ public class Enemy : MonoBehaviour
         //spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
     }
 
-
     public void FlipRotation()
     {
         // Rotate instantly:
@@ -272,7 +271,7 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-        if(CompareTag("GroundEnemy"))
+        if(CompareTag("GroundEnemy") || CompareTag("NewGroundEnemy"))
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 

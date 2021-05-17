@@ -194,7 +194,6 @@ MonoBehaviour:
   touchingCeiling: 0
   touchingWall: 0
   grounded: 0
-  backTouchingWall: 0
   tongueInit: {fileID: 1736476149415383398, guid: 33e4f5bfbf2c28c41914740346395d73, type: 3}
   weight: 50
   isFacingRight: 1
@@ -314,7 +313,7 @@ MonoBehaviour:
   maxHealth: 200
   maxKi: 100
   pulledSlashCooldown: 4
-  bulletDamage: 100
+  bulletDamage: 125
   damagedCooldown: 1.5
   health: 0
   ki: 0
