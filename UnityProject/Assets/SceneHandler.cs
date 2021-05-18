@@ -8,6 +8,7 @@ public class SceneHandler : MonoBehaviour
     public static SceneHandler Instance;
     public string firstArea, secondArea, thirdArea;
     public string currentScene;
+    public Vector3 checkpointPosition;
 
     private void Awake()
     {
@@ -15,11 +16,16 @@ public class SceneHandler : MonoBehaviour
             Instance = this;
         else
         {
+            // Destroy if it's a duplicate scene handler
             Destroy(gameObject);
             return;
         }
+        // Make the scene handler persistent
         DontDestroyOnLoad(gameObject);
+
         currentScene = SceneManager.GetActiveScene().name;
+        // Initialize first spawn point
+        checkpointPosition = new Vector3(-20, 6, 0);
     }
     // Start is called before the first frame update
     void Start()
@@ -29,9 +35,8 @@ public class SceneHandler : MonoBehaviour
             AudioManager.Instance.Play("Area 1 Theme");*/
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadNewScene(int i)
     {
-        
+        SceneManager.LoadScene(i);
     }
 }

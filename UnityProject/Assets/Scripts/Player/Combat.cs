@@ -348,7 +348,14 @@ public class Combat : MonoBehaviour
                     currentHighlights.Add(target);
                     if (!oldHighlights.Contains(target))
                         oldHighlights.Add(target);
-                    target.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0);
+                    if (target.CompareTag("WaspQueen"))
+                    {
+                        WaspQueen.instance.material.color = new Color(255, 0, 0);
+                    }
+                    else
+                    {
+                        target.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 0, 0);
+                    }
                 }
             }
             else
@@ -393,7 +400,10 @@ public class Combat : MonoBehaviour
         TimeController.Instance.StopSlowdown(true);
         foreach (RaycastHit2D hit in bulletHits)
         {
-            hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
+            if(hit.collider.CompareTag("WaspQueen"))
+                WaspQueen.instance.SetOriginalColor();
+            else
+                hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
             AudioManager.Instance.Play("Bullet Hit");
             Collider2D target = hit.collider;
             string tag = target.tag;
@@ -540,7 +550,10 @@ public class Combat : MonoBehaviour
         {
             if (!currentHighlights.Contains(oldHighlights[i]) && oldHighlights[i])
             {
-                oldHighlights[i].GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
+                if (oldHighlights[i].CompareTag("WaspQueen"))
+                    WaspQueen.instance.SetOriginalColor();
+                else
+                    oldHighlights[i].GetComponentInChildren<SpriteRenderer>().color = new Color(255, 255, 255);
                 oldHighlights.RemoveAt(i);
                 i--;
             }

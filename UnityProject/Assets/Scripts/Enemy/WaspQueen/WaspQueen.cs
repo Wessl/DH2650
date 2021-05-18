@@ -34,9 +34,17 @@ public class WaspQueen : MonoBehaviour
     int pathIndex;
     private float tParam = 0;
     private Shader whiteShader, defaultShader;
+    string[] lines;
+    public TextAsset textFile;
+    public Sprite itemAvatar;
+    Color originalColor;
     // Start is called before the first frame update
     void Start()
     {
+        if (textFile != null)
+        {
+            lines = textFile.text.Split('\n');
+        }
         whiteShader = Shader.Find("GUI/Text Shader");
         defaultShader = material.shader;
         paths = new Transform[][] { routes0, routes1, routes2, routes3 };
@@ -46,6 +54,7 @@ public class WaspQueen : MonoBehaviour
         stuckTimer = 6;
         attackTimer = 6;
         armature.animation.Play("flying");
+        originalColor = material.color;
         gameObject.SetActive(false);
     }
 
@@ -332,6 +341,8 @@ public class WaspQueen : MonoBehaviour
     {
         WaspQueenCamera.Instance.ResetCamera();
         material.shader = defaultShader;
+        PlayerMovement.instance.dashLocked = false;
+        TextBoxManager.Instance.PrintText(lines, itemAvatar);
         Instantiate(bloodSplat, transform.position, Quaternion.identity);
         Instantiate(boneSplat, transform.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
@@ -384,6 +395,11 @@ public class WaspQueen : MonoBehaviour
         }
 
         followingRoute = false;
+    }
+
+    public void SetOriginalColor()
+    {
+        material.color = originalColor;
     }
 
     private void OnDrawGizmos()

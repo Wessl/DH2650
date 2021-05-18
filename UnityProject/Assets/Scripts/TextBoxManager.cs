@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TextBoxManager : MonoBehaviour
 {
+    public static TextBoxManager Instance;
     public GameObject textBox;
     public Text text;
     public TextAsset textFile;
@@ -21,6 +22,10 @@ public class TextBoxManager : MonoBehaviour
     private float switchTimer;
     public Image avatar;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
