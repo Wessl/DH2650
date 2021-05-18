@@ -4,8 +4,14 @@
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ShooterBoye.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ShooterBoye.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/shooterboye_projectile 1.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/shooterboye_projectile 1.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/shooterboye_projectile.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/shooterboye_projectile.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,13 +73,13 @@
       <option value="$PROJECT_DIR$/Assets/ProjectileDamageComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/ShooterBoye.cs" />
       <option value="$PROJECT_DIR$/Assets/Projectile.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" />
       <option value="$PROJECT_DIR$/Assets/NextLevelLoader.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossCamera.cs" />
       <option value="$PROJECT_DIR$/Assets/ShooterBossBehaviour.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/Combat.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/Projectile.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
     </changedPaths>
   </component>
@@ -152,6 +158,7 @@
       <workItem from="1620649042584" duration="7963000" />
       <workItem from="1620742816228" duration="2636000" />
       <workItem from="1620826071670" duration="5326000" />
+      <workItem from="1621342008518" duration="3843000" />
     </task>
     <servers />
   </component>

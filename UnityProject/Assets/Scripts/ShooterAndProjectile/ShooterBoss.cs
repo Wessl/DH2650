@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,8 +29,13 @@ public class ShooterBoss : MonoBehaviour
     public GameObject deathParticleSystem;
     public Sprite deathSprite;
     private SpriteRenderer spriteRenderer;
-
+    private Material spriteMat, whiteMat;
+    public float flashDuration;
+    public GameObject shooterBossPrefab;
+    public float enrageSpawnHealth = 20f;
+    public bool canCauseEnrage;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +51,9 @@ public class ShooterBoss : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
         animator = GetComponentInParent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        spriteMat = spriteRenderer.material;
+        whiteMat = Resources.Load("WhiteMaterial", typeof(Material)) as Material;
     }
 
     // Update is called once per frame
@@ -127,11 +136,17 @@ public class ShooterBoss : MonoBehaviour
             {
                 Die();
             }
-            else
+            else if (health > 0 && canCauseEnrage)
             {
                 animator.SetTrigger("pullback");
                 isBusy = true;
+                StartCoroutine(FlashSprite());
                 StartCoroutine(MovePositions());
+            }
+
+            if (health <= enrageSpawnHealth && canCauseEnrage)
+            {
+                Enrage();
             }
             
         }
@@ -164,5 +179,35 @@ public class ShooterBoss : MonoBehaviour
         Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
         spriteRenderer.sprite = deathSprite;
         //Destroy(gameObject);      
+    }
+    
+    // Flash sprite white to indicate damage being taken
+    IEnumerator FlashSprite()
+    {
+        spriteRenderer.material = whiteMat;
+        //Color color = spriteMat.GetColor("_Color");
+        //spriteMat.SetColor("_Color", new Color(1,0.55f,0.55f,0.88f));   // Arbitrary values
+        yield return new WaitForSeconds(flashDuration);                                          // Arbitrary wait time, roughly four frames @60 fps
+        // Reset to base value
+        spriteRenderer.material = spriteMat;
+        //spriteMat.SetColor("_Color", color);               // Alpha 0 = default sprite color
+    }
+
+    private void Enrage()
+    {
+        // Enrage phase will cause three shooterboyes to appear
+        for (int i = 1; i < existPositions.Length; i++)
+        {
+            var otherPosition = (positionIndex + i + 1) % existPositions.Length;    // yes it's supposed to be +1
+            var sb = Instantiate(shooterBossPrefab, existPositions[otherPosition].position + new Vector3(0,2,0), Quaternion.identity);
+        }
+        // Also make sure this guy can't cause enrage more than once
+        canCauseEnrage = false;
+    }
+
+    public float Health
+    {
+        get => health;
+        set => health = value;
     }
 }
