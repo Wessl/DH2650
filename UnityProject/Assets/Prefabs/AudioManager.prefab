@@ -69,8 +69,8 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Sword Swing Air
-    clip: {fileID: 8300000, guid: 04fa17fb1ed0bd94590556ed3a27264b, type: 3}
-    volume: 0.8
+    clip: {fileID: 8300000, guid: dee5239b9462af74bb7dfb32577ed8d7, type: 3}
+    volume: 0.3
     pitch: 1
     loop: 0
     source: {fileID: 0}

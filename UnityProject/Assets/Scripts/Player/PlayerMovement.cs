@@ -34,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
     public float dashTime, dashSpeed, dashCooldown, imageDistance, pulledSlash;
     float dashTimer;
     Vector2 lastImagePos;
-    bool dashUnlocked, dashing, dashed;
+    bool dashing, dashed;
+    public bool dashLocked;
     Vector2 dashDirection, pullDirection;
     public GameObject achievementPanel;
 
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         tongueSize = tongueInit.GetComponent<CircleCollider2D>().radius*2;
         UpdateTongueButtonMapping();
         dashTimer = dashTime;
+        transform.position = SceneHandler.Instance.checkpointPosition;
     }
 
     // Update is called once per frame
@@ -197,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Dash()
     {
-        if (dashUnlocked)
+        if (dashLocked)
             return;
         if(dashed)
         {

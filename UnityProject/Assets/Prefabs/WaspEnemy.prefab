@@ -103,7 +103,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d29513094a4f25a4bbbf5b851617b255, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 9, y: 5}
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   moveSpeed: 15
   lerp: 0
   jumpSpeed: 0
@@ -238,17 +239,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   nextWaypointDist: 3
+  flashDuration: 0.07
   xMovement: 0
   groundCheckRadius: 0
   flyingLerp: 5
   engagementRange: 450
+  attackCooldown: 0
+  hitDelay: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
-  jump: 0
-  groundCheck: {fileID: 0}
+  inRange: 0
   grounded: 0
   engaged: 0
+  canJump: 0
+  groundCheck: {fileID: 0}
   playerAndGround:
     serializedVersion: 2
     m_Bits: 1152
