@@ -12,11 +12,16 @@ public class Checkpoint : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            if(!sceneTransition)    // If not a scene transition checkpoint, just set a new local checkpoint position
+            if (!sceneTransition)    // If not a scene transition checkpoint, just set a new local checkpoint position
+            {
                 SceneHandler.Instance.checkpointPosition = transform.position;
+                SceneHandler.Instance.ExtinguishPreviousShrine(gameObject);
+                GetComponent<Animator>().SetTrigger("Ignite");
+            }
             else
-            {   
+            {
                 // If it's a scene transition, set the checkpoint position to where you want the player to spawn in the next scene and then load it
+                SceneHandler.Instance.ExtinguishPreviousShrine(null);
                 SceneHandler.Instance.checkpointPosition = nextScenePosition;
                 SceneHandler.Instance.LoadNewScene(nextSceneIndex);
             }
