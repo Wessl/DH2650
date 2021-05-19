@@ -9,6 +9,7 @@ public class SceneHandler : MonoBehaviour
     public string firstArea, secondArea, thirdArea;
     public string currentScene;
     public Vector3 checkpointPosition;
+    private GameObject shrine;
 
     private void Awake()
     {
@@ -38,5 +39,12 @@ public class SceneHandler : MonoBehaviour
     public void LoadNewScene(int i)
     {
         SceneManager.LoadScene(i);
+    }
+
+    public void ExtinguishPreviousShrine(GameObject newShrine)
+    {
+        if (shrine)
+            shrine.GetComponent<Animator>().SetTrigger("Extinguish");
+        shrine = newShrine;
     }
 }
