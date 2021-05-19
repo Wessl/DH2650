@@ -25,9 +25,13 @@ public class ProjectileDamageComponent : MonoBehaviour
         } else if (other.CompareTag("StationaryShootingEnemy") && canDamageShooter)
         {
             other.GetComponentInParent<ShooterBoye>().TakeDamage(damageToDeal);
-        } else if (other.CompareTag("StationaryShootingBoss") && canDamageShooter)
+        } else if (other.CompareTag("StationaryShootingBoss") && canDamageShooter && other.gameObject.TryGetComponent(out ShooterBoss boss))
         {
-            other.GetComponent<ShooterBoss>().TakeDamage(damageToDeal);
+            boss.TakeDamage(damageToDeal);
+        }
+        else if (other.CompareTag("StationaryShootingBoss") && canDamageShooter && other.gameObject.TryGetComponent(out ShooterBossEnrageSpawn bossEnrageSpawn))
+        {
+            bossEnrageSpawn.TakeDamage(damageToDeal);
         }
     }
 
@@ -36,7 +40,13 @@ public class ProjectileDamageComponent : MonoBehaviour
         if (other.CompareTag("StationaryShootingEnemy") || other.CompareTag("StationaryShootingBoss"))
         {
             // We have left our shooter. Activate ability to take damage from our own projectile.
-            canDamageShooter = true;
+            StartCoroutine(ActivateShooting());
         }
+    }
+
+    IEnumerator ActivateShooting()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canDamageShooter = true;
     }
 }

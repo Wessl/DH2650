@@ -216,6 +216,7 @@
         <e p="BarScript.cs" t="Include" />
         <e p="BulletTimeBehaviour.cs" t="Include" />
         <e p="CameraShake.cs" t="Include" />
+        <e p="Checkpoint.cs" t="Include" />
         <e p="CrumbledFloorBehaviour.cs" t="Include" />
         <e p="DragonBones" t="Include">
           <e p="Demos" t="Include">
@@ -383,7 +384,10 @@
             <e p="Projectile.cs" t="Include" />
             <e p="ProjectileDamageComponent.cs" t="Include" />
             <e p="ShooterBoss.cs" t="Include" />
+            <e p="ShooterBossBehaviour.cs" t="Include" />
+            <e p="ShooterBossButtonActivator.cs" t="Include" />
             <e p="ShooterBossCamera.cs" t="Include" />
+            <e p="ShooterBossEnrageSpawn.cs" t="Include" />
             <e p="ShooterBoye.cs" t="Include" />
           </e>
           <e p="SkeletonScript.cs" t="Include" />
@@ -398,7 +402,6 @@
           <e p="Sound.cs" t="Include" />
           <e p="TextBoxManager.cs" t="Include" />
         </e>
-        <e p="ShooterBossBehaviour.cs" t="Include" />
         <e p="SnackPool.cs" t="Include" />
         <e p="SnakeBoss.cs" t="Include" />
         <e p="SpriteShift.cs" t="Include" />
@@ -406,6 +409,7 @@
           <e p="orangeGoo.txt" t="Include" />
           <e p="startingText.txt" t="Include" />
           <e p="test.txt" t="Include" />
+          <e p="waspWing.txt" t="Include" />
         </e>
         <e p="TextTrigger.cs" t="Include" />
         <e p="TimeController.cs" t="Include" />
