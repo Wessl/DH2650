@@ -216,6 +216,7 @@
         <e p="BarScript.cs" t="Include" />
         <e p="BulletTimeBehaviour.cs" t="Include" />
         <e p="CameraShake.cs" t="Include" />
+        <e p="CastleDoorOpener.cs" t="Include" />
         <e p="Checkpoint.cs" t="Include" />
         <e p="CrumbledFloorBehaviour.cs" t="Include" />
         <e p="DragonBones" t="Include">
@@ -325,6 +326,7 @@
         <e p="GenericEnemyJump.cs" t="Include" />
         <e p="HitAnimatorPool.cs" t="Include" />
         <e p="HitMarkerBehaviour.cs" t="Include" />
+        <e p="KeyDropper.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />
         </e>
