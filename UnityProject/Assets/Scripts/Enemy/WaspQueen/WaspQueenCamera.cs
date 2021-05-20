@@ -34,6 +34,7 @@ public class WaspQueenCamera : MonoBehaviour
             cameraCV.m_Lens.OrthographicSize += Time.deltaTime*2.5f;
             if (cameraCV.m_Lens.OrthographicSize > cameraSize)
             {
+                AudioManager.Instance.Play("Boss 1 Theme");
                 ftransposer.m_XDamping = 10;
                 ftransposer.m_YDamping = 10;
                 cameraCV.m_Lens.OrthographicSize = cameraSize;
@@ -69,6 +70,7 @@ public class WaspQueenCamera : MonoBehaviour
     {
         if(collision.CompareTag("Player") && !bossCamera)
         {
+            AudioManager.Instance.Stop("Area 1 Theme");
             bossCamera = true;
             ftransposer.m_UnlimitedSoftZone = true;
             ftransposer.m_DeadZoneHeight = 0;

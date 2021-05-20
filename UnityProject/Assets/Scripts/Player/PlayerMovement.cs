@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
             grappleDirection = (worldPos - getMouthPos()).normalized;
             if (tongue == null)
             {
+                AudioManager.Instance.Play("Tongue");
                 ShootTongue();  // shoot that thang
             }
         }

@@ -152,6 +152,7 @@ public class WaspQueen : MonoBehaviour
                     else
                         SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x + 20, returnPoint.position.y), 25);
                     phase = 4;
+                    AudioManager.Instance.Play("Wasp Queen Attack 2");
                 }
                 else
                 {
@@ -207,6 +208,7 @@ public class WaspQueen : MonoBehaviour
         target += playerRB.velocity * velocityMult;
         if (!countingDown && attackTimer <= 0)
         {
+            AudioManager.Instance.Play("Wasp Queen Attack 1");
             countingDown = true;
             print("starting coroutine");
             armature.animation.timeScale = 0.5f;
@@ -242,6 +244,7 @@ public class WaspQueen : MonoBehaviour
         if ((Vector2)transform.position == target)
         {
             armature.animation.Play("impact", 1);
+            AudioManager.Instance.Play("Wasp Queen Impact");
             attackTimer = Random.Range(attackCooldown * 0.75f, attackCooldown * 0.75f + 5);
             stuckTimer = stuckTime;
             CameraShake.instance.ShakeCamera(2.5f, 0.25f);
@@ -339,6 +342,8 @@ public class WaspQueen : MonoBehaviour
 
     void Die()
     {
+        AudioManager.Instance.Stop("Boss 1 Theme");
+        AudioManager.Instance.Play("Area 1 Theme");
         WaspQueenCamera.Instance.ResetCamera();
         material.shader = defaultShader;
         PlayerMovement.instance.dashLocked = false;
@@ -351,6 +356,7 @@ public class WaspQueen : MonoBehaviour
 
     public void Crumbling()
     {
+        AudioManager.Instance.Play("Crumbling");
         floorAnimator.SetTrigger("Crumbling");
     }
 
