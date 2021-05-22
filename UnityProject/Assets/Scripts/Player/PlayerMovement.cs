@@ -353,6 +353,7 @@ public class PlayerMovement : MonoBehaviour
             case "FlyingEnemy":
             case "GroundEnemy":
             case "NewGroundEnemy":
+            case "ToadGrunt":
                 targetRB = target.GetComponent<Rigidbody2D>();
                 tongue.GetComponent<TongueScript>().Target(target, pos);
                 if (target.GetComponent<Enemy>().weight < weight)

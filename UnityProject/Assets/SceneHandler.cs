@@ -26,7 +26,7 @@ public class SceneHandler : MonoBehaviour
 
         currentScene = SceneManager.GetActiveScene().name;
         // Initialize first spawn point
-        checkpointPosition = new Vector3(392, 344, 0);
+        checkpointPosition = new Vector3(-20, 6, 0);
     }
     // Start is called before the first frame update
     void Start()

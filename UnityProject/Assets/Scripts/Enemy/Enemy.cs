@@ -14,11 +14,11 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     private Rigidbody2D rb;
     private Material spriteMat, whiteMat;
-    public float moveSpeed, lerp, jumpSpeed, jumpTimeDelay;
+    public float moveSpeed, chargeSpeed, lerp, jumpSpeed, jumpTimeDelay;
     public ParticleSystem bloodSplat;
     public ParticleSystem boneSplat;
     public Transform deathPSInstancePoint;
-    public Transform attackPoint;
+    public Transform attackPoint, chargePoint;
     private Transform target;
     [Tooltip("Time it takes to accelerate/decelerate between min and max movespeed")]
     public float slowDownTime;
@@ -29,19 +29,24 @@ public class Enemy : MonoBehaviour
 
     public float nextWaypointDist = 3;
     public float flashDuration = 0.07f;
-    public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay;
+    public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay, chargeDelay;
     public LayerMask groundLayers;
     public bool inRange, grounded, engaged, canJump;
     public Transform groundCheck;
     public LayerMask playerAndGround;
     private float attackTimer, speed;
     private SpriteRenderer SR;
-
+    bool pause;
+    Vector2 chargeTarget;
+    float chargeDirection;
     Path path;
     int currentWaypoint;
     Seeker seeker;
 
     Vector2 attackPointVector;
+
+    bool newAI;
+    public bool charging;
 
     void Start()
     {
@@ -55,17 +60,28 @@ public class Enemy : MonoBehaviour
         whiteMat = Resources.Load("WhiteMaterial", typeof(Material)) as Material;
         rb.freezeRotation = true;
         health = maxHealth;
-        
-        if(!CompareTag("NewGroundEnemy"))
+        if (CompareTag("GroundEnemy") || CompareTag("FlyingEnemy"))
+        {
+            newAI = false;
+        } else
+        {
+            newAI = true;
+        }
+
+        if (!newAI)
             OldPathfindingSetup();
     }
 
     private void FixedUpdate()
     {
-        if (CompareTag("NewGroundEnemy"))
+        if (newAI)
         {
             IsGrounded();
-            GroundMovement();
+            ChargeCheck();
+            if (!charging)
+                GroundMovement();
+            else
+                Charge();
         } else if (engaged)
         {
             OldFollowPath();
@@ -79,9 +95,8 @@ public class Enemy : MonoBehaviour
             rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0,0), Time.deltaTime * flyingLerp);
             engaged = false;
         }
-
         // If enemy is in melee range and attack isn't on cooldown, do an attack
-        if(inRange && attackTimer <= 0)
+        if(inRange && attackTimer <= 0 && !charging && !pause)
         {
             attackTimer = attackCooldown;
             animator.SetTrigger("attack");
@@ -98,20 +113,68 @@ public class Enemy : MonoBehaviour
         if(delay)
             StartCoroutine(HitDelay());
         else
-            AttackHit();
+            AttackHit(false);
+    }
+
+    public void FlipCharge(bool charge)
+    {
+        if(charging != charge)
+        {
+            charging = charge;
+            if (charge)
+                animator.SetTrigger("Charge");
+            else
+                animator.SetTrigger("StopCharge");
+        }
+    }
+
+    void ChargeCheck()
+    {
+        if(engaged)
+        {
+            if(charging)
+            {
+                if ((chargeDirection > 0 && target.position.x+1 < transform.position.x) || (chargeDirection < 0 && target.position.x-1 > transform.position.x))
+                {
+                    pause = true;
+                    rb.velocity = new Vector2(0, 0);
+                    FlipCharge(false);
+                    StartCoroutine(ChargeDelay());
+                }
+            } else if ((Mathf.Abs(target.position.y - transform.position.y) < 0.5f) && (Mathf.Abs(target.position.x - transform.position.x) > 10))
+            {
+                if ((transform.position.x < target.position.x && transform.localScale.x < 0) ||
+                (transform.position.x > target.position.x && transform.localScale.x > 0))
+                    transform.localScale *= new Vector2(-1, 1);
+
+                RaycastHit2D hit = Physics2D.Raycast(chargePoint.position, Vector2.down, 2, groundLayers);
+                if (!hit)
+                    return;
+
+                FlipCharge(true);
+                chargeTarget = target.position;
+                chargeDirection = Mathf.Sign(chargeTarget.x - transform.position.x);
+            }
+        }
+    }
+
+    IEnumerator ChargeDelay()
+    {
+        yield return new WaitForSeconds(chargeDelay);
+        pause = false;
     }
 
     IEnumerator HitDelay()
     {
         yield return new WaitForSeconds(hitDelay);
-        AttackHit();
+        AttackHit(false);
     }
 
     void ScanForPlayer(float dist)
     {
         Vector2 dir = (target.transform.position - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Sqrt(dist), playerAndGround);
-        if (hit.collider.CompareTag("Player"))
+        if (hit && hit.collider.CompareTag("Player"))
         {
             engaged = true;
         }
@@ -155,6 +218,19 @@ public class Enemy : MonoBehaviour
         Jump();
     }
 
+    void Charge()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(chargePoint.position, Vector2.down, 2, groundLayers);
+        if (!hit)
+        {
+            pause = true;
+            rb.velocity = new Vector2(0, 0);
+            FlipCharge(false);
+            StartCoroutine(ChargeDelay());
+        }
+        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(chargeDirection * chargeSpeed, rb.velocity.y), Time.deltaTime * lerp);
+    }
+
     void Jump()
     {
         if (grounded && jumpSpeed > 0)
@@ -185,6 +261,8 @@ public class Enemy : MonoBehaviour
     // Fix the enemy direction either based on movement or on player position if within melee range
     void FixDirection()
     {
+        if (charging || pause)
+            return;
         if (!inRange)
         {
             if ((rb.velocity.x > 0 && transform.localScale.x < 0) ||
@@ -212,9 +290,13 @@ public class Enemy : MonoBehaviour
     }
 
     // Called from the HitDetection function
-    public void AttackHit()
+    public void AttackHit(bool charge)
     {
-        Collider2D[] hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
+        Collider2D[] hitCollider = null;
+        if (charge)
+            hitCollider = Physics2D.OverlapCapsuleAll(chargePoint.position, new Vector2(1.33f, 0.31f), CapsuleDirection2D.Horizontal, 0, playerLayer);
+        else 
+            hitCollider = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
         foreach (Collider2D target in hitCollider)
         {
             Debug.Log("enemy hit: " + target.tag);

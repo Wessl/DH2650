@@ -28,6 +28,7 @@ TagManager:
   - HealthBar
   - PickUp
   - StationaryShootingBoss
+  - ToadGrunt
   layers:
   - Default
   - TransparentFX

@@ -262,6 +262,7 @@ public class Combat : MonoBehaviour
                 target.GetComponent<Larva>().TakeDamage();
                 break;
             case "NewGroundEnemy":
+            case "ToadGrunt":
                 target.GetComponent<Enemy>().TakeDamage(damage);
                 break;
             case "WaspQueen":

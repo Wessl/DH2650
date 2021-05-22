@@ -69,6 +69,7 @@ public class EnemyAI : MonoBehaviour
         {
             enemyMovement.xMovement = 0;
             engaged = false;
+            enemyMovement.engaged = false;
         }
     }
 
@@ -81,6 +82,7 @@ public class EnemyAI : MonoBehaviour
         if (hit.collider.CompareTag("Player"))
         {
             engaged = true;
+            enemyMovement.engaged = true;
         }
     }
 
@@ -214,7 +216,7 @@ public class EnemyAI : MonoBehaviour
         float nodeXMag = Mathf.Abs(currentNode.transform.position.x - currentNode.parent.transform.position.x);
         // Vertical distance between seeker and current node
         float yDiff = currentNode.transform.position.y - transform.position.y;
-        
+
         if (currentNode && xMag >= minDist && yDiff <= maxDist)     // Move towards node if the horizontal distance to it is big enough
         {
             if (transform.position.x > currentNode.transform.position.x)
