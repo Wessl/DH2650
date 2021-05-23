@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KeyDropper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KeyDropper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-1.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/key.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/key.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +79,8 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossEnrageSpawn.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossButtonActivator.cs" />
-      <option value="$PROJECT_DIR$/Assets/KeyDropper.cs" />
       <option value="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" />
+      <option value="$PROJECT_DIR$/Assets/KeyDropper.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
@@ -161,7 +161,7 @@
       <workItem from="1621342008518" duration="4537000" />
       <workItem from="1621423364074" duration="4285000" />
       <workItem from="1621510014615" duration="2199000" />
-      <workItem from="1621785038197" duration="400000" />
+      <workItem from="1621785038197" duration="1152000" />
     </task>
     <servers />
   </component>

@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AreaCave2.unity
     guid: 48533d5540066d649b67b4f641ef1371
+  - enabled: 1
+    path: Assets/Scenes/AreaCastle-1.unity
+    guid: e57590b4d04517746b90e92e39f0b856
+  - enabled: 1
+    path: Assets/Scenes/AreaCastle-2.unity
+    guid: c70fa6615a8b1754d93cb84ed0411684
   m_configObjects: {}

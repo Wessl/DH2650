@@ -17,6 +17,7 @@ public class KeyDropper : MonoBehaviour
     private bool keyIsPickedUp;
 
     private bool keyCanBePickedUp;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,8 @@ public class KeyDropper : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         sr.color = Color.clear;
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+        col = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -36,7 +39,7 @@ public class KeyDropper : MonoBehaviour
             rb.WakeUp();
             transform.position = spawnPos;
             rb.AddForce(new Vector2(0,1), ForceMode2D.Impulse);
-            Invoke("KeyActivation", 1f);
+            Invoke("KeyActivation", 0.5f);
         }
         else
         {
@@ -51,7 +54,11 @@ public class KeyDropper : MonoBehaviour
             keyIsPickedUp = true;
             castleDoor.GetKey();
             Debug.Log("Key picked up");
-            Destroy(gameObject);
+            audioSource.Play();
+            sr.sprite = null;
+            col.enabled = false;
+            rb.Sleep();
+            Destroy(gameObject, 1f);
         }
     }
 
