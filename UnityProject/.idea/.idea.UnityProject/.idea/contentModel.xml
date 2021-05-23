@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_UnityProject.-1417593317.00" t="ExcludeRecursive" />
-    <e p="C:\Users\love\Documents\GitHub\DH2650\UnityProject" t="IncludeRecursive">
+    <e p="C:\Users\love\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_UnityProject.-15467873.00" t="ExcludeRecursive" />
+    <e p="C:\Users\love\Documents\Github Desktop\DH2650\UnityProject" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -324,6 +324,7 @@
         </e>
         <e p="DrawWaspRoute.cs" t="Include" />
         <e p="GenericEnemyJump.cs" t="Include" />
+        <e p="GruntChargeBehaviour.cs" t="Include" />
         <e p="HitAnimatorPool.cs" t="Include" />
         <e p="HitMarkerBehaviour.cs" t="Include" />
         <e p="KeyDropper.cs" t="Include" />
