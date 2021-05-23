@@ -29,6 +29,7 @@ public class CastleDoorOpener : MonoBehaviour
         if (other.CompareTag("Player") && playerHasKey && !coloredDoor)
         {
             sr.sprite = openedDoor;
+            col.enabled = false;
         } else if (other.CompareTag("Player") && playerHasKey && coloredDoor)
         {
             transform.localRotation = new Quaternion(0, 0, 0, 0);

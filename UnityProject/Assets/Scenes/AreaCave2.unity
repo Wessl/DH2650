@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4423567f3fce4984db769ebd571c1025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoLoadNextScene: 0
+  autoLoadNextScene: 1
   sceneToLoad: 0
 --- !u!212 &358863764
 SpriteRenderer:
