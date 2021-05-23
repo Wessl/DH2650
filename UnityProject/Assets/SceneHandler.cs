@@ -43,7 +43,10 @@ public class SceneHandler : MonoBehaviour
     public void ExtinguishPreviousShrine(GameObject newShrine)
     {
         if (shrine)
+        {
             shrine.GetComponent<Animator>().SetTrigger("Extinguish");
+            shrine.GetComponent<Checkpoint>().lit = false;
+        }
         shrine = newShrine;
     }
 }

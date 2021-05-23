@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
 
     public float nextWaypointDist = 3;
     public float flashDuration = 0.07f;
-    public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay, chargeDelay;
+    public float xMovement, groundCheckRadius, flyingLerp, engagementRange, attackCooldown, hitDelay, chargeDelay, minimumChargeDistance;
     public LayerMask groundLayers;
     public bool inRange, grounded, engaged, canJump;
     public Transform groundCheck;
@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour
                     FlipCharge(false);
                     StartCoroutine(ChargeDelay());
                 }
-            } else if ((Mathf.Abs(target.position.y - transform.position.y) < 0.5f) && (Mathf.Abs(target.position.x - transform.position.x) > 10))
+            } else if ((Mathf.Abs(target.position.y - transform.position.y) < 0.5f) && (Mathf.Abs(target.position.x - transform.position.x) > minimumChargeDistance))
             {
                 if ((transform.position.x < target.position.x && transform.localScale.x < 0) ||
                 (transform.position.x > target.position.x && transform.localScale.x > 0))
