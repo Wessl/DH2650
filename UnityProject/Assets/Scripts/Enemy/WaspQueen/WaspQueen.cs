@@ -354,6 +354,11 @@ public class WaspQueen : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void MinionAttack()
+    {
+
+    }
+
     public void Crumbling()
     {
         AudioManager.Instance.Play("Crumbling");
