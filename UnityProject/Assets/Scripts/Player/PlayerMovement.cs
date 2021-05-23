@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (grounded)  // snappy movement if player is grounded 
             {
-                if (!animator.GetBool("Hurt"))
+                if (!Combat.instance.hurting)
                 {
                     if (mx != 0)
                         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * groundLerp);

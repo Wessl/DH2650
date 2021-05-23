@@ -214,6 +214,7 @@ MonoBehaviour:
   dashCooldown: 2
   imageDistance: 0.1
   pulledSlash: 0
+  dashLocked: 0
   achievementPanel: {fileID: 0}
 --- !u!95 &2537445189248313659
 Animator:
@@ -315,6 +316,7 @@ MonoBehaviour:
   pulledSlashCooldown: 4
   bulletDamage: 125
   damagedCooldown: 1.5
+  attackLerp: 3
   health: 0
   ki: 0
   geezer: {fileID: 7630235912805527672}
@@ -531,6 +533,8 @@ Animation:
   - {fileID: 7400000, guid: 369b927d5353bb641b2d05c9517f6ed7, type: 2}
   - {fileID: 7400000, guid: 9bbe3cd075230c64bb417201ede5aa31, type: 2}
   - {fileID: 7400000, guid: 477cb8a5e3427b64898a54828d71f93b, type: 2}
+  - {fileID: 7400000, guid: 7aca0d4d051b32b4688d2ba4cd17ee12, type: 2}
+  - {fileID: 7400000, guid: 72b08df46a303314a8741b0ae6e319ef, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0

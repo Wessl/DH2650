@@ -10,7 +10,7 @@ public class Combat : MonoBehaviour
     public Animator animator;
     public Animator hitAnimation;
     public LayerMask enemyLayer, groundLayer;
-    bool attacking, canAttack;
+    bool attacking, canAttack, upAttack, airAttack;
     Rigidbody2D rb;
     [SerializeField]
     GameObject slash;
@@ -18,7 +18,7 @@ public class Combat : MonoBehaviour
     Transform attackPoint;
     [SerializeField]
     float slash1radius, slash2radius;
-    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage, damagedCooldown;
+    public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage, damagedCooldown, attackLerp;
     [SerializeField]
     float health, ki;
     Animation slashAnimation;
@@ -37,6 +37,7 @@ public class Combat : MonoBehaviour
     private LayerMask bulletLayer;
     private SpriteRenderer SR;
     private List<GameObject> currentHighlights, oldHighlights;
+    public bool hurting;
 
     void Awake()
     {
@@ -113,14 +114,29 @@ public class Combat : MonoBehaviour
         {
             if (PlayerMovement.instance.grounded)
             {
-                attacking = true;
-                canAttack = false;
-            } else if (airAttackTimer <= 0 && !PlayerMovement.instance.touchingWall)
+                if (Input.GetKey("left") || Input.GetKey("w"))
+                {
+                    if (airAttackTimer > 0 || hurting)
+                        return;
+                    upAttack = true;
+                    animator.SetTrigger("UpAttack");
+                    rb.velocity = new Vector2(rb.velocity.x/2, rb.velocity.y);
+                    slashStr = "upslash";
+                    airAttackTimer = 0.5f;
+                    ExecuteAttack();
+                }
+                else
+                {
+                    attacking = true;
+                    canAttack = false;
+                }
+            } else if (airAttackTimer <= 0 && !PlayerMovement.instance.touchingWall && !hurting)
             {
                 PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
-                slashStr = "rotatingslash";
+                slashStr = "upslashair";
+                animator.SetTrigger("UpAttackAir");
                 ExecuteAttack();
             }
         }
@@ -145,10 +161,7 @@ public class Combat : MonoBehaviour
         slashStr = name;
         attackMove = PlayerMovement.instance.Orientation * moveAmount;
         attackOrigin = attackPoint.position;
-        if (moveAmount > 0)
-            attacked = 2;
-        else
-            ExecuteAttack();
+        ExecuteAttack();
     }
 
     void ExecuteAttack()
@@ -172,52 +185,50 @@ public class Combat : MonoBehaviour
             case "altslash1":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
-                point = slash1point - new Vector2(distance1 / 2, 0);
+                point = slash1point;
                 radius = slash1radius;
-                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
+                //size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "slash2":
                 AudioManager.Instance.Play("Sword Swing 2");
                 damage = attackDamage;
-                point = (Vector2)attackPoint.position - new Vector2(distance / 2, 0);
+                point = attackPoint.position;
                 radius = slash2radius;
-                size = new Vector2(Mathf.Abs(distance) + slash1radius * 2, slash2radius*2);
+                //size = new Vector2(Mathf.Abs(distance) + slash1radius * 2, slash2radius*2);
                 LowGeezer(false);
                 break;
             case "slash1":
             case "normalslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
-                point = slash1point - new Vector2(distance1 / 2, 0);
+                point = slash1point;
                 radius = slash1radius;
-                size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
+                //size = new Vector2(Mathf.Abs(distance1) + slash1radius * 2, slash1radius*2);
                 break;
             case "idleslash":
             case "runningslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
-                point = slash1point - new Vector2(distance1 / 2, 0);
+                point = slash1point;
                 radius = slash1radius;
-                size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
+                //size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
                 LowGeezer(true);
                 break;
             case "rotatingslash":
+            case "upslash":
+            case "upslashair":
                 AudioManager.Instance.Play("Sword Swing Air");
                 damage = attackDamage*1.2f;
-                point = attackPoint.position;
-                radius = slash2radius;
+                point = transform.position + new Vector3(-0.7f, 1.5f, 0);
+                radius = 2;
                 break;
             default:
                 print("Not a valid slash name");
                 break;
         }
-        Collider2D[] hits;
-        // raycast to start point of attack
-        if (slashStr.Equals("rotatingslash"))
-            hits = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
-        else
-            hits = Physics2D.OverlapCapsuleAll(point, size, CapsuleDirection2D.Horizontal, 0, enemyLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(point, radius, enemyLayer);
+        //hits = Physics2D.OverlapCapsuleAll(point, size, CapsuleDirection2D.Horizontal, 0, enemyLayer);
         //RaycastHit2D[] hitCollider = Physics2D.CircleCastAll(point, radius, direction, distance, enemyLayer);
         foreach (Collider2D target in hits)
         {
@@ -466,11 +477,12 @@ public class Combat : MonoBehaviour
         if (damageTimer > 0)
             return;
         animator.SetTrigger("Hurt");
+        hurting = true;
         animator.SetBool("LockedMovement", false);
         animator.SetBool("LockedDirection", false);
         UpdateHealth(-damage);
         damageTimer = damagedCooldown;
-        HitSleep(0.02f);
+        StartCoroutine(HitSleep(0.02f));
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED: " + damage);
         if (health <= 0)
@@ -559,6 +571,11 @@ public class Combat : MonoBehaviour
                 i--;
             }
         }
+    }
+
+    public void AttackSlow()
+    {
+        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, rb.velocity.y), Time.deltaTime * attackLerp);
     }
 
     private void OnDrawGizmos()
