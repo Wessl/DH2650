@@ -212,6 +212,7 @@
             <e p="UnityReferenceHelper.cs" t="Include" />
           </e>
         </e>
+        <e p="AttackUpBehaviour.cs" t="Include" />
         <e p="AudioManager.cs" t="Include" />
         <e p="BarScript.cs" t="Include" />
         <e p="BulletTimeBehaviour.cs" t="Include" />
@@ -372,6 +373,7 @@
           </e>
           <e p="GameMenu.cs" t="Include" />
           <e p="InteractableGameButton.cs" t="Include" />
+          <e p="Parallax.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="AfterImage.cs" t="Include" />
             <e p="AfterImagePool.cs" t="Include" />

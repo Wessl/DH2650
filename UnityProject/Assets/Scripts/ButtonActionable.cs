@@ -9,19 +9,22 @@ public class ButtonActionable : MonoBehaviour
     public float doorMoveDuration = 1;
     private Vector3 destination;
     private Vector3 originalPosition;
+    private AudioSource audioSource;
 
     void Start()
     {
         originalPosition = transform.position;
         destination = originalPosition + moveDirectionAndAmount;
+        audioSource = GetComponent<AudioSource>();
     }
     
     // Doors are simple for now, will simply move back and forth in some direction each time ButtonAction is called
     public void ButtonAction(bool isPressed)
     {
+        audioSource.Play();
         if (isPressed)
         {
-
+            
             StartCoroutine(LerpPosition(destination, doorMoveDuration));
         }
         else
@@ -43,7 +46,7 @@ public class ButtonActionable : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-
+        
         transform.position = targetPosition;
     }
 }

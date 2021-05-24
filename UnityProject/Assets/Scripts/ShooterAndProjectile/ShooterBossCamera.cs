@@ -8,7 +8,7 @@ public class ShooterBossCamera : MonoBehaviour
     public CinemachineVirtualCamera cameraCV;
     public Transform center;
     bool bossCamera;
-    int cameraSize = 18;
+    int cameraSize = 20;
     CinemachineFramingTransposer ftransposer;
     // Start is called before the first frame update
     void Start()

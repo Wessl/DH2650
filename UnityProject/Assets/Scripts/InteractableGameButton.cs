@@ -11,12 +11,14 @@ public class InteractableGameButton : MonoBehaviour
     private bool isPressed;
     public ButtonActionable linkedGameObject;
     private BoxCollider2D boxCol;
+    private AudioSource audioSource;
 
     private void Start()
     {
         sprRen = GetComponent<SpriteRenderer>();
         boxCol = GetComponent<BoxCollider2D>();
         isPressed = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -45,6 +47,6 @@ public class InteractableGameButton : MonoBehaviour
             isPressed = true;
         }
         linkedGameObject.ButtonAction(isPressed);
-        
+        audioSource.Play();
     }
 }

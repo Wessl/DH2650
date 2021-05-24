@@ -8,7 +8,7 @@ public class KeyDropper : MonoBehaviour
     public GameObject enemyToKillForDrop;
 
     private SpriteRenderer sr;
-    private BoxCollider2D col;
+    private BoxCollider2D[] cols;
     private Rigidbody2D rb;
     public CastleDoorOpener castleDoor;
 
@@ -27,7 +27,7 @@ public class KeyDropper : MonoBehaviour
         sr.color = Color.clear;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
-        col = GetComponent<BoxCollider2D>();
+        cols = GetComponents<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -56,9 +56,13 @@ public class KeyDropper : MonoBehaviour
             Debug.Log("Key picked up");
             audioSource.Play();
             sr.sprite = null;
-            col.enabled = false;
+            foreach (var col in cols)
+            {
+                col.enabled = false;
+                col.isTrigger = true;
+            }
             rb.Sleep();
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, 0.5f);
         }
     }
 
