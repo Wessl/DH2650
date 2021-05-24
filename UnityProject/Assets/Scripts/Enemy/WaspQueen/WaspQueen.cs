@@ -38,6 +38,9 @@ public class WaspQueen : MonoBehaviour
     public TextAsset textFile;
     public Sprite itemAvatar;
     Color originalColor;
+    [SerializeField]
+    private GameObject minionPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -105,8 +108,11 @@ public class WaspQueen : MonoBehaviour
         {
             AttackInit();
         } 
-        
-
+        /*
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            MinionAttack();
+        }*/
     }
 
     private void FixedUpdate()
@@ -356,6 +362,7 @@ public class WaspQueen : MonoBehaviour
 
     void MinionAttack()
     {
+        var minion = Instantiate(minionPrefab,transform.position,new Quaternion(0,0,0,0));
 
     }
 

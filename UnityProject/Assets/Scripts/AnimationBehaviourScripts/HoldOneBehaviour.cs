@@ -24,6 +24,7 @@ public class HoldOneBehaviour : StateMachineBehaviour
         {
             animator.SetBool("MoveInput", true);
         }
+        Combat.instance.AttackSlow(2);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

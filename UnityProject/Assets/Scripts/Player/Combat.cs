@@ -114,7 +114,7 @@ public class Combat : MonoBehaviour
         {
             if (PlayerMovement.instance.grounded)
             {
-                if (Input.GetKey("left") || Input.GetKey("w"))
+                if (Input.GetKey("up") || Input.GetKey("w"))
                 {
                     if (airAttackTimer > 0 || hurting)
                         return;
@@ -135,8 +135,15 @@ public class Combat : MonoBehaviour
                 PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
-                slashStr = "upslashair";
-                animator.SetTrigger("UpAttackAir");
+                if (Input.GetKey("up") || Input.GetKey("w"))
+                {
+                    slashStr = "upslashair";
+                    animator.SetTrigger("UpAttackAir");
+                } else
+                {
+                    slashStr = "airslash";
+                    animator.SetTrigger("AirAttack");
+                }
                 ExecuteAttack();
             }
         }
@@ -208,6 +215,7 @@ public class Combat : MonoBehaviour
                 break;
             case "idleslash":
             case "runningslash":
+            case "airslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
                 point = slash1point;
@@ -234,7 +242,7 @@ public class Combat : MonoBehaviour
         {
             print("enemy hit");
             AudioManager.Instance.Play("Sword Impact");
-            StartCoroutine(HitSleep(0.02f));
+            //StartCoroutine(HitSleep(0.02f));
             string tag = target.tag;
             Damage(target.gameObject, tag, damage);
         }
@@ -482,7 +490,7 @@ public class Combat : MonoBehaviour
         animator.SetBool("LockedDirection", false);
         UpdateHealth(-damage);
         damageTimer = damagedCooldown;
-        StartCoroutine(HitSleep(0.02f));
+        //StartCoroutine(HitSleep(0.02f));
         CameraShake.instance.ShakeCamera(2.5f, 0.1f);
         print("DAMAGED: " + damage);
         if (health <= 0)
@@ -573,9 +581,9 @@ public class Combat : MonoBehaviour
         }
     }
 
-    public void AttackSlow()
+    public void AttackSlow(float modifier)
     {
-        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, rb.velocity.y), Time.deltaTime * attackLerp);
+        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, rb.velocity.y), Time.deltaTime * attackLerp * modifier);
     }
 
     private void OnDrawGizmos()
