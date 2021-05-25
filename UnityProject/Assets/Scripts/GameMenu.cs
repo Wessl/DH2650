@@ -61,7 +61,7 @@ public class GameMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        areYouSureYouWantToQuitPanel.SetActive(true);
+        Application.Quit();
     }
 
     public void ExitGameYes()

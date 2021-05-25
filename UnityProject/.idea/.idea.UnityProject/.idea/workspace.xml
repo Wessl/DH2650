@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameCanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GameCanvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +65,6 @@
       <option value="$PROJECT_DIR$/Assets/GenericEnemyJump.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyAI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyWallCheck.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" />
       <option value="$PROJECT_DIR$/Assets/ProjectileDamageComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/ShooterBoye.cs" />
@@ -83,6 +86,7 @@
       <option value="$PROJECT_DIR$/Assets/SceneHandler.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
       <option value="$PROJECT_DIR$/Assets/Win.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
