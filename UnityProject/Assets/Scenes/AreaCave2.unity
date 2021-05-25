@@ -1021,7 +1021,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719233578}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 150.04515, y: 47.72328, z: -9.664757}
+  m_LocalPosition: {x: 150.02808, y: 47.723026, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 391426942}
@@ -2319,7 +2319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32a6eb3bf35d9549a5073dcfe7c1d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraCV: {fileID: 0}
+  cameraCV: {fileID: 1608381922}
   center: {fileID: 824413276}
 --- !u!61 &1072666110
 BoxCollider2D:
@@ -3190,6 +3190,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2537445189248313661, guid: 13fb0bab7ea381b4e8756758091e4947, type: 3}
   m_PrefabInstance: {fileID: 1502273937}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1608381922 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8702866238324622218, guid: e74d154bb8d2d904f8c0c38a93865b92, type: 3}
+  m_PrefabInstance: {fileID: 721182541}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1652893407
 GameObject:
   m_ObjectHideFlags: 0
