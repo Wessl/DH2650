@@ -71,6 +71,8 @@ public class Combat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameMenu.Instance.paused)
+            return;
         AttackInput();
         Heal();
         if (damageTimer > 0)

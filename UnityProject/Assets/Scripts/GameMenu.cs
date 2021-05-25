@@ -7,11 +7,19 @@ using UnityEngine.UI;
 
 public class GameMenu : MonoBehaviour
 {
+    public static GameMenu Instance;
     public GameObject areYouSureYouWantToQuitPanel;
     public GameObject optionsPanel;
+    public GameObject checkpoints;
     public Text actualLeftMouseAction;
     public Text actualRightMouseAction;
     public Slider sfxVolumeSlider;
+    public bool paused;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         // Make sure some playerprefs exist
@@ -41,11 +49,13 @@ public class GameMenu : MonoBehaviour
             // Cancel == escape by default. Open up options panel if not open, if it is, close it.
             if (optionsPanel.activeSelf)
             {
+                paused = false;
                 optionsPanel.SetActive(false);
                 Time.timeScale = 1;
             }
             else
             {
+                paused = true;
                 optionsPanel.SetActive(true);
                 Time.timeScale = 0;
             }
@@ -105,6 +115,34 @@ public class GameMenu : MonoBehaviour
         // Actually update the player scripts so the correct buttons are used
         Combat.instance.UpdateAttackButtonMapping();
         PlayerMovement.instance.UpdateTongueButtonMapping();
+    }
+
+    public void CheckpointClick(int button)
+    {
+        paused = false;
+        optionsPanel.SetActive(false);
+        Time.timeScale = 1;
+        int i = button;
+        switch (button)
+        {
+            case 1:
+                SceneHandler.Instance.checkpointPosition = new Vector3(387, 344, 0);
+                i = 0;
+                break;
+            case 2:
+                i = 1;
+                break;
+            case 3:
+                i = 2;
+                break;
+            case 4:
+                i = 3;
+                break;
+            default:
+                break;
+        }
+        SceneHandler.Instance.ExtinguishPreviousShrine(null);
+        SceneHandler.Instance.LoadNewScene(i);
     }
 
     public void OnSFXVolSliderChange()

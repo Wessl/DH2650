@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameMenu.Instance.paused)
+            return;
         IsGrounded();
         IsTouchingWall();
         IsTouchingCeiling();
