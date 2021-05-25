@@ -57,6 +57,7 @@ public class GameMenu : MonoBehaviour
     public void DeathRespawnButtonClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Combat.instance.Respawn();
     }
 
     public void ExitGame()

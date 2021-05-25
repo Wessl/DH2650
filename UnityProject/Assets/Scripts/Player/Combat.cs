@@ -86,7 +86,7 @@ public class Combat : MonoBehaviour
         }
         if (pulledSlashTimer > 0)
             pulledSlashTimer -= Time.deltaTime;
-        if (transform.position.y < -20)
+        if (transform.position.y < -7)
             Die();
         BulletTime();
         if (airAttackTimer > 0)
@@ -548,6 +548,21 @@ public class Combat : MonoBehaviour
         }
         
         youDiedPanel.GetComponentInChildren<Text>().text = "YOU DIED FOR THE " + deaths + ordinalNumberSuffix + " TIME";
+    }
+
+    public void Respawn()
+    {
+        transform.position = SceneHandler.Instance.checkpointPosition;
+        health = maxHealth;
+        healthBar.UpdateBar(health / maxHealth);
+        ki = 25;
+        kiBar.UpdateBar(ki / maxKi);
+        rb.gameObject.SetActive(true);
+        youDiedPanel.SetActive(false);
+        if(PlayerMovement.instance.dashLocked)
+        {
+            WaspQueen.instance.ResetBoss();
+        }
     }
 
     void FlashSprite()
