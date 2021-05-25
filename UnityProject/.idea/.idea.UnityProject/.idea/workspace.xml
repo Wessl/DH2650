@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/AudioManager.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/AudioManager.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ParticleSystems/ProjectileDestroyed.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ParticleSystems/ProjectileDestroyed.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ShooterBoye/ShooterBossParent.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ShooterBoye/ShooterBossParent.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SceneHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SceneHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +27,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Snake/SnakeEdgeCheck.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossCamera.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Win.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NextLevelLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AnimationBehaviourScripts/GenericEnemyAttackAnimationBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -80,7 +74,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Enemy.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ProjectileDamageComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossEnrageSpawn.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossButtonActivator.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/InteractableGameButton.cs" />
       <option value="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" />
@@ -88,6 +81,8 @@
       <option value="$PROJECT_DIR$/Assets/KeyDropper.cs" />
       <option value="$PROJECT_DIR$/Assets/Checkpoint.cs" />
       <option value="$PROJECT_DIR$/Assets/SceneHandler.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
+      <option value="$PROJECT_DIR$/Assets/Win.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />
