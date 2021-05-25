@@ -15,9 +15,9 @@ public class Combat : MonoBehaviour
     [SerializeField]
     GameObject slash;
     [SerializeField]
-    Transform attackPoint;
+    Transform attackPoint, upAttackPoint;
     [SerializeField]
-    float slash1radius, slash2radius;
+    float slash1radius, slash2radius, upSlashRadius;
     public float attackDamage, maxHealth, maxKi, pulledSlashCooldown, bulletDamage, damagedCooldown, attackLerp;
     [SerializeField]
     float health, ki;
@@ -132,6 +132,12 @@ public class Combat : MonoBehaviour
                 }
             } else if (airAttackTimer <= 0 && !PlayerMovement.instance.touchingWall && !hurting)
             {
+                if (PlayerMovement.instance.tongue)
+                {
+                    PlayerMovement.instance.RetractTongue();
+                }
+                if (PlayerMovement.instance.gettingPulled)
+                PlayerMovement.instance.GetPulled(false);
                 PlayerMovement.instance.stickTimer = 0;
                 airAttackTimer = 0.5f;
                 //slash.transform.localRotation = Quaternion.Euler(180, 0, 180);
@@ -215,7 +221,6 @@ public class Combat : MonoBehaviour
                 break;
             case "idleslash":
             case "runningslash":
-            case "airslash":
                 AudioManager.Instance.Play("Sword Swing 1");
                 damage = attackDamage;
                 point = slash1point;
@@ -223,13 +228,21 @@ public class Combat : MonoBehaviour
                 //size = new Vector2(Mathf.Abs(distance1) + slash1radius*2, slash1radius*2);
                 LowGeezer(true);
                 break;
+            case "airslash":
+                AudioManager.Instance.Play("Sword Swing 1");
+                damage = attackDamage;
+                point = slash1point;
+                radius = slash1radius;
+                LowGeezer(false);
+                break;
             case "rotatingslash":
             case "upslash":
             case "upslashair":
                 AudioManager.Instance.Play("Sword Swing Air");
-                damage = attackDamage*1.2f;
-                point = transform.position + new Vector3(-0.7f, 1.5f, 0);
-                radius = 2;
+                damage = attackDamage;
+                point = upAttackPoint.position;
+                radius = upSlashRadius;
+                LowGeezer(false);
                 break;
             default:
                 print("Not a valid slash name");
@@ -583,12 +596,16 @@ public class Combat : MonoBehaviour
 
     public void AttackSlow(float modifier)
     {
-        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, rb.velocity.y), Time.deltaTime * attackLerp * modifier);
+        if (rb.velocity.x / PlayerMovement.instance.Orientation < 0)
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        else
+            rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, rb.velocity.y), Time.deltaTime * attackLerp * modifier);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(new Vector3(0.3f, -0.3f, 0) + attackPoint.position, slash1radius);
         Gizmos.DrawWireSphere(attackPoint.position, slash2radius);
+        Gizmos.DrawWireSphere(upAttackPoint.position, upSlashRadius);
     }
 }

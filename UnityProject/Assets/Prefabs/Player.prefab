@@ -133,6 +133,7 @@ Transform:
   - {fileID: 2537445189404626695}
   - {fileID: 6319335023591151572}
   - {fileID: 7630235912805527672}
+  - {fileID: 3637662500129726931}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,7 +195,9 @@ MonoBehaviour:
   touchingCeiling: 0
   touchingWall: 0
   grounded: 0
+  gettingPulled: 0
   tongueInit: {fileID: 1736476149415383398, guid: 33e4f5bfbf2c28c41914740346395d73, type: 3}
+  tongue: {fileID: 0}
   weight: 50
   isFacingRight: 1
   mx: 0
@@ -308,8 +311,10 @@ MonoBehaviour:
     m_Bits: 128
   slash: {fileID: 2537445189284966981}
   attackPoint: {fileID: 2537445189156441833}
+  upAttackPoint: {fileID: 3637662500129726931}
   slash1radius: 1
   slash2radius: 1.3
+  upSlashRadius: 1.7
   attackDamage: 50
   maxHealth: 200
   maxKi: 100
@@ -321,6 +326,7 @@ MonoBehaviour:
   ki: 0
   geezer: {fileID: 7630235912805527672}
   line: {fileID: 2572330810068027341}
+  hurting: 0
 --- !u!70 &2537445189248313657
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -535,6 +541,7 @@ Animation:
   - {fileID: 7400000, guid: 477cb8a5e3427b64898a54828d71f93b, type: 2}
   - {fileID: 7400000, guid: 7aca0d4d051b32b4688d2ba4cd17ee12, type: 2}
   - {fileID: 7400000, guid: 72b08df46a303314a8741b0ae6e319ef, type: 2}
+  - {fileID: 7400000, guid: 769169a467eb9d541801446dc4d3ee21, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -711,6 +718,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7969629344799931554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3637662500129726931}
+  m_Layer: 10
+  m_Name: UpAttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3637662500129726931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7969629344799931554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2537445189248313661}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8972121636877918847
 GameObject:
   m_ObjectHideFlags: 0
