@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     public Rigidbody2D rb, targetRB;
     public float jumpForce = 20f;
+    public float wallJumpForce = 10f;
     public Transform groundCheck, wallCheck, ceilingCheck, tonguePoint, backWallCheck;
     public float speed, groundCheckRadius, wallCheckRadius, ceilingCheckRadius, wallSlideSpeed;
     public Animator animator;
@@ -173,26 +174,29 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
-        if (touchingWall && !grounded)
-        {   // frog can wall run for a short time with enough momentum, otherwise he slides down wall
-            if (rb.velocity.y < -wallSlideSpeed && my >= 0)
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
-            else if(rb.velocity.y > jumpForce)  // he shouldn't go too fast tho
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            /*else if(my > 0)
-                rb.velocity = new Vector2(rb.velocity.x, (float)(rb.velocity.y+0.5));*/
-        }
-        else if (touchingCeiling && !gettingPulled)
+        if (!Combat.instance.hurting)
         {
-            if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
-            {
-                rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
-                animator.SetFloat("ClimbSpeed", Mathf.Abs(rb.velocity.x) / 10);
-                stickTimer -= Time.deltaTime;
+            if (touchingWall && !grounded)
+            {   // frog can wall run for a short time with enough momentum, otherwise he slides down wall
+                if (rb.velocity.y < -wallSlideSpeed && my >= 0)
+                    rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+                else if (rb.velocity.y > jumpForce)  // he shouldn't go too fast tho
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                /*else if(my > 0)
+                    rb.velocity = new Vector2(rb.velocity.x, (float)(rb.velocity.y+0.5));*/
             }
-            else
+            else if (touchingCeiling && !gettingPulled)
             {
-                rb.velocity = new Vector2((float)(rb.velocity.x / 1.1), rb.velocity.y);     // if player doesn't want to stick, still slow down horizontal movement (friction yo)
+                if (my > 0 && stickTimer > 0)   // check if player wants to stick and if they can stick
+                {
+                    rb.velocity = new Vector2((float)(rb.velocity.x / 1.05), 1);    // slow down horizontal movement a bit and force body up towards ceiling
+                    animator.SetFloat("ClimbSpeed", Mathf.Abs(rb.velocity.x) / 10);
+                    stickTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    rb.velocity = new Vector2((float)(rb.velocity.x / 1.1), rb.velocity.y);     // if player doesn't want to stick, still slow down horizontal movement (friction yo)
+                }
             }
         }
     }
@@ -224,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                dashDirection = (worldPos - (Vector2)transform.position).normalized;
+                dashDirection = (new Vector2(mx,my)).normalized;
                 dashing = true;
                 AfterImagePool.Instance.GetFromPool(isFacingRight);
                 lastImagePos = transform.position;
@@ -387,7 +391,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void GetPulled(bool pulled)
     {
-        print(pulled);
         gettingPulled = pulled;
         animator.SetBool("GettingPulled", pulled);
         if(!pulled)
@@ -419,9 +422,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 movement = new Vector2(0, 0);
         if(touchingWall)
-            movement = new Vector2(-isFacingRight*jumpForce, jumpForce);
+            movement = new Vector2(-isFacingRight*wallJumpForce, jumpForce);
         else
-            movement = new Vector2(isFacingRight * jumpForce, jumpForce);
+            movement = new Vector2(isFacingRight * wallJumpForce, jumpForce);
 
         Flip(); //flips character after wall jump
         rb.velocity = movement;
@@ -445,10 +448,25 @@ public class PlayerMovement : MonoBehaviour
     {
         Collider2D wallTouch = Physics2D.OverlapCapsule(wallCheck.position, new Vector2(0.5f, 1.5f), CapsuleDirection2D.Vertical, 0, ceilingLayers);
         if (wallTouch != null)
+        {
             touchingWall = true;
+        }
         else
             touchingWall = false;
         animator.SetBool("Climbing", touchingWall);
+        if(Mathf.Abs(transform.localRotation.z) > 0.2f)
+        {
+            wallTouch = Physics2D.OverlapCircle(ceilingCheck.position, ceilingCheckRadius, ceilingLayers);
+            if (wallTouch != null)
+            {
+                GetPulled(false);
+                transform.position += new Vector3(Orientation, 0, 0);
+                print("wall");
+                touchingWall = true;
+            }
+            else
+                touchingWall = false;
+        }
     }
 
 
@@ -458,6 +476,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (ceilingTouch != null)
         {
+            GetPulled(false);
             touchingCeiling = true;
             animator.SetFloat("ClimbSpeed", Mathf.Abs(rb.velocity.x)/speed);
         }
@@ -541,9 +560,9 @@ public class PlayerMovement : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0, -180, 0);
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D col)
     {
-        if (collision.collider.CompareTag("Spikes"))
+        if (col.CompareTag("Spikes"))
             Combat.instance.TakeDamage(150);
     }
 

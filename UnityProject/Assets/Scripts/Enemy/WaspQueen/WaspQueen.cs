@@ -40,6 +40,7 @@ public class WaspQueen : MonoBehaviour
     Color originalColor;
     [SerializeField]
     private GameObject minionPrefab;
+    Vector3 startPos;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,7 @@ public class WaspQueen : MonoBehaviour
         attackTimer = 6;
         armature.animation.Play("flying");
         originalColor = material.color;
+        startPos = transform.position;
         gameObject.SetActive(false);
     }
 
@@ -358,6 +360,17 @@ public class WaspQueen : MonoBehaviour
         Instantiate(boneSplat, transform.position, Quaternion.identity);
         // Remove enemy gameObject from scene. 
         Destroy(gameObject);
+    }
+
+    public void ResetBoss()
+    {
+        material.color = originalColor;
+        stuckTimer = 6;
+        attackTimer = 6;
+        armature.animation.Play("flying");
+        health = maxHealth;
+        transform.position = startPos;
+        gameObject.SetActive(false);
     }
 
     void MinionAttack()
