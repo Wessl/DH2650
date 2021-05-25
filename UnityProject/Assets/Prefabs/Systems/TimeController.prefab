@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowdownFactor: 0.05
-  slowdownLength: 3
+  slowdownLength: 5
   slowdownTimer: 0
   slowedTime: 0
   bulletSlashing: 0

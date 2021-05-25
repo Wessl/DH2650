@@ -107,6 +107,7 @@ public class TextBoxManager : MonoBehaviour
 
     void ClearTextBox()
     {
+        GameMenu.Instance.paused = false;
         text.text = "";
         this.avatar.sprite = null;
         textBox.SetActive(false);

@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7052059836117651371}
-  - component: {fileID: 7052059836117651364}
   - component: {fileID: -3013865370562192925}
   m_Layer: 0
-  m_Name: HitAnimatorPool 1
+  m_Name: SnackPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,19 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7052059836117651364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052059836117651365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4455cc36b2fcb1545992f0cd51867861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitAnimatorPrefab: {fileID: 4964821111422105357, guid: 66434c9c2f712084e82b0784ab2ef85d, type: 3}
 --- !u!114 &-3013865370562192925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0930d7561077f459b9b4033045c7aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snackPrefab: {fileID: 6123369291142288068, guid: c77bced61924ce24cbd33bba1ce87a8e, type: 3}

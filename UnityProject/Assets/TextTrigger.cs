@@ -9,6 +9,7 @@ public class TextTrigger : MonoBehaviour
     public TextAsset textFile;
     public TextBoxManager manager;
     public Sprite avatar;
+    public bool pause;
     string[] lines;
     bool printed;
     // Start is called before the first frame update
@@ -32,6 +33,14 @@ public class TextTrigger : MonoBehaviour
         if (collision.CompareTag("Player") && !printed)
         {
             printed = true;
+            if (pause)
+            {
+                PlayerMovement.instance.rb.velocity = new Vector2(0,0);
+                PlayerMovement.instance.GetPulled(false);
+                PlayerMovement.instance.mx = 0;
+                PlayerMovement.instance.my = 0;
+                GameMenu.Instance.paused = true;
+            }
             manager.PrintText(lines, avatar);
         }
     }

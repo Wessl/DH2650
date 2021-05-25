@@ -64,8 +64,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameMenu.Instance.paused)
-            return;
         IsGrounded();
         IsTouchingWall();
         IsTouchingCeiling();
@@ -98,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckInput()
     {
+        if (GameMenu.Instance.paused)
+            return;
         worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (!(Input.GetKey("left") && Input.GetKey("right")) && !(Input.GetKey("a") && Input.GetKey("d")))
