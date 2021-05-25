@@ -57,8 +57,8 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Area 1 Theme
-    clip: {fileID: 8300000, guid: 2a89589db8df5a24fbee7301d062290c, type: 3}
-    volume: 0.1
+    clip: {fileID: 8300000, guid: 6b2a6bb3e0d49ef4e94cf20d850586d7, type: 3}
+    volume: 0.05
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -89,6 +89,54 @@ MonoBehaviour:
   - name: Bullet Hit
     clip: {fileID: 8300000, guid: 5b77f11c52932d3498022c48d6a75168, type: 3}
     volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wasp Queen Attack 1
+    clip: {fileID: 8300000, guid: ee68c7080631583498b20058fa4d07f4, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wasp Queen Attack 2
+    clip: {fileID: 8300000, guid: e7ce45f364d00ac45a498df4e0bca92b, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wasp Queen Impact
+    clip: {fileID: 8300000, guid: 48ca837420a232443bb189781cacf4e7, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Crumbling
+    clip: {fileID: 8300000, guid: b340307b18f022f4b88476b6cec7e886, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Boss 1 Theme
+    clip: {fileID: 8300000, guid: ec5b41b6c2dbdf147b6b73ddbf58fa5d, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Tongue
+    clip: {fileID: 8300000, guid: ba4b7c24bfa031c42bb42be41f2a0a49, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cave
+    clip: {fileID: 8300000, guid: b5f9221c46c3b3d489454a95bd60f0ae, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Castle
+    clip: {fileID: 8300000, guid: b04a68968aad92d498806e62a2050c93, type: 3}
+    volume: 0.2
     pitch: 1
     loop: 0
     source: {fileID: 0}

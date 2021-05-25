@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 public class SceneHandler : MonoBehaviour
 {
     public static SceneHandler Instance;
-    public string firstArea, secondArea, thirdArea;
+    public string firstArea, secondArea, thirdArea, fourthArea, fifthArea;
     public string currentScene;
     public Vector3 checkpointPosition;
     private GameObject shrine;
-    public Vector3 startPos;
+    [Tooltip("Put the start positions for each level in order here")]
+    public Vector3[] startPositions;
 
     private void Awake()
     {
@@ -27,18 +28,39 @@ public class SceneHandler : MonoBehaviour
 
         currentScene = SceneManager.GetActiveScene().name;
         // Initialize first spawn point
-        checkpointPosition = startPos;
+        checkpointPosition = startPositions[SceneManager.GetActiveScene().buildIndex];
     }
     // Start is called before the first frame update
     void Start()
     {
         if(currentScene.Equals(firstArea))
             AudioManager.Instance.Play("Area 1 Theme");
+        else if (currentScene.Equals(secondArea))
+        {
+            AudioManager.Instance.Play("Cave");
+        } else if (currentScene.Equals(thirdArea))
+        {
+            AudioManager.Instance.Play("Castle");
+
+        }
     }
 
     public void LoadNewScene(int i)
     {
         SceneManager.LoadScene(i);
+        currentScene = SceneManager.GetSceneByBuildIndex(i).name;
+        Debug.Log("HEY CURRENT SCENE IS NOW " + currentScene);
+        if(currentScene.Equals(firstArea))
+            AudioManager.Instance.Play("Area 1 Theme");
+        else if (currentScene.Equals(secondArea))
+        {
+            AudioManager.Instance.Play("Cave");
+            AudioManager.Instance.Stop("Area 1 Theme");
+        } else if (currentScene.Equals(fourthArea))
+        {
+            AudioManager.Instance.Play("Castle");
+            AudioManager.Instance.Stop("Cave");
+        }
     }
 
     public void ExtinguishPreviousShrine(GameObject newShrine)
