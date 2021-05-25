@@ -154,9 +154,9 @@ public class WaspQueen : MonoBehaviour
                         currentPath = paths[++pathIndex];
 
                     if (pathIndex < 2)
-                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x - 20, returnPoint.position.y), 25);
+                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x - 20, returnPoint.position.y-3), 25);
                     else
-                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x + 20, returnPoint.position.y), 25);
+                        SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x + 20, returnPoint.position.y-3), 25);
                     phase = 4;
                     AudioManager.Instance.Play("Wasp Queen Attack 2");
                 }
@@ -238,7 +238,7 @@ public class WaspQueen : MonoBehaviour
             attacking = false;
             temporaryBoost = 0;
             phase = 2;
-            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y), 25);
+            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y - 3), 25);
         }
     }
 
@@ -257,7 +257,7 @@ public class WaspQueen : MonoBehaviour
             shortAttacking = false;
             temporaryBoost = 0;
             phase = 2;
-            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y), 25);
+            SnackPool.Instance.GetFromPool(new Vector2(returnPoint.position.x, returnPoint.position.y - 3), 25);
         }
     }
 

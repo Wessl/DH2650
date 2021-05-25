@@ -14,16 +14,16 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayers, ceilingLayers;
     public float tongueSpeed = 50;
     public float pullSpeed = 40;
-    public bool touchingCeiling, touchingWall, grounded;
+    public bool touchingCeiling, touchingWall, grounded, gettingPulled;
 
-    public GameObject tongueInit;
-    GameObject tongue, target;
+    public GameObject tongueInit, tongue;
+    GameObject target;
 
     public float weight;
     public int isFacingRight = 1;
     public float mx, my, stickTimer;
     Vector2 worldPos, grappleDirection;
-    bool gettingPulled, pulling, jump;
+    bool pulling, jump;
     CircleCollider2D tongueCollider;
     Vector2 hitPos, targetPos, tongueRelPos;
     float stickiness = 1;
@@ -87,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if ((pullDirection.normalized / rb.velocity.normalized).sqrMagnitude > 4)
             {
-                ResetRotation();
                 GetPulled(false);
             }
         }
@@ -167,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                     rb.velocity = new Vector2(mx * speed / 2, rb.velocity.y);
             }
-            else   // more limited control while in the air
+            else if (mx!=0)  // more limited control while in the air
                 rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(mx * speed, rb.velocity.y), Time.deltaTime * airLerp);
         }
         else
@@ -280,6 +279,8 @@ public class PlayerMovement : MonoBehaviour
         pullDirection = ((targetPos + tongueRelPos) - getMouthPos()).normalized;
         if (dist < 1.6 )   // the tongue has almost returned back to the mouth
         {
+            if (gettingPulled && rb.velocity.y / pullDirection.y < 0)
+                rb.velocity = pullDirection * pullSpeed / 4f;
             RetractTongue();
         }
         else if (gettingPulled)
@@ -384,19 +385,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void GetPulled(bool pulled)
+    public void GetPulled(bool pulled)
     {
+        print(pulled);
         gettingPulled = pulled;
         animator.SetBool("GettingPulled", pulled);
-        if(pulled)
+        if(!pulled)
         {
-            Vector2 direction = ((targetPos + tongueRelPos) - getMouthPos());
+            ResetRotation();
         }
     }
 
     void ShootTongue()
     {
-        ResetRotation();
         GetPulled(false);
         tongue = TonguePool.Instance.GetFromPool();
         tongueCollider = tongue.GetComponent<CircleCollider2D>();
