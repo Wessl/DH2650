@@ -153,8 +153,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4297899098405781282}
   - component: {fileID: 4297899098405781283}
-  - component: {fileID: 1255902062875517816}
-  - component: {fileID: 3757784626146995616}
   m_Layer: 0
   m_Name: WallAndEnemyCheck
   m_TagString: Untagged
@@ -202,32 +200,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2053485, y: 2.9229622}
   m_EdgeRadius: 0
---- !u!114 &1255902062875517816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4297899098405781285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d6cd320d42eb04ba51bfdde2fc9491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3757784625423525645}
---- !u!114 &3757784626146995616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4297899098405781285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d6cd320d42eb04ba51bfdde2fc9491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3757784625423525645}
 --- !u!1 &4297899098609120158
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,12 +212,11 @@ GameObject:
   - component: {fileID: 4297899098609120159}
   - component: {fileID: 4297899098609120155}
   - component: {fileID: 4297899098609120154}
-  - component: {fileID: 3757784625423525645}
-  - component: {fileID: 3757784626394345401}
-  - component: {fileID: 3757784626394345346}
+  - component: {fileID: 442886037}
+  - component: {fileID: 442886039}
   m_Layer: 9
   m_Name: SnakeEnemyTemplate
-  m_TagString: GroundEnemy
+  m_TagString: NewGroundEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,7 +313,37 @@ PolygonCollider2D:
       - {x: -4.4817843, y: -3.1342258}
       - {x: 4.5157433, y: -3.2499616}
       - {x: 4.4862185, y: -1.514677}
---- !u!114 &3757784625423525645
+--- !u!114 &442886037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4297899098609120158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85830e0da03f584f8562537e0739925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allNodes: []
+  closestNode: {fileID: 0}
+  targetNode: {fileID: 0}
+  Path: []
+  enemyMovement: {fileID: 442886039}
+  minDist: 1
+  maxDist: 20
+  jumpDist: 3
+  engagementRange: 450
+  stopDistance: 5
+  jumpStrength: 30
+  UIMask:
+    serializedVersion: 2
+    m_Bits: 32
+  engaged: 0
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 1152
+--- !u!114 &442886039
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -354,15 +355,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bffc965ccf919a4f83a786906286ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  animator: {fileID: 4297899098609120159}
+  moveSpeed: 6
+  chargeSpeed: 12
+  lerp: 5
+  jumpSpeed: 20
+  jumpTimeDelay: 0
   bloodSplat: {fileID: 3564742993517365614, guid: d03e2ff2ddefdf240a31d491a8b7c6d6, type: 3}
   boneSplat: {fileID: 3564742993517365614, guid: bf5d923dd4e3c794a88283c00c0d8759, type: 3}
-  deathPSInstancePoint: {fileID: 4764997947841968070}
-  target: {fileID: 0}
+  deathPSInstancePoint: {fileID: 4297899098609120156}
   attackPoint: {fileID: 3757784627086762539}
+  chargePoint: {fileID: 3757784627086762539}
   slowDownTime: 5
-  maxHealth: 500
-  weight: 0
+  maxHealth: 250
+  weight: 100
   attackRange: 1
   attackDamage: 50
   stopDistance: 0
@@ -371,56 +377,27 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   nextWaypointDist: 2.93
---- !u!114 &3757784626394345401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4297899098609120158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  smoothType: 0
-  subdivisions: 2
-  iterations: 2
-  strength: 0.5
-  uniformLength: 1
-  maxSegmentLength: 2
-  bezierTangentLength: 0.4
-  offset: 0.2
-  factor: 0.1
---- !u!114 &3757784626394345346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4297899098609120158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  drawGizmos: 1
-  detailedGizmos: 0
-  startEndModifier:
-    addPoints: 0
-    exactStartPoint: 3
-    exactEndPoint: 3
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  graphMask:
-    value: -1
+  flashDuration: 0.07
+  xMovement: 0
+  groundCheckRadius: 0.49
+  flyingLerp: 0
+  engagementRange: 450
+  attackCooldown: 2
+  hitDelay: 0.4
+  chargeDelay: 0.2
+  minimumChargeDistance: 8
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 8320
+  inRange: 0
+  grounded: 0
+  engaged: 0
+  canJump: 0
+  groundCheck: {fileID: 930302338544829785}
+  playerAndGround:
+    serializedVersion: 2
+    m_Bits: 0
+  charging: 0
 --- !u!1 &7783004066017140736
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,8 +408,6 @@ GameObject:
   m_Component:
   - component: {fileID: 930302338544829785}
   - component: {fileID: 3757784626682167951}
-  - component: {fileID: 467044349447216775}
-  - component: {fileID: 3757784626979344546}
   m_Layer: 9
   m_Name: EdgeCheck
   m_TagString: Untagged
@@ -480,29 +455,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &467044349447216775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7783004066017140736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0ae9a75bdb014ba99f57de48337f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3757784625423525645}
---- !u!114 &3757784626979344546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7783004066017140736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0ae9a75bdb014ba99f57de48337f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3757784625423525645}
