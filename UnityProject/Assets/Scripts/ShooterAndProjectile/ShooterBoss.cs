@@ -34,6 +34,8 @@ public class ShooterBoss : MonoBehaviour
     public GameObject shooterBossPrefab;
     public float enrageSpawnHealth = 20f;
     public bool canCauseEnrage;
+    public Transform enrageSpawn1Location;
+    public Transform enrageSpawn2Location;
 
 
     // Start is called before the first frame update
@@ -196,11 +198,9 @@ public class ShooterBoss : MonoBehaviour
     private void Enrage()
     {
         // Enrage phase will cause three shooterboyes to appear
-        for (int i = 1; i < existPositions.Length; i++)
-        {
-            var otherPosition = (positionIndex + i + 1) % existPositions.Length;    // yes it's supposed to be +1
-            var sb = Instantiate(shooterBossPrefab, existPositions[otherPosition].position + new Vector3(0,2,0), Quaternion.identity);
-        }
+        Instantiate(shooterBossPrefab, enrageSpawn1Location.position + new Vector3(0,2,0), Quaternion.identity);
+        Instantiate(shooterBossPrefab, enrageSpawn2Location.position + new Vector3(0,2,0), Quaternion.identity);
+        
         // Also make sure this guy can't cause enrage more than once
         canCauseEnrage = false;
     }

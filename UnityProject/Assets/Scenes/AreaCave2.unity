@@ -368,6 +368,36 @@ Transform:
   m_Father: {fileID: 656763712}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &171511994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 171511995}
+  m_Layer: 9
+  m_Name: EnrageSpawnPos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &171511995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171511994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 71.2, y: 21.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2056144205}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &183724465
 GameObject:
   m_ObjectHideFlags: 0
@@ -3834,6 +3864,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &2056144205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7467148154792436729, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
+  m_PrefabInstance: {fileID: 7467148155802886569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2111052418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2111052419}
+  m_Layer: 9
+  m_Name: EnrageSpawnPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2111052419
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111052418}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -58.7, y: 14.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2056144205}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2121457287
 GameObject:
   m_ObjectHideFlags: 0
@@ -4098,6 +4163,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7467148154500757941, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
+      propertyPath: health
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467148154500757941, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
+      propertyPath: projectileSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467148154500757941, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
+      propertyPath: enrageSpawn1Location
+      value: 
+      objectReference: {fileID: 171511995}
+    - target: {fileID: 7467148154500757941, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
+      propertyPath: enrageSpawn2Location
+      value: 
+      objectReference: {fileID: 2111052419}
     - target: {fileID: 7467148154500757941, guid: d9e84ee3be1af594bb899d08546cd667, type: 3}
       propertyPath: existPositions.Array.data[0]
       value: 

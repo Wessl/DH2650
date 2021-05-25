@@ -50,15 +50,15 @@ MonoBehaviour:
   shootDelay: 1
   projectile: {fileID: 6032485803100016428, guid: 9ed387999733a91448e47c120c688903, type: 3}
   projectileInstantiationPoint: {fileID: 7467148155234310217}
-  projectileSpeed: 20
-  damagePerShot: 15
+  projectileSpeed: 23
+  damagePerShot: 20
   radius: 45
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
   detectionDelay: 0.5
   shotsPerAttack: 3
-  health: 20
+  health: 120
   existPositions:
   - {fileID: 0}
   - {fileID: 0}
