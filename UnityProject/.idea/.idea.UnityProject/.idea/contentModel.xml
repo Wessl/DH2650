@@ -413,6 +413,7 @@
         <e p="SpriteShift.cs" t="Include" />
         <e p="Text" t="Include">
           <e p="orangeGoo.txt" t="Include" />
+          <e p="shrineText.txt" t="Include" />
           <e p="startingText.txt" t="Include" />
           <e p="test.txt" t="Include" />
           <e p="waspWing.txt" t="Include" />

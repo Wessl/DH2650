@@ -2824,9 +2824,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3368744332849445156, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3483310729465227991, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_TagString
       value: KiBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163526183544765638, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289010771389499802, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8373064656495842249, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_TagString
@@ -4864,7 +4876,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977362647}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 262.77902, y: 113.79793, z: -9.664757}
+  m_LocalPosition: {x: 262.77914, y: 113.79974, z: -9.664757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1742731030}

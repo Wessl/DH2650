@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d3329d1-1d6c-4bfe-85e5-9edb8cb9a861" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SnakeEnemyTemplate.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SnakeEnemyTemplate.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameCanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GameCanvas.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCastle-2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AreaCave2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +77,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossEnrageSpawn.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBossButtonActivator.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/InteractableGameButton.cs" />
-      <option value="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ButtonActionable.cs" />
       <option value="$PROJECT_DIR$/Assets/KeyDropper.cs" />
       <option value="$PROJECT_DIR$/Assets/Checkpoint.cs" />
@@ -88,6 +84,7 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/ShooterAndProjectile/ShooterBoss.cs" />
       <option value="$PROJECT_DIR$/Assets/Win.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/CastleDoorOpener.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1qtPf7PQ2OeruCWsOEOttyc7M13" />

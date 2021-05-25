@@ -12,9 +12,12 @@ public class CastleDoorOpener : MonoBehaviour
     private SpriteRenderer sr;
     public bool coloredDoor;
     private AudioSource audioSource;
+
+    private bool isOpened;
     // Start is called before the first frame update
     void Start()
     {
+        isOpened = false;
         sr = GetComponent<SpriteRenderer>();
         playerHasKey = false;
         col = GetComponent<BoxCollider2D>();
@@ -28,16 +31,18 @@ public class CastleDoorOpener : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerHasKey && !coloredDoor)
+        if (other.CompareTag("Player") && playerHasKey && !coloredDoor && !isOpened)
         {
             sr.sprite = openedDoor;
             col.enabled = false;
             audioSource.Play();
-        } else if (other.CompareTag("Player") && playerHasKey && coloredDoor)
+            isOpened = true;
+        } else if (other.CompareTag("Player") && playerHasKey && coloredDoor && !isOpened)
         {
             transform.localRotation = new Quaternion(0, 0, 0, 0);
             col.enabled = false;
             audioSource.Play();
+            isOpened = true;
         }
         
     }
