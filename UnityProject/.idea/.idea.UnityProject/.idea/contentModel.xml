@@ -328,6 +328,7 @@
         <e p="GruntChargeBehaviour.cs" t="Include" />
         <e p="HitAnimatorPool.cs" t="Include" />
         <e p="HitMarkerBehaviour.cs" t="Include" />
+        <e p="HoldUpBehaviour.cs" t="Include" />
         <e p="KeyDropper.cs" t="Include" />
         <e p="Materials" t="Include">
           <e p="ColorizedSpriteShader.shader" t="Include" />

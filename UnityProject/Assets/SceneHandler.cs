@@ -10,6 +10,7 @@ public class SceneHandler : MonoBehaviour
     public string currentScene;
     public Vector3 checkpointPosition;
     private GameObject shrine;
+    public Vector3 startPos;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class SceneHandler : MonoBehaviour
 
         currentScene = SceneManager.GetActiveScene().name;
         // Initialize first spawn point
-        checkpointPosition = new Vector3(-20, 6, 0);
+        checkpointPosition = startPos;
     }
     // Start is called before the first frame update
     void Start()

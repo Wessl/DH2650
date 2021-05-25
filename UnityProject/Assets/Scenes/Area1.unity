@@ -69753,6 +69753,7 @@ MonoBehaviour:
   thirdArea: 
   currentScene: 
   checkpointPosition: {x: 0, y: 0, z: 0}
+  startPos: {x: -20, y: 6, z: 0}
 --- !u!4 &2144413180
 Transform:
   m_ObjectHideFlags: 0
