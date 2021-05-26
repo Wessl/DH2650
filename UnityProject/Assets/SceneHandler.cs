@@ -38,7 +38,7 @@ public class SceneHandler : MonoBehaviour
         else if (currentScene.Equals(secondArea))
         {
             AudioManager.Instance.Play("Cave");
-        } else if (currentScene.Equals(thirdArea))
+        } else if (currentScene.Equals(fourthArea))
         {
             AudioManager.Instance.Play("Castle");
 
@@ -50,15 +50,23 @@ public class SceneHandler : MonoBehaviour
         SceneManager.LoadScene(i);
         currentScene = SceneManager.GetSceneByBuildIndex(i).name;
         Debug.Log("HEY CURRENT SCENE IS NOW " + currentScene);
-        if(currentScene.Equals(firstArea))
+
+        if (currentScene.Equals(firstArea))
+        {
             AudioManager.Instance.Play("Area 1 Theme");
+            AudioManager.Instance.Stop("Cave");
+            AudioManager.Instance.Stop("Castle");
+        }
         else if (currentScene.Equals(secondArea))
         {
             AudioManager.Instance.Play("Cave");
             AudioManager.Instance.Stop("Area 1 Theme");
-        } else if (currentScene.Equals(fourthArea))
+            AudioManager.Instance.Stop("Castle");
+        }
+        else if (currentScene.Equals(fourthArea))
         {
             AudioManager.Instance.Play("Castle");
+            AudioManager.Instance.Stop("Area 1 Theme");
             AudioManager.Instance.Stop("Cave");
         }
     }

@@ -35384,10 +35384,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 557051310, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
-      propertyPath: checkpoints
-      value: 
-      objectReference: {fileID: 2079688488}
     - target: {fileID: 929750601945985580, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 108
@@ -35488,9 +35484,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4163526183544765638, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4289010771389499802, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6272010655397455270, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -86377,11 +86377,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e0859f464a6e8f46ad6a1986efb6fb2, type: 3}
---- !u!1 &2079688488 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3288983851567326982, guid: 9b24be014d94ddc4791fe0ac021304e4, type: 3}
-  m_PrefabInstance: {fileID: 855477858}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2080551323
 PrefabInstance:
   m_ObjectHideFlags: 0
