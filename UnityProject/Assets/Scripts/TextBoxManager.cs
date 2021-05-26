@@ -52,7 +52,7 @@ public class TextBoxManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))       // Return either skips to the end of current message or fetches the next message
+        if (Input.GetKeyDown(KeyCode.R))       // Return either skips to the end of current message or fetches the next message
         {
             if (charIndex < printText.Length)
                 charIndex = printText.Length;
